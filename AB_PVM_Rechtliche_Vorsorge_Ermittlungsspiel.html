@@ -1,0 +1,496 @@
+<title>Fall Rombach</title>
+<style>
+  :root{
+    --page-bg:#f9fafb;
+    --panel-bg:#ffffff;
+    --card-bg:#ffffff;
+    --ink:#1f2937;
+    --ink-soft:#9ca3af;
+    --teal:#1e6b5e;
+    --teal-deep:#164f45;
+    --situation-bg:#f0f7f4;
+    --card-border:#e5e7eb;
+    --card-header-bg:#f9fafb;
+    --solution-bg:#f0f4ff;
+    --solution-border:#1a4f8a;
+    --stamp-red:#dc2626;
+    --stamp-red-tint:#fef2f2;
+    --btn-bg:#1f2937;
+    --btn-fg:#ffffff;
+    --focus:#1e6b5e;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --page-bg:#0f1720;
+      --panel-bg:#161f2c;
+      --card-bg:#1a2432;
+      --ink:#e5e7eb;
+      --ink-soft:#9aa4b2;
+      --teal:#3fae9a;
+      --teal-deep:#5cc4b0;
+      --situation-bg:#0f2621;
+      --card-border:#2b3646;
+      --card-header-bg:#1c2635;
+      --solution-bg:#111d33;
+      --solution-border:#6d97d6;
+      --stamp-red:#f0857a;
+      --stamp-red-tint:#2a1616;
+      --btn-bg:#e5e7eb;
+      --btn-fg:#111827;
+      --focus:#3fae9a;
+    }
+  }
+  :root[data-theme="dark"]{
+    --page-bg:#0f1720;
+    --panel-bg:#161f2c;
+    --card-bg:#1a2432;
+    --ink:#e5e7eb;
+    --ink-soft:#9aa4b2;
+    --teal:#3fae9a;
+    --teal-deep:#5cc4b0;
+    --situation-bg:#0f2621;
+    --card-border:#2b3646;
+    --card-header-bg:#1c2635;
+    --solution-bg:#111d33;
+    --solution-border:#6d97d6;
+    --stamp-red:#f0857a;
+    --stamp-red-tint:#2a1616;
+    --btn-bg:#e5e7eb;
+    --btn-fg:#111827;
+    --focus:#3fae9a;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--page-bg);
+    color:var(--ink);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size:14px;
+    line-height:1.6;
+  }
+  h1,h2,h3{margin:0 0 .4em; text-wrap:balance;}
+
+  .shell{max-width:860px; margin:0 auto; padding:20px 20px 60px;}
+
+  .info-header{width:100%; border-collapse:collapse; margin-bottom:18px; border:2px solid var(--stamp-red);}
+  .info-header td{border:1px solid var(--stamp-red); padding:7px 10px;}
+  .info-header .ih-top td{background:var(--solution-bg); color:var(--solution-border); font-weight:700; font-size:17px; text-align:center;}
+  .info-header .ih-sub td{background:var(--card-header-bg); color:var(--ink); font-weight:600; font-size:12.5px; text-align:center;}
+
+  .header{border-bottom:3px solid var(--teal); padding-bottom:10px; margin-bottom:18px; display:flex; align-items:flex-end; justify-content:space-between; gap:14px; flex-wrap:wrap;}
+  .header-title{font-size:20px; font-weight:700; color:var(--teal);}
+  .meta-info{font-size:11px; font-weight:700; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.08em; margin-bottom:8px;}
+
+  .evidence-counter{
+    font-family:inherit; font-size:11.5px; font-weight:700; color:var(--teal-deep);
+    background:var(--situation-bg); border:1px solid var(--card-border); border-radius:999px;
+    padding:5px 12px; white-space:nowrap;
+  }
+
+  .situation{border-left:4px solid var(--teal); background:var(--situation-bg); border-radius:0 8px 8px 0; padding:14px 18px; margin-bottom:22px; font-size:13.5px; max-width:64ch;}
+  p{max-width:64ch;}
+
+  .tasklist{list-style:none; margin:16px 0 0; padding:0; display:flex; flex-direction:column; gap:9px;}
+  .tasklist li{display:flex; gap:10px; align-items:flex-start; font-size:13.5px; max-width:60ch;}
+  .tasklist li::before{content:""; width:15px; height:15px; flex:none; margin-top:3px; border:1.5px solid var(--teal); border-radius:3px;}
+
+  /* tabs */
+  .tabs{display:flex; gap:4px; margin-bottom:0; overflow-x:auto; padding-bottom:1px;}
+  .tab{
+    font-family:inherit; font-weight:600; font-size:13px;
+    background:var(--page-bg); color:var(--ink-soft);
+    border:1px solid var(--card-border); border-bottom:none;
+    padding:9px 15px 8px; border-radius:8px 8px 0 0; cursor:pointer; white-space:nowrap; position:relative; top:1px;
+  }
+  .tab[aria-selected="true"]{background:var(--panel-bg); color:var(--teal); border-color:var(--card-border);}
+  .tab .dot{display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--stamp-red); margin-right:6px;}
+  .tab.done .dot{background:var(--teal);}
+  .tab:focus-visible, button:focus-visible, textarea:focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
+
+  .panel{background:var(--panel-bg); border:1px solid var(--card-border); border-radius:0 10px 10px 10px; padding:22px 24px 26px;}
+  .panel[hidden]{display:none;}
+
+  /* people grid */
+  .people-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-top:14px;}
+  .person-card{
+    background:var(--card-bg); border:1px solid var(--card-border); border-radius:10px; padding:14px;
+    cursor:pointer; text-align:left; font-family:inherit; display:flex; flex-direction:column; gap:8px;
+  }
+  .person-card:hover{border-color:var(--teal);}
+  .avatar{width:38px; height:38px; border-radius:50%; background:var(--situation-bg); color:var(--teal-deep); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:14px;}
+  .person-name{font-weight:700; font-size:14px;}
+  .person-role{font-size:12px; color:var(--ink-soft);}
+  .person-status{font-size:10.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--stamp-red);}
+  .person-card.befragt .person-status{color:var(--teal);}
+
+  .interview-head{display:flex; align-items:center; gap:12px; margin-bottom:14px;}
+  .back-btn{background:none; border:1px solid var(--card-border); border-radius:6px; padding:6px 10px; font-size:12.5px; font-family:inherit; color:var(--ink-soft); cursor:pointer;}
+  .back-btn:hover{color:var(--ink); border-color:var(--teal);}
+
+  .question-btn{
+    display:block; width:100%; text-align:left; background:var(--card-header-bg); border:1px solid var(--card-border);
+    border-radius:8px; padding:10px 14px; margin-bottom:8px; font-family:inherit; font-size:13.5px; font-weight:600; color:var(--teal-deep); cursor:pointer;
+  }
+  .question-btn:hover{border-color:var(--teal);}
+  .question-btn[disabled]{opacity:.45; cursor:default;}
+
+  .statement{background:var(--card-bg); border:1px solid var(--card-border); border-left:4px solid var(--teal); border-radius:0 8px 8px 0; padding:12px 16px; margin:6px 0 14px; font-size:13.5px;}
+  .statement .who{font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:4px; display:block;}
+
+  .exhibit{background:var(--card-bg); border:1px solid var(--card-border); border-radius:10px; padding:14px 16px; margin:10px 0 18px; max-width:420px;}
+  .exhibit-tag{display:inline-block; background:var(--stamp-red-tint); color:var(--stamp-red); font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:2px 8px; border-radius:4px; margin-bottom:9px;}
+  .exhibit-text{font-family:inherit; font-size:13.5px; white-space:pre-line; color:var(--ink);}
+  .exhibit-note{margin-top:9px; font-size:11.5px; color:var(--ink-soft); font-style:italic;}
+
+  /* handbook */
+  .chapter{border:1px solid var(--card-border); border-radius:10px; margin-bottom:12px; overflow:hidden; background:var(--card-bg);}
+  .chapter summary{cursor:pointer; list-style:none; padding:12px 15px; display:flex; align-items:center; gap:10px; font-weight:700; font-size:14px; background:var(--card-header-bg);}
+  .chapter summary::-webkit-details-marker{display:none;}
+  .chapter summary .num{font-size:11px; color:#fff; background:var(--teal); border-radius:4px; padding:2px 8px; font-weight:700;}
+  .chapter[open] summary{border-bottom:1px solid var(--card-border);}
+  .chapter-body{padding:14px 16px 16px; font-size:13.5px; line-height:1.7;}
+  .chapter-body strong{color:var(--teal-deep);}
+  .source-block{margin-top:10px; border-top:1px solid var(--card-border); padding-top:10px;}
+  .source-title{font-size:11px; font-weight:700; color:var(--solution-border); margin-bottom:5px; text-transform:uppercase; letter-spacing:.05em;}
+  .source-content{background:var(--solution-bg); border-left:3px solid var(--solution-border); border-radius:0 6px 6px 0; padding:9px 13px; font-size:12.5px; color:var(--ink);}
+
+  /* notebook */
+  .note-entry{border-bottom:1px dashed var(--card-border); padding:12px 0; font-size:13.5px;}
+  .note-entry:last-child{border-bottom:none;}
+  .note-entry .src{font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--teal); display:block; margin-bottom:3px;}
+  .empty-note{color:var(--ink-soft); font-size:13.5px;}
+
+  /* report */
+  .report-item{margin-bottom:18px;}
+  .report-item label{display:block; font-weight:700; font-size:13.5px; margin-bottom:6px; max-width:64ch;}
+  .report-item textarea{
+    width:100%; min-height:74px; resize:vertical; font-family:inherit; font-size:13.5px; line-height:1.55;
+    padding:10px 12px; border:1px solid var(--card-border); border-radius:6px; background:var(--card-bg); color:var(--ink);
+  }
+  .report-actions{display:flex; align-items:center; gap:12px; margin-top:4px; flex-wrap:wrap;}
+  .save-hint{font-size:11px; color:var(--ink-soft);}
+
+  .print-btn{position:fixed; top:14px; right:14px; z-index:100; background:var(--btn-bg); color:var(--btn-fg); border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:600; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.18); font-family:inherit;}
+  .print-btn:hover{opacity:.88;}
+
+  @media print{
+    .tabs, .print-btn, .back-btn{display:none !important;}
+    .panel{border:none; padding:0;}
+    body{background:#fff;}
+  }
+</style>
+
+<div class="shell">
+  <button class="print-btn" id="printBtn" title="Bericht als PDF speichern (Browser-Druckdialog)">Bericht drucken</button>
+
+  <table class="info-header">
+    <tr class="ih-top"><td>WGWE</td><td>PVM</td><td>Ermittlungsspiel</td></tr>
+    <tr class="ih-sub"><td colspan="3">BPE 08.2: Rechtliche Vorsorge</td></tr>
+  </table>
+
+  <div class="header">
+    <div>
+      <div class="meta-info">Sozialdienst Kreisklinikum &bull; Az. 08.2</div>
+      <div class="header-title">Fall Rombach</div>
+    </div>
+    <div class="evidence-counter"><span id="counterNum">0/3</span> Aussagen geprüft</div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" id="tab-auftrag" data-panel="auftrag" role="tab" aria-selected="true"><span class="dot"></span>Auftrag</button>
+    <button class="tab" id="tab-personen" data-panel="personen" role="tab" aria-selected="false"><span class="dot"></span>Personen</button>
+    <button class="tab" id="tab-handbuch" data-panel="handbuch" role="tab" aria-selected="false"><span class="dot"></span>Handbuch</button>
+    <button class="tab" id="tab-notizbuch" data-panel="notizbuch" role="tab" aria-selected="false"><span class="dot"></span>Notizbuch</button>
+    <button class="tab" id="tab-bericht" data-panel="bericht" role="tab" aria-selected="false"><span class="dot"></span>Bericht</button>
+  </div>
+
+  <!-- AUFTRAG -->
+  <section class="panel" id="panel-auftrag" role="tabpanel">
+    <div class="meta-info">Situationsbericht</div>
+    <h2 class="header-title" style="font-size:16px;">Wartebereich, Station 3</h2>
+    <p>Herbert Rombach, 78 Jahre, wurde heute Vormittag mit Verdacht auf einen Schlaganfall ins Kreisklinikum eingeliefert. Er ist derzeit nicht ansprechbar. Im Wartebereich der Station streiten seine Ehefrau und seine beiden Kinder darüber, wer jetzt für ihn entscheiden darf.</p>
+    <p>Du machst dein Praktikum im Sozialdienst der Klinik. Die Stationsleitung bittet dich, mit der Familie zu sprechen und den Fall rechtlich einzuordnen, bevor ein Gespräch mit dem behandelnden Arzt stattfindet.</p>
+    <div class="meta-info" style="margin-top:20px;">Dein Auftrag</div>
+    <ul class="tasklist">
+      <li>Befrage alle drei anwesenden Familienmitglieder im Wartebereich.</li>
+      <li>Sieh dir die vorgelegten Dokumente genau an und notiere, was dir auffällt.</li>
+      <li>Prüfe jede Aussage anhand des Handbuchs zur rechtlichen Vorsorge.</li>
+      <li>Fülle abschließend den Bericht mit deiner begründeten Einschätzung aus.</li>
+    </ul>
+  </section>
+
+  <!-- PERSONEN -->
+  <section class="panel" id="panel-personen" role="tabpanel" hidden>
+    <div id="peopleList">
+      <div class="meta-info">Wartebereich</div>
+      <h2 class="header-title" style="font-size:16px;">Drei Familienmitglieder warten auf dich</h2>
+      <p>Wähle eine Person aus, um sie zu befragen.</p>
+      <div class="people-grid" id="peopleGrid"></div>
+    </div>
+    <div id="interviewView" hidden></div>
+  </section>
+
+  <!-- HANDBUCH -->
+  <section class="panel" id="panel-handbuch" role="tabpanel" hidden>
+    <div class="meta-info">Nachschlagewerk</div>
+    <h2 class="header-title" style="font-size:16px;">Handbuch zur rechtlichen Vorsorge</h2>
+    <p>Drei Kapitel zu den Instrumenten der privaten Vorsorge, jeweils mit Angabe der gesetzlichen Grundlage. Öffne ein Kapitel, um es zu lesen.</p>
+
+    <details class="chapter" open>
+      <summary><span class="num">1</span>Vorsorgevollmacht</summary>
+      <div class="chapter-body">
+        <p>Eine bevollmächtigte Person darf im Namen des Vollmachtgebers rechtliche, finanzielle und gesundheitliche Angelegenheiten regeln, sobald dieser selbst nicht mehr entscheiden kann. Die Vollmacht muss erteilt werden, solange die vollmachtgebende Person noch geschäftsfähig ist.</p>
+        <p>Grundsätzlich ist keine bestimmte Form vorgeschrieben, eine Vollmacht kann also formfrei erteilt werden. Aus Beweisgründen wird aber dringend Schriftform empfohlen. Für bestimmte Geschäfte, etwa den Verkauf eines Grundstücks oder die Aufnahme eines Kredits, verlangen Grundbuchamt oder Bank eine öffentlich beglaubigte oder notariell beurkundete Unterschrift, sonst wird die Vollmacht dort nicht akzeptiert. Eine solche Beglaubigung kann auch die örtliche Betreuungsbehörde vornehmen, für eine deutlich geringere Gebühr als beim Notar.</p>
+        <p>Eine wirksame Vollmacht gilt sofort und wird nicht laufend gerichtlich kontrolliert. Ein formloser Zettel ohne Unterschrift und Datum oder eine bloß mündliche Zusage reicht im Ernstfall gegenüber Banken oder Ärzten in der Regel nicht aus.</p>
+        <p><strong>Auch Ehepartner oder Kinder haben ohne eine solche Vollmacht kein automatisches gesetzliches Recht, für eine andere volljährige Person rechtlich verbindliche Entscheidungen zu treffen, selbst nicht in dringenden gesundheitlichen Notfällen.</strong></p>
+        <div class="source-block">
+          <div class="source-title">Rechtsgrundlage</div>
+          <div class="source-content">§§ 164 ff. BGB (Stellvertretung durch Vollmacht); § 7 Betreuungsorganisationsgesetz (BtOG) zur öffentlichen Beglaubigung durch die Betreuungsbehörde.</div>
+        </div>
+      </div>
+    </details>
+
+    <details class="chapter">
+      <summary><span class="num">2</span>Betreuungsverfügung</summary>
+      <div class="chapter-body">
+        <p>Sie legt fest, welche Person das Betreuungsgericht als gesetzlichen Betreuer bestellen soll, falls keine wirksame Vorsorgevollmacht vorliegt. Das Gericht muss den in der Betreuungsverfügung genannten Vorschlag grundsätzlich befolgen, es sei denn, die vorgeschlagene Person ist für die Betreuung nicht geeignet. Auch Wünsche zur Art und Weise der Betreuungsführung, etwa zum Umgang mit dem Vermögen oder zum weiteren Wohnort, sind für den Betreuer bindend zu berücksichtigen.</p>
+        <p>Der bestellte Betreuer unterliegt der Aufsicht und Berichtspflicht gegenüber dem Gericht. Liegt weder eine Vorsorgevollmacht noch eine Betreuungsverfügung vor, bestimmt das Gericht von sich aus einen Betreuer, im Zweifel auch eine familienfremde Person.</p>
+        <div class="source-block">
+          <div class="source-title">Rechtsgrundlage</div>
+          <div class="source-content">§ 1816 Abs. 2 BGB (Berücksichtigung der Wünsche bei der Betreuerauswahl); § 1821 BGB (Wünsche zur Betreuungsführung). Beide Vorschriften in der seit der Betreuungsrechtsreform zum 1. Januar 2023 geltenden Fassung.</div>
+        </div>
+      </div>
+    </details>
+
+    <details class="chapter">
+      <summary><span class="num">3</span>Patientenverfügung</summary>
+      <div class="chapter-body">
+        <p>Sie legt im Voraus fest, welche medizinischen Maßnahmen gewünscht oder abgelehnt werden, falls die Person nicht mehr einwilligungsfähig ist. Vorgeschrieben ist die Schriftform mit eigenhändiger Unterschrift, ein bestimmtes Formular gibt es nicht, eine notarielle Beurkundung ist nicht nötig.</p>
+        <p>Bindend ist eine Patientenverfügung nur, wenn sie konkret genug formuliert ist, also eine bestimmte Behandlungssituation mit einer bestimmten medizinischen Maßnahme benennt. Der Bundesgerichtshof hat dazu entschieden, dass die Formulierung „keine lebensverlängernden Maßnahmen" allein nicht ausreicht, um zum Beispiel eine künstliche Ernährung über eine Magensonde zu beenden. Die nötige Konkretisierung kann aber auch dadurch erreicht werden, dass sich die Verfügung auf hinreichend genau umschriebene Krankheiten oder Behandlungssituationen bezieht, selbst wenn die medizinische Maßnahme selbst nicht wörtlich benannt wird.</p>
+        <p>Empfohlen werden außerdem eine möglichst genaue Beschreibung der gemeinten Situation und eine regelmäßige Aktualisierung mit erneuter Unterschrift und Datum, damit erkennbar bleibt, dass die Verfügung weiterhin dem aktuellen Willen entspricht.</p>
+        <div class="source-block">
+          <div class="source-title">Rechtsgrundlage</div>
+          <div class="source-content">§ 1827 Abs. 1 BGB (bis 2022: § 1901a BGB, inhaltlich unverändert, nur umnummeriert); BGH, Beschluss vom 06.07.2016, Az. XII ZB 61/16, zur nötigen Konkretisierung.</div>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- NOTIZBUCH -->
+  <section class="panel" id="panel-notizbuch" role="tabpanel" hidden>
+    <div class="meta-info">Deine Notizen</div>
+    <h2 class="header-title" style="font-size:16px;">Gesammelte Aussagen und Beweisstücke</h2>
+    <div id="notesList" style="margin-top:14px;"></div>
+  </section>
+
+  <!-- BERICHT -->
+  <section class="panel" id="panel-bericht" role="tabpanel" hidden>
+    <div class="meta-info">Abschlussdokument</div>
+    <h2 class="header-title" style="font-size:16px;">Ermittlungsbericht</h2>
+    <p>Beantworte die vier Fragen in eigenen Worten und begründe deine Einschätzung jeweils mit dem Handbuch.</p>
+
+    <div class="report-item">
+      <label for="r1">1. Ist Ingrids Aussage, sie dürfe als Ehefrau automatisch entscheiden, rechtlich korrekt?</label>
+      <textarea id="r1" placeholder="Deine Einschätzung und Begründung..."></textarea>
+    </div>
+    <div class="report-item">
+      <label for="r2">2. Ist Kevins Zettel eine wirksame Vorsorgevollmacht?</label>
+      <textarea id="r2" placeholder="Deine Einschätzung und Begründung..."></textarea>
+    </div>
+    <div class="report-item">
+      <label for="r3">3. Ist die von Anja gefundene Patientenverfügung bindend?</label>
+      <textarea id="r3" placeholder="Deine Einschätzung und Begründung..."></textarea>
+    </div>
+    <div class="report-item">
+      <label for="r4">4. Was empfiehlst du der Familie als nächsten Schritt?</label>
+      <textarea id="r4" placeholder="Deine Einschätzung und Begründung..."></textarea>
+    </div>
+
+    <div class="report-actions">
+      <span class="save-hint">Wird automatisch in diesem Browser gespeichert. Über „Bericht drucken" oben rechts lässt er sich als PDF sichern.</span>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = "fall-rombach-v2";
+
+  var people = [
+    {
+      id:"ingrid", name:"Ingrid Rombach", role:"Ehefrau, 75 Jahre", initials:"IR",
+      questions:[
+        {
+          q:"Wer darf jetzt für Ihren Mann entscheiden?",
+          a:"Ich bin seine Frau. Das entscheide natürlich ich, das war doch schon immer so in unserer Ehe."
+        },
+        {
+          q:"Gibt es eine Vorsorgevollmacht von Ihrem Mann?",
+          a:"Nein, so etwas haben wir nie gebraucht. Wir sind seit 48 Jahren verheiratet, da regelt man das doch nicht extra schriftlich.",
+          exhibit:{tag:"Beweisstück 1", text:"Kein Vorsorgedokument vorhanden.", note:"Ingrid bestätigt, dass keine Vollmacht existiert."}
+        }
+      ]
+    },
+    {
+      id:"kevin", name:"Kevin Rombach", role:"Sohn, 46 Jahre", initials:"KR",
+      questions:[
+        {
+          q:"Haben Sie eine Vollmacht Ihres Vaters?",
+          a:"Ja, Papa hat mir das letztes Jahr beim Kaffee gesagt, ich soll mich um alles kümmern. Ich hab sogar noch einen Zettel davon."
+        },
+        {
+          q:"Dürfen wir den Zettel sehen?",
+          a:"Klar, hier. Den hab ich mir damals gleich notiert.",
+          exhibit:{tag:"Beweisstück 2", text:"„Kevin kümmert sich um alles,\nwenn mir mal was passiert.\"", note:"Handschriftlicher Zettel. Kein Datum, keine Unterschrift des Vaters erkennbar."}
+        }
+      ]
+    },
+    {
+      id:"anja", name:"Anja Rombach", role:"Tochter, 42 Jahre", initials:"AR",
+      questions:[
+        {
+          q:"Wissen Sie etwas über eine Patientenverfügung Ihres Vaters?",
+          a:"Ja, ich hab vorhin im Schreibtisch zu Hause ein altes Schreiben gefunden."
+        },
+        {
+          q:"Was steht darin?",
+          a:"Das hier. Ich weiß gar nicht mehr, wann Papa das geschrieben hat.",
+          exhibit:{tag:"Beweisstück 3", text:"Patientenverfügung\n\nIch wünsche keine lebensverlängernden\nMaßnahmen.\n\nMusterstadt, 12. März 2011\nHerbert Rombach", note:"Datiert auf 2011, seither nicht aktualisiert. Keine konkrete Behandlungssituation benannt."}
+        }
+      ]
+    }
+  ];
+
+  var state = {answered:{}, report:{r1:"",r2:"",r3:"",r4:""}};
+  try{
+    var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+    if(saved) state = saved;
+  }catch(e){}
+
+  function persist(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+  }
+
+  function personAnsweredCount(p){ return (state.answered[p.id] || []).length; }
+  function personDone(p){ return personAnsweredCount(p) >= p.questions.length; }
+  function totalDone(){ return people.filter(personDone).length; }
+  function updateCounter(){
+    document.getElementById("counterNum").textContent = totalDone() + "/" + people.length;
+    document.getElementById("tab-personen").classList.toggle("done", totalDone() === people.length);
+  }
+
+  var tabs = document.querySelectorAll(".tab");
+  tabs.forEach(function(tab){
+    tab.addEventListener("click", function(){
+      tabs.forEach(function(t){ t.setAttribute("aria-selected", t===tab ? "true":"false"); });
+      document.querySelectorAll(".panel").forEach(function(p){ p.hidden = true; });
+      document.getElementById("panel-"+tab.dataset.panel).hidden = false;
+      if(tab.dataset.panel === "notizbuch") renderNotes();
+    });
+  });
+
+  function renderPeople(){
+    var grid = document.getElementById("peopleGrid");
+    grid.innerHTML = "";
+    people.forEach(function(p){
+      var card = document.createElement("button");
+      card.className = "person-card" + (personDone(p) ? " befragt":"");
+      card.innerHTML =
+        '<div class="avatar">'+p.initials+'</div>'+
+        '<div class="person-name">'+p.name+'</div>'+
+        '<div class="person-role">'+p.role+'</div>'+
+        '<div class="person-status">'+(personDone(p) ? "Befragt" : "Noch zu befragen")+'</div>';
+      card.addEventListener("click", function(){ openInterview(p); });
+      grid.appendChild(card);
+    });
+  }
+
+  function openInterview(p){
+    document.getElementById("peopleList").hidden = true;
+    var view = document.getElementById("interviewView");
+    view.hidden = false;
+
+    var answered = state.answered[p.id] || [];
+    var html = '<div class="interview-head">' +
+      '<button class="back-btn" id="backBtn">&larr; Zurück</button>' +
+      '<div><strong>'+p.name+'</strong><div class="person-role">'+p.role+'</div></div>' +
+      '</div>';
+
+    p.questions.forEach(function(qa, i){
+      var isAnswered = answered.indexOf(i) > -1;
+      html += '<button class="question-btn" data-idx="'+i+'" '+(isAnswered?'disabled':'')+'>'+qa.q+'</button>';
+      html += '<div class="qa-slot" data-slot="'+i+'"></div>';
+    });
+
+    view.innerHTML = html;
+    document.getElementById("backBtn").addEventListener("click", function(){
+      view.hidden = true;
+      document.getElementById("peopleList").hidden = false;
+      renderPeople();
+    });
+
+    answered.forEach(function(i){ revealAnswer(p, i); });
+
+    view.querySelectorAll(".question-btn").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var i = parseInt(btn.dataset.idx, 10);
+        btn.disabled = true;
+        if(!state.answered[p.id]) state.answered[p.id] = [];
+        if(state.answered[p.id].indexOf(i) === -1) state.answered[p.id].push(i);
+        persist();
+        revealAnswer(p, i);
+        updateCounter();
+      });
+    });
+  }
+
+  function revealAnswer(p, i){
+    var qa = p.questions[i];
+    var slot = document.querySelector('.qa-slot[data-slot="'+i+'"]');
+    if(!slot || slot.dataset.filled) return;
+    slot.dataset.filled = "1";
+    var html = '<div class="statement"><span class="who">'+p.name+'</span>'+qa.a+'</div>';
+    if(qa.exhibit){
+      html += '<div class="exhibit"><span class="exhibit-tag">'+qa.exhibit.tag+'</span>' +
+        '<div class="exhibit-text">'+qa.exhibit.text+'</div>' +
+        '<div class="exhibit-note">'+qa.exhibit.note+'</div></div>';
+    }
+    slot.innerHTML = html;
+    var btn = document.querySelector('.question-btn[data-idx="'+i+'"]');
+    if(btn) btn.disabled = true;
+  }
+
+  function renderNotes(){
+    var list = document.getElementById("notesList");
+    var entries = [];
+    people.forEach(function(p){
+      (state.answered[p.id]||[]).forEach(function(i){
+        var qa = p.questions[i];
+        entries.push({name:p.name, text:qa.a, exhibit:qa.exhibit});
+      });
+    });
+    if(entries.length === 0){
+      list.innerHTML = '<p class="empty-note">Noch keine Aussagen gesammelt. Befrage zuerst die Familienmitglieder im Reiter „Personen".</p>';
+      return;
+    }
+    list.innerHTML = entries.map(function(e){
+      var exh = e.exhibit ? '<br><em>'+e.exhibit.note+'</em>' : "";
+      return '<div class="note-entry"><span class="src">'+e.name+'</span>'+e.text+exh+'</div>';
+    }).join("");
+  }
+
+  ["r1","r2","r3","r4"].forEach(function(id){
+    var el = document.getElementById(id);
+    el.value = state.report[id] || "";
+    el.addEventListener("input", function(){
+      state.report[id] = el.value;
+      persist();
+    });
+  });
+  document.getElementById("printBtn").addEventListener("click", function(){ window.print(); });
+
+  renderPeople();
+  updateCounter();
+})();
+</script>
