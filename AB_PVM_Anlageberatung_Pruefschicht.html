@@ -1,0 +1,638 @@
+<title>Prüfschicht</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --bg:#eef1f6;
+    --panel-bg:#ffffff;
+    --card-bg:#ffffff;
+    --card-border:#dde2ea;
+    --card-header-bg:#f4f6fa;
+    --ink:#1f2733;
+    --ink-soft:#68707c;
+    --navy:#1b2a4a;
+    --navy-deep:#101a30;
+    --navy-tint:#e7ebf3;
+    --gold:#a8791f;
+    --gold-soft:#f6ecd2;
+    --folder:#e3cd8f;
+    --folder-edge:#c7ad6c;
+    --verdict-green:#1f7a4d;
+    --verdict-green-tint:#e7f5ee;
+    --verdict-red:#b3392c;
+    --verdict-red-tint:#fbeae7;
+    --focus:#1b2a4a;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0d1420;
+      --panel-bg:#151f30;
+      --card-bg:#192338;
+      --card-border:#2b3750;
+      --card-header-bg:#1b263c;
+      --ink:#e7ebf2;
+      --ink-soft:#9aa4b5;
+      --navy:#7392c9;
+      --navy-deep:#3a4f7a;
+      --navy-tint:#1c2740;
+      --gold:#d9b657;
+      --gold-soft:#2a2415;
+      --folder:#8a7444;
+      --folder-edge:#5f4f2c;
+      --verdict-green:#4caf82;
+      --verdict-green-tint:#12281f;
+      --verdict-red:#e2695c;
+      --verdict-red-tint:#301613;
+      --focus:#7392c9;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0d1420;
+    --panel-bg:#151f30;
+    --card-bg:#192338;
+    --card-border:#2b3750;
+    --card-header-bg:#1b263c;
+    --ink:#e7ebf2;
+    --ink-soft:#9aa4b5;
+    --navy:#7392c9;
+    --navy-deep:#3a4f7a;
+    --navy-tint:#1c2740;
+    --gold:#d9b657;
+    --gold-soft:#2a2415;
+    --folder:#8a7444;
+    --folder-edge:#5f4f2c;
+    --verdict-green:#4caf82;
+    --verdict-green-tint:#12281f;
+    --verdict-red:#e2695c;
+    --verdict-red-tint:#301613;
+    --focus:#7392c9;
+  }
+
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:"Libre Franklin", system-ui, Arial, sans-serif; font-size:14px; line-height:1.6;}
+  h1,h2,h3{font-family:"Libre Franklin", system-ui, Arial, sans-serif; font-weight:700; text-wrap:balance; margin:0 0 .4em;}
+  .mono{font-family:"IBM Plex Mono","Courier New",monospace;}
+  p{max-width:64ch;}
+
+  .shell{max-width:920px; margin:0 auto; padding:0 20px 60px;}
+
+  /* hero */
+  .hero{position:relative; margin:0 -20px 0; overflow:hidden;}
+  .hero svg{display:block; width:100%; height:auto;}
+  .hero-overlay{
+    position:absolute; left:0; right:0; bottom:0; padding:18px 26px 20px;
+    display:flex; align-items:flex-end; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  }
+  .hero-eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#d9c78a; margin-bottom:4px;}
+  .hero-title{font-size:28px; font-weight:800; color:#fff; letter-spacing:.01em;}
+  .hero-badge{
+    background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.25); border-radius:999px;
+    padding:6px 14px; font-family:"IBM Plex Mono",monospace; font-size:11.5px; font-weight:600; color:#f4e7c7; white-space:nowrap;
+  }
+
+  /* tabs */
+  .tabs{display:flex; gap:4px; margin-top:16px; overflow-x:auto; padding-bottom:1px;}
+  .tab{
+    font-family:inherit; font-weight:700; font-size:13px;
+    background:var(--bg); color:var(--ink-soft);
+    border:1px solid var(--card-border); border-bottom:none;
+    padding:9px 15px 8px; border-radius:8px 8px 0 0; cursor:pointer; white-space:nowrap; position:relative; top:1px;
+  }
+  .tab[aria-selected="true"]{background:var(--panel-bg); color:var(--navy);}
+  .tab .dot{display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--verdict-red); margin-right:6px;}
+  .tab.done .dot{background:var(--verdict-green);}
+  .tab:focus-visible, button:focus-visible, textarea:focus-visible, input:focus-visible{outline:2px solid var(--focus); outline-offset:2px;}
+
+  .panel{background:var(--panel-bg); border:1px solid var(--card-border); border-radius:0 10px 10px 10px; padding:22px 24px 26px;}
+  .panel[hidden]{display:none;}
+
+  .eyebrow{font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.09em; text-transform:uppercase; color:var(--navy); margin-bottom:6px;}
+  .sub-heading{font-size:16px;}
+
+  .tasklist{list-style:none; margin:16px 0 0; padding:0; display:flex; flex-direction:column; gap:9px;}
+  .tasklist li{display:flex; gap:10px; align-items:flex-start; font-size:13.5px; max-width:60ch;}
+  .tasklist li::before{content:""; width:15px; height:15px; flex:none; margin-top:3px; border:1.5px solid var(--navy); border-radius:3px;}
+
+  /* folders grid */
+  .folder-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:22px 16px; margin-top:22px;}
+  .folder-card{
+    position:relative; cursor:pointer; border:none; font-family:inherit; text-align:left; padding:0;
+    background:none;
+  }
+  .folder-tab{
+    position:absolute; top:-14px; left:16px; width:64px; height:16px;
+    background:var(--folder); border:1px solid var(--folder-edge); border-bottom:none;
+    border-radius:6px 6px 0 0;
+  }
+  .folder-body{
+    background:var(--folder); border:1px solid var(--folder-edge); border-radius:4px 8px 8px 8px;
+    padding:16px 14px 14px; min-height:118px; box-shadow:0 4px 10px rgba(16,26,48,.16);
+    transform:rotate(var(--tilt,0deg)); transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .folder-card:nth-child(1){--tilt:-1.4deg;}
+  .folder-card:nth-child(2){--tilt:1deg;}
+  .folder-card:nth-child(3){--tilt:-.8deg;}
+  .folder-card:nth-child(4){--tilt:1.6deg;}
+  .folder-card:hover .folder-body{transform:rotate(0deg) translateY(-2px); box-shadow:0 8px 16px rgba(16,26,48,.22);}
+  .folder-num{font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:700; color:#5a4a1f; letter-spacing:.06em; text-transform:uppercase;}
+  .folder-name{font-weight:700; font-size:14.5px; color:#2c2410; margin-top:4px;}
+  .folder-status{margin-top:10px; font-size:10.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:#8a6d1f;}
+  .folder-card.opened .folder-status{color:var(--navy-deep);}
+  .folder-card.correct .folder-status{color:var(--verdict-green);}
+  .folder-card.incorrect .folder-status{color:var(--verdict-red);}
+
+  /* case detail */
+  .back-btn{background:none; border:1px solid var(--card-border); border-radius:6px; padding:6px 10px; font-size:12.5px; font-family:inherit; color:var(--ink-soft); cursor:pointer; margin-bottom:14px;}
+  .back-btn:hover{color:var(--ink); border-color:var(--navy);}
+
+  .reveal-btn{
+    display:inline-flex; align-items:center; gap:8px; background:var(--navy-tint); border:1px solid var(--card-border);
+    border-radius:8px; padding:10px 14px; margin:0 10px 10px 0; font-family:inherit; font-size:13.5px; font-weight:700; color:var(--navy-deep); cursor:pointer;
+  }
+  .reveal-btn:hover{border-color:var(--navy);}
+  .reveal-btn[disabled]{opacity:.5; cursor:default;}
+
+  .exhibit{background:var(--card-bg); border:1px solid var(--card-border); border-radius:10px; padding:14px 16px; margin:10px 0 16px; max-width:460px;}
+  .exhibit-tag{display:inline-block; background:var(--gold-soft); color:var(--gold); font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:2px 8px; border-radius:4px; margin-bottom:9px;}
+  .exhibit-text{font-family:"IBM Plex Mono",monospace; font-size:12.5px; line-height:1.75; white-space:pre-line; color:var(--ink);}
+
+  .verdict-form{margin-top:18px; padding-top:16px; border-top:1px solid var(--card-border);}
+  .verdict-form[hidden]{display:none;}
+  .verdict-choices{display:flex; gap:10px; margin:10px 0 14px;}
+  .verdict-choice{
+    flex:1; border:1.5px solid var(--card-border); border-radius:8px; padding:11px 12px; cursor:pointer;
+    font-weight:700; font-size:13.5px; text-align:center; color:var(--ink-soft); background:var(--card-bg);
+  }
+  .verdict-choice input{margin-right:6px;}
+  .verdict-choice.checked{border-color:var(--navy); color:var(--navy-deep); background:var(--navy-tint);}
+  .verdict-form textarea{
+    width:100%; min-height:66px; resize:vertical; font-family:inherit; font-size:13.5px; line-height:1.55;
+    padding:10px 12px; border:1px solid var(--card-border); border-radius:6px; background:var(--card-bg); color:var(--ink); margin-bottom:12px;
+  }
+  .submit-btn{background:var(--navy); color:#fff; border:none; border-radius:7px; padding:10px 18px; font-family:inherit; font-weight:700; font-size:13.5px; cursor:pointer;}
+  .submit-btn:hover{background:var(--navy-deep);}
+  .submit-btn[disabled]{opacity:.5; cursor:default;}
+
+  .feedback{margin-top:16px; border-radius:10px; padding:14px 16px; font-size:13.5px; line-height:1.6;}
+  .feedback.ok{background:var(--verdict-green-tint); border-left:4px solid var(--verdict-green);}
+  .feedback.no{background:var(--verdict-red-tint); border-left:4px solid var(--verdict-red);}
+  .feedback-title{font-weight:800; font-size:12.5px; text-transform:uppercase; letter-spacing:.04em; margin-bottom:6px;}
+  .feedback.ok .feedback-title{color:var(--verdict-green);}
+  .feedback.no .feedback-title{color:var(--verdict-red);}
+
+  /* handbook */
+  .chapter{border:1px solid var(--card-border); border-radius:10px; margin-bottom:12px; overflow:hidden; background:var(--card-bg);}
+  .chapter summary{cursor:pointer; list-style:none; padding:12px 15px; display:flex; align-items:center; gap:10px; font-weight:700; font-size:14px; background:var(--card-header-bg);}
+  .chapter summary::-webkit-details-marker{display:none;}
+  .chapter summary .num{font-size:11px; color:#fff; background:var(--navy); border-radius:4px; padding:2px 8px; font-weight:700;}
+  .chapter[open] summary{border-bottom:1px solid var(--card-border);}
+  .chapter-body{padding:14px 16px 16px; font-size:13.5px; line-height:1.7;}
+  .source-block{margin-top:10px; border-top:1px solid var(--card-border); padding-top:10px;}
+  .source-title{font-size:11px; font-weight:700; color:var(--gold); margin-bottom:5px; text-transform:uppercase; letter-spacing:.05em;}
+  .source-content{background:var(--gold-soft); border-left:3px solid var(--gold); border-radius:0 6px 6px 0; padding:9px 13px; font-size:12.5px; color:var(--ink);}
+
+  /* notebook */
+  .note-entry{border-bottom:1px dashed var(--card-border); padding:12px 0; font-size:13.5px;}
+  .note-entry:last-child{border-bottom:none;}
+  .note-entry .src{font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--navy); display:block; margin-bottom:3px;}
+  .empty-note{color:var(--ink-soft); font-size:13.5px;}
+
+  /* report table */
+  .report-table{width:100%; border-collapse:collapse; margin-top:16px; font-size:13px;}
+  .report-table th{background:var(--card-header-bg); padding:8px 10px; border:1px solid var(--card-border); text-align:left; font-weight:700; color:var(--navy);}
+  .report-table td{padding:8px 10px; border:1px solid var(--card-border); vertical-align:top;}
+  .verdict-pill{display:inline-block; padding:2px 8px; border-radius:999px; font-size:11px; font-weight:700;}
+  .verdict-pill.ok{background:var(--verdict-green-tint); color:var(--verdict-green);}
+  .verdict-pill.no{background:var(--verdict-red-tint); color:var(--verdict-red);}
+
+  .print-btn{position:fixed; top:14px; right:14px; z-index:100; background:var(--navy); color:#fff; border:none; border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.18); font-family:inherit;}
+  .print-btn:hover{background:var(--navy-deep);}
+
+  @media print{
+    .hero, .tabs, .print-btn, .back-btn{display:none !important;}
+    .panel{border:none; padding:0;}
+    body{background:#fff;}
+  }
+</style>
+
+<button class="print-btn" id="printBtn" title="Bericht als PDF speichern">Bericht drucken</button>
+
+<div class="hero">
+  <svg viewBox="0 0 900 260" preserveAspectRatio="xMidYMax slice" role="img" aria-label="Schreibtisch der Compliance-Abteilung bei Nacht">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#0f1a33"/>
+        <stop offset="100%" stop-color="#1b2a4a"/>
+      </linearGradient>
+      <linearGradient id="deskWood" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#3b2c1f"/>
+        <stop offset="100%" stop-color="#241a12"/>
+      </linearGradient>
+      <radialGradient id="lampGlow" cx="50%" cy="30%" r="70%">
+        <stop offset="0%" stop-color="#f4d98a" stop-opacity=".85"/>
+        <stop offset="100%" stop-color="#f4d98a" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+
+    <rect x="0" y="0" width="900" height="260" fill="url(#sky)"/>
+
+    <!-- skyline window -->
+    <rect x="600" y="18" width="270" height="150" rx="6" fill="#101b33" opacity=".9"/>
+    <g opacity=".9">
+      <rect x="625" y="70" width="34" height="90" fill="#18294a"/>
+      <rect x="631" y="80" width="8" height="10" fill="#f4d98a" opacity=".8"/>
+      <rect x="647" y="100" width="8" height="10" fill="#f4d98a" opacity=".5"/>
+      <rect x="670" y="50" width="40" height="110" fill="#1a2c50"/>
+      <rect x="678" y="65" width="8" height="9" fill="#f4d98a" opacity=".7"/>
+      <rect x="694" y="90" width="8" height="9" fill="#f4d98a" opacity=".8"/>
+      <rect x="678" y="115" width="8" height="9" fill="#f4d98a" opacity=".4"/>
+      <rect x="720" y="35" width="30" height="125" fill="#18294a"/>
+      <rect x="727" y="55" width="7" height="9" fill="#f4d98a" opacity=".6"/>
+      <rect x="727" y="90" width="7" height="9" fill="#f4d98a" opacity=".8"/>
+      <rect x="758" y="65" width="46" height="95" fill="#1a2c50"/>
+      <rect x="768" y="80" width="8" height="10" fill="#f4d98a" opacity=".7"/>
+      <rect x="786" y="100" width="8" height="10" fill="#f4d98a" opacity=".5"/>
+      <rect x="768" y="120" width="8" height="10" fill="#f4d98a" opacity=".8"/>
+    </g>
+    <circle cx="852" cy="46" r="12" fill="#f4e7c7" opacity=".85"/>
+
+    <!-- desk -->
+    <rect x="0" y="188" width="900" height="72" fill="url(#deskWood)"/>
+    <rect x="0" y="188" width="900" height="4" fill="#4a3826"/>
+
+    <!-- book stack -->
+    <g transform="translate(330,150)">
+      <rect x="0" y="18" width="92" height="14" rx="2" fill="#5a2c2c"/>
+      <rect x="4" y="4" width="84" height="14" rx="2" fill="#1b2a4a"/>
+      <text x="46" y="14" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8.5" fill="#f4e7c7" font-weight="700" letter-spacing="1">WpHG</text>
+    </g>
+
+    <!-- folders on desk (decorative) -->
+    <g transform="translate(470,158) rotate(-6)">
+      <rect x="0" y="0" width="70" height="52" rx="3" fill="#e3cd8f" stroke="#c7ad6c"/>
+      <rect x="6" y="-8" width="26" height="10" rx="2" fill="#e3cd8f" stroke="#c7ad6c"/>
+    </g>
+    <g transform="translate(505,166) rotate(5)">
+      <rect x="0" y="0" width="70" height="52" rx="3" fill="#efe0b3" stroke="#c7ad6c"/>
+      <rect x="6" y="-8" width="26" height="10" rx="2" fill="#efe0b3" stroke="#c7ad6c"/>
+    </g>
+
+    <!-- lamp -->
+    <g transform="translate(120,110)">
+      <ellipse cx="0" cy="120" rx="150" ry="60" fill="url(#lampGlow)"/>
+      <rect x="-4" y="40" width="8" height="80" fill="#8a6a2f"/>
+      <ellipse cx="0" cy="40" rx="10" ry="6" fill="#a8791f"/>
+      <path d="M -34 8 Q 0 -18 34 8 L 30 34 Q 0 14 -30 34 Z" fill="#2f5d46"/>
+      <ellipse cx="0" cy="34" rx="30" ry="7" fill="#f4d98a" opacity=".9"/>
+      <ellipse cx="0" cy="118" rx="26" ry="7" fill="#3a2b1c"/>
+    </g>
+
+    <!-- pen + cup -->
+    <line x1="600" y1="205" x2="650" y2="192" stroke="#c7ad6c" stroke-width="3" stroke-linecap="round"/>
+    <g transform="translate(240,190)">
+      <path d="M0 22 Q -2 0 4 -2 L 26 -2 Q 32 0 30 22 Z" fill="#3a2b1c"/>
+      <ellipse cx="15" cy="-2" rx="15" ry="4" fill="#57402a"/>
+    </g>
+  </svg>
+  <div class="hero-overlay">
+    <div>
+      <div class="hero-eyebrow">Compliance-Abteilung &middot; Sparkasse Lindental</div>
+      <div class="hero-title">Prüfschicht</div>
+    </div>
+    <div class="hero-badge"><span id="counterNum">0/4</span> Fälle geprüft</div>
+  </div>
+</div>
+
+<div class="shell">
+  <div class="tabs" role="tablist">
+    <button class="tab" id="tab-auftrag" data-panel="auftrag" role="tab" aria-selected="true"><span class="dot"></span>Auftrag</button>
+    <button class="tab" id="tab-faelle" data-panel="faelle" role="tab" aria-selected="false"><span class="dot"></span>Fälle</button>
+    <button class="tab" id="tab-pflichten" data-panel="pflichten" role="tab" aria-selected="false"><span class="dot"></span>Pflichtenkatalog</button>
+    <button class="tab" id="tab-notizbuch" data-panel="notizbuch" role="tab" aria-selected="false"><span class="dot"></span>Notizbuch</button>
+    <button class="tab" id="tab-bericht" data-panel="bericht" role="tab" aria-selected="false"><span class="dot"></span>Bericht</button>
+  </div>
+
+  <!-- AUFTRAG -->
+  <section class="panel" id="panel-auftrag" role="tabpanel">
+    <div class="eyebrow">Situationsbericht</div>
+    <h2 class="sub-heading">Später Dienst in der Compliance-Abteilung</h2>
+    <p>Du machst dein Praktikum in der Compliance-Abteilung der Sparkasse Lindental. Auf deinem Schreibtisch liegen vier Akten mit Beratungsprotokollen unterschiedlicher Berater und Beraterinnen, alle sollen bis morgen geprüft sein.</p>
+    <p>Zu jedem Fall findest du das Kundenprofil und das Protokoll des Beratungsgesprächs. Deine Aufgabe ist es, zu entscheiden, ob die Beratung den Vorschriften des Wertpapierhandelsgesetzes (WpHG) entspricht oder ob ein Verstoß vorliegt.</p>
+    <div class="eyebrow" style="margin-top:20px;">Dein Auftrag</div>
+    <ul class="tasklist">
+      <li>Öffne nacheinander alle vier Akten im Reiter „Fälle".</li>
+      <li>Sieh dir in jeder Akte das Kundenprofil und das Beratungsprotokoll an.</li>
+      <li>Prüfe den Fall anhand des Pflichtenkatalogs und gib deine Einschätzung ab.</li>
+      <li>Am Ende findest du im Reiter „Bericht" eine Zusammenfassung deiner Prüfung.</li>
+    </ul>
+  </section>
+
+  <!-- FAELLE -->
+  <section class="panel" id="panel-faelle" role="tabpanel" hidden>
+    <div id="folderList">
+      <div class="eyebrow">Aktenstapel</div>
+      <h2 class="sub-heading">Vier Beratungsprotokolle warten auf dich</h2>
+      <p>Wähle eine Akte aus, um sie zu öffnen.</p>
+      <div class="folder-grid" id="folderGrid"></div>
+    </div>
+    <div id="caseView" hidden></div>
+  </section>
+
+  <!-- PFLICHTENKATALOG -->
+  <section class="panel" id="panel-pflichten" role="tabpanel" hidden>
+    <div class="eyebrow">Nachschlagewerk</div>
+    <h2 class="sub-heading">Pflichtenkatalog zur Anlageberatung</h2>
+    <p>Vier Pflichten aus dem Wertpapierhandelsgesetz (WpHG), jeweils mit Rechtsgrundlage. Öffne ein Kapitel, um es zu lesen.</p>
+
+    <details class="chapter" open>
+      <summary><span class="num">1</span>Kundenangaben einholen</summary>
+      <div class="chapter-body">
+        <p>Vor jeder Anlageberatung muss die Bank sich über den Kunden erkundigen: seine Kenntnisse und Erfahrungen mit Finanzinstrumenten, seine Anlageziele einschließlich Risikobereitschaft und Anlagehorizont sowie seine finanziellen Verhältnisse einschließlich der Fähigkeit, Verluste zu tragen. Diese Angaben bilden die Grundlage für jede weitere Empfehlung.</p>
+        <div class="source-block">
+          <div class="source-title">Rechtsgrundlage</div>
+          <div class="source-content">§ 64 Abs. 3 WpHG.</div>
+        </div>
+      </div>
+    </details>
+
+    <details class="chapter">
+      <summary><span class="num">2</span>Geeignetheitsprüfung</summary>
+      <div class="chapter-body">
+        <p>Die Bank muss prüfen, ob ein empfohlenes Finanzinstrument tatsächlich zum Kundenprofil passt, insbesondere zur Risikoklasse des Kunden. Eine hohe Rendite allein rechtfertigt keine Empfehlung, die nicht zu den Kenntnissen, Zielen und finanziellen Verhältnissen des Kunden passt. Empfiehlt die Bank trotzdem ein nicht passendes Produkt, liegt ein Beratungsfehler vor, der zu einer Haftung führen kann.</p>
+        <div class="source-block">
+          <div class="source-title">Rechtsgrundlage</div>
+          <div class="source-content">§ 64 Abs. 3 WpHG.</div>
+        </div>
+      </div>
+    </details>
+
+    <details class="chapter">
+      <summary><span class="num">3</span>Geeignetheitserklärung</summary>
+      <div class="chapter-body">
+        <p>Vor Abschluss des Geschäfts muss die Bank dem Kunden auf einem dauerhaften Datenträger eine Geeignetheitserklärung aushändigen. Sie benennt die gegebene Empfehlung und erklärt, warum sie zu den Präferenzen, Anlagezielen und sonstigen Merkmalen des Kunden passt. Eine erst nach dem Kauf zugesandte Erklärung erfüllt diese Pflicht nicht.</p>
+        <div class="source-block">
+          <div class="source-title">Rechtsgrundlage</div>
+          <div class="source-content">§ 64 Abs. 4 WpHG.</div>
+        </div>
+      </div>
+    </details>
+
+    <details class="chapter">
+      <summary><span class="num">4</span>Execution-only-Geschäft</summary>
+      <div class="chapter-body">
+        <p>Verlangt ein Kunde ausdrücklich ein Geschäft ohne Beratung und handelt es sich um ein nicht komplexes Finanzinstrument wie eine Standardaktie, eine Anleihe oder einen offenen Investmentfonds, muss die Bank keine Geeignetheits- oder Angemessenheitsprüfung durchführen. Sie muss den Kunden aber vorher klar darüber informieren, dass in diesem Fall keine solche Prüfung stattfindet.</p>
+        <div class="source-block">
+          <div class="source-title">Rechtsgrundlage</div>
+          <div class="source-content">§ 63 Abs. 10 WpHG.</div>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <!-- NOTIZBUCH -->
+  <section class="panel" id="panel-notizbuch" role="tabpanel" hidden>
+    <div class="eyebrow">Deine Notizen</div>
+    <h2 class="sub-heading">Gesichtete Unterlagen und Einschätzungen</h2>
+    <div id="notesList" style="margin-top:14px;"></div>
+  </section>
+
+  <!-- BERICHT -->
+  <section class="panel" id="panel-bericht" role="tabpanel" hidden>
+    <div class="eyebrow">Abschlussdokument</div>
+    <h2 class="sub-heading">Prüfprotokoll</h2>
+    <p>Automatisch zusammengestellt aus deinen vier Fall-Einschätzungen.</p>
+    <div id="reportArea" style="margin-top:10px;"></div>
+  </section>
+</div>
+
+<script>
+(function(){
+  var STORAGE_KEY = "pruefschicht-v1";
+
+  var cases = [
+    {
+      id:"fischer", name:"Clara Fischer", role:"Beraterin: Herr Sander",
+      profile:"Kundenprofil\nClara Fischer, 26 Jahre, Grafikdesignerin\nKenntnisse/Erfahrung: keine Erfahrung mit Wertpapieren\nAnlageziel: sicherheitsorientiert, kurzfristig verfügbar\nFinanzielle Verhältnisse: Erbschaft 15.000 EUR, keine Rücklagen\nRisikoklasse: RK1",
+      protocol:"Protokoll, Berater: Herr Sander\nEmpfehlung: TechWachstum-Aktienfonds (RK5)\nBegründung des Beraters: „Die Rendite ist dort am höchsten,\ndas passt gut zu einer jungen Kundin.\"",
+      correct:"verstoss",
+      feedback:"Verstoß gegen die Geeignetheitsprüfung (§ 64 Abs. 3 WpHG). Ein RK5-Produkt passt nicht zu einer Kundin mit Risikoklasse RK1 und ohne jede Erfahrung, eine hohe Rendite allein rechtfertigt die Empfehlung nicht."
+    },
+    {
+      id:"toprak", name:"Herr Toprak", role:"Beraterin: Frau Nowak",
+      profile:"Kundenprofil\nHerr Toprak, 52 Jahre, Ingenieur\nKenntnisse/Erfahrung: mehrjährige Erfahrung mit Investmentfonds\nAnlageziel: Altersvorsorge, Anlagehorizont ca. 15 Jahre\nFinanzielle Verhältnisse: 20.000 EUR frei verfügbar, geregeltes Einkommen\nRisikoklasse: RK3",
+      protocol:"Protokoll, Beraterin: Frau Nowak\nEmpfehlung: ausgewogener Mischfonds (RK3)\nAblauf: Alle Angaben zu Kenntnissen, Zielen und finanziellen\nVerhältnissen wurden erfragt. Die Geeignetheitserklärung wurde\nvor der Unterschrift ausgehändigt.",
+      correct:"konform",
+      feedback:"Konform. Frau Nowak hat alle erforderlichen Kundenangaben eingeholt, ein zum RK3-Profil passendes Produkt empfohlen und die Geeignetheitserklärung rechtzeitig vor der Unterschrift ausgehändigt (§ 64 Abs. 3 und 4 WpHG)."
+    },
+    {
+      id:"berger", name:"Frau Berger", role:"Berater: Herr Klimt",
+      profile:"Kundenprofil\nFrau Berger, 34 Jahre, möchte gezielt Aktien eines\nbestimmten Unternehmens kaufen\nAussage der Kundin: „Ich weiß genau, was ich will,\nich brauche dazu keine Beratung.\"\nFinanzinstrument: Standardaktie (nicht komplex)",
+      protocol:"Protokoll, Berater: Herr Klimt\nAblauf: Order wird ohne Beratungsgespräch ausgeführt.\nDie Kundin wird nicht darauf hingewiesen, dass dabei keine\nPrüfung ihrer Kenntnisse und Erfahrungen stattfindet.",
+      correct:"verstoss",
+      feedback:"Verstoß gegen die Informationspflicht beim Execution-only-Geschäft (§ 63 Abs. 10 WpHG). Der Kauf ohne Beratung war für sich genommen zulässig, Frau Berger hätte aber vorher darüber informiert werden müssen, dass dabei keine Prüfung ihrer Kenntnisse stattfindet."
+    },
+    {
+      id:"demir", name:"Herr Demir", role:"Beraterin: Frau Lang",
+      profile:"Kundenprofil\nHerr Demir, 45 Jahre, konservativer Anleger\nKenntnisse/Erfahrung: etwas Erfahrung mit Anleihen\nAnlageziel: Kapitalerhalt, mittlere Frist\nRisikoklasse: RK2",
+      protocol:"Protokoll, Beraterin: Frau Lang\nEmpfehlung: Anleihenfonds (RK2), passt zum Kundenprofil\nAussage der Beraterin: „Die Geeignetheitserklärung bekommen\nSie automatisch ein paar Tage nach dem Kauf zugeschickt.\"",
+      correct:"verstoss",
+      feedback:"Verstoß gegen die Pflicht zur rechtzeitigen Geeignetheitserklärung (§ 64 Abs. 4 WpHG). Inhaltlich war die Beratung korrekt, die Erklärung muss aber vor Vertragsabschluss vorliegen, nicht erst danach automatisch zugeschickt werden."
+    }
+  ];
+
+  var state = {opened:{}, verdicts:{}};
+  try{
+    var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+    if(saved) state = saved;
+  }catch(e){}
+
+  function persist(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){} }
+
+  function caseState(id){
+    if(!state.opened[id]) state.opened[id] = {profile:false, protocol:false};
+    return state.opened[id];
+  }
+  function isSubmitted(id){ return !!(state.verdicts[id] && state.verdicts[id].submitted); }
+  function isCorrect(id){ return state.verdicts[id] && state.verdicts[id].choice === cases.find(function(c){return c.id===id;}).correct; }
+
+  function totalDone(){ return cases.filter(function(c){ return isSubmitted(c.id); }).length; }
+  function updateCounter(){
+    document.getElementById("counterNum").textContent = totalDone() + "/" + cases.length;
+    document.getElementById("tab-faelle").classList.toggle("done", totalDone() === cases.length);
+  }
+
+  var tabs = document.querySelectorAll(".tab");
+  tabs.forEach(function(tab){
+    tab.addEventListener("click", function(){
+      tabs.forEach(function(t){ t.setAttribute("aria-selected", t===tab ? "true":"false"); });
+      document.querySelectorAll(".panel").forEach(function(p){ p.hidden = true; });
+      document.getElementById("panel-"+tab.dataset.panel).hidden = false;
+      if(tab.dataset.panel === "notizbuch") renderNotes();
+      if(tab.dataset.panel === "bericht") renderReport();
+    });
+  });
+
+  function folderStatusLabel(c){
+    if(isSubmitted(c.id)) return isCorrect(c.id) ? "Geprüft, richtig erkannt" : "Geprüft, siehe Rückmeldung";
+    var o = caseState(c.id);
+    if(o.profile || o.protocol) return "In Bearbeitung";
+    return "Ungeöffnet";
+  }
+  function folderCardClass(c){
+    if(isSubmitted(c.id)) return isCorrect(c.id) ? "correct" : "incorrect";
+    var o = caseState(c.id);
+    return (o.profile || o.protocol) ? "opened" : "";
+  }
+
+  function renderFolders(){
+    var grid = document.getElementById("folderGrid");
+    grid.innerHTML = "";
+    cases.forEach(function(c, i){
+      var btn = document.createElement("button");
+      btn.className = "folder-card " + folderCardClass(c);
+      btn.innerHTML =
+        '<div class="folder-tab"></div>' +
+        '<div class="folder-body">' +
+          '<div class="folder-num">Akte '+(i+1)+'</div>' +
+          '<div class="folder-name">'+c.name+'</div>' +
+          '<div class="folder-status">'+folderStatusLabel(c)+'</div>' +
+        '</div>';
+      btn.addEventListener("click", function(){ openCase(c); });
+      grid.appendChild(btn);
+    });
+  }
+
+  function openCase(c){
+    document.getElementById("folderList").hidden = true;
+    var view = document.getElementById("caseView");
+    view.hidden = false;
+    var o = caseState(c.id);
+    var v = state.verdicts[c.id] || {choice:"", begruendung:""};
+
+    var html = '<button class="back-btn" id="backBtn">&larr; Zurück zum Aktenstapel</button>';
+    html += '<div class="eyebrow">Akte &bull; '+c.role+'</div><h2 class="sub-heading">'+c.name+'</h2>';
+    html += '<button class="reveal-btn" id="btnProfile" '+(o.profile?'disabled':'')+'>Kundenprofil ansehen</button>';
+    html += '<button class="reveal-btn" id="btnProtocol" '+(o.protocol?'disabled':'')+'>Beratungsprotokoll ansehen</button>';
+    html += '<div id="exhibitProfile"></div><div id="exhibitProtocol"></div>';
+
+    html += '<div class="verdict-form" id="verdictForm" '+((o.profile && o.protocol) ? '' : 'hidden')+'>';
+    html += '<div class="eyebrow">Deine Einschätzung</div>';
+    html += '<div class="verdict-choices">' +
+      '<label class="verdict-choice" id="labelKonform"><input type="radio" name="verdict" value="konform">Konform</label>' +
+      '<label class="verdict-choice" id="labelVerstoss"><input type="radio" name="verdict" value="verstoss">Verstoß</label>' +
+    '</div>';
+    html += '<textarea id="begruendung" placeholder="Kurze Begründung...">'+ (v.begruendung||"") +'</textarea>';
+    html += '<button class="submit-btn" id="submitBtn" '+(isSubmitted(c.id)?'disabled':'')+'>Einschätzung abgeben</button>';
+    html += '<div id="feedbackArea"></div>';
+    html += '</div>';
+
+    view.innerHTML = html;
+
+    document.getElementById("backBtn").addEventListener("click", function(){
+      view.hidden = true;
+      document.getElementById("folderList").hidden = false;
+      renderFolders();
+    });
+
+    if(o.profile) showExhibit("exhibitProfile", "Kundenprofil", c.profile);
+    if(o.protocol) showExhibit("exhibitProtocol", "Beratungsprotokoll", c.protocol);
+
+    document.getElementById("btnProfile").addEventListener("click", function(){
+      o.profile = true; persist();
+      showExhibit("exhibitProfile", "Kundenprofil", c.profile);
+      document.getElementById("btnProfile").disabled = true;
+      maybeShowVerdictForm(c, o);
+    });
+    document.getElementById("btnProtocol").addEventListener("click", function(){
+      o.protocol = true; persist();
+      showExhibit("exhibitProtocol", "Beratungsprotokoll", c.protocol);
+      document.getElementById("btnProtocol").disabled = true;
+      maybeShowVerdictForm(c, o);
+    });
+
+    var radios = view.querySelectorAll('input[name="verdict"]');
+    radios.forEach(function(r){
+      if(v.choice === r.value) r.checked = true;
+      r.addEventListener("change", function(){
+        document.getElementById("labelKonform").classList.toggle("checked", r.value==="konform" && r.checked);
+        document.getElementById("labelVerstoss").classList.toggle("checked", r.value==="verstoss" && r.checked);
+      });
+    });
+    if(v.choice === "konform") document.getElementById("labelKonform").classList.add("checked");
+    if(v.choice === "verstoss") document.getElementById("labelVerstoss").classList.add("checked");
+
+    document.getElementById("submitBtn").addEventListener("click", function(){
+      var checked = view.querySelector('input[name="verdict"]:checked');
+      if(!checked){ return; }
+      var begr = document.getElementById("begruendung").value;
+      state.verdicts[c.id] = {choice:checked.value, begruendung:begr, submitted:true};
+      persist();
+      updateCounter();
+      document.getElementById("submitBtn").disabled = true;
+      showFeedback(c);
+    });
+
+    if(isSubmitted(c.id)) showFeedback(c);
+  }
+
+  function maybeShowVerdictForm(c, o){
+    if(o.profile && o.protocol){
+      document.getElementById("verdictForm").hidden = false;
+    }
+  }
+
+  function showExhibit(slotId, tag, text){
+    var slot = document.getElementById(slotId);
+    slot.innerHTML = '<div class="exhibit"><span class="exhibit-tag">'+tag+'</span><div class="exhibit-text">'+text+'</div></div>';
+  }
+
+  function showFeedback(c){
+    var area = document.getElementById("feedbackArea");
+    if(!area) return;
+    var correct = isCorrect(c.id);
+    area.innerHTML = '<div class="feedback '+(correct?'ok':'no')+'">' +
+      '<div class="feedback-title">'+(correct ? "Richtig erkannt" : "Nicht ganz")+'</div>' +
+      c.feedback + '</div>';
+  }
+
+  function renderNotes(){
+    var list = document.getElementById("notesList");
+    var entries = [];
+    cases.forEach(function(c){
+      if(isSubmitted(c.id)){
+        var v = state.verdicts[c.id];
+        entries.push({name:c.name, choice:v.choice, correct:isCorrect(c.id), begr:v.begruendung});
+      }
+    });
+    if(entries.length === 0){
+      list.innerHTML = '<p class="empty-note">Noch keine Fälle geprüft. Öffne zuerst Akten im Reiter „Fälle".</p>';
+      return;
+    }
+    list.innerHTML = entries.map(function(e){
+      return '<div class="note-entry"><span class="src">'+e.name+'</span>Einschätzung: '+(e.choice==="konform"?"konform":"Verstoß")+
+        (e.begr ? '<br><em>'+e.begr+'</em>' : '') + '</div>';
+    }).join("");
+  }
+
+  function renderReport(){
+    var area = document.getElementById("reportArea");
+    var rows = cases.map(function(c){
+      var v = state.verdicts[c.id];
+      if(!v || !v.submitted){
+        return '<tr><td>'+c.name+'</td><td colspan="3" style="color:var(--ink-soft);">noch nicht geprüft</td></tr>';
+      }
+      var correct = isCorrect(c.id);
+      return '<tr><td>'+c.name+'</td>' +
+        '<td>'+(v.choice==="konform"?"konform":"Verstoß")+'</td>' +
+        '<td><span class="verdict-pill '+(correct?'ok':'no')+'">'+(correct?"stimmt":"prüfen")+'</span></td>' +
+        '<td>'+(v.begruendung || '&ndash;')+'</td></tr>';
+    }).join("");
+    area.innerHTML = '<table class="report-table"><thead><tr><th>Fall</th><th>Einschätzung</th><th>Ergebnis</th><th>Begründung</th></tr></thead><tbody>'+rows+'</tbody></table>';
+  }
+
+  document.getElementById("printBtn").addEventListener("click", function(){ window.print(); });
+
+  renderFolders();
+  updateCounter();
+})();
+</script>
