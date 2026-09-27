@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SO VBWL 5. Planspiel Regierung in der Krise</title>
+<style>
+:root{--teal:#0d9488;--blue:#1d4ed8;--red:#dc2626;--green:#16a34a;--amber:#d97706;--ink:#111827;--muted:#6b7280;--line:#d5dbe0;--bg:#ffffff;--soft:#f4f8f7}
+*{box-sizing:border-box}
+body{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;font-size:15px;color:var(--ink);background:var(--bg);margin:0;padding:16px;line-height:1.55}
+main{max-width:960px;margin:0 auto}
+.kopf{width:100%;border-collapse:collapse;border:2px solid var(--red);margin-bottom:22px;table-layout:fixed}
+.kopf td{border:2px solid var(--red);padding:4px 10px;background:#e0e7ff;color:var(--blue);font-weight:700;font-size:20px;text-align:center}
+.kopf tr+tr td{background:#f3f4f6;color:#374151;font-size:16px;font-weight:600}
+h1{color:var(--teal);text-align:center;font-size:24px;margin:16px 0 4px}
+.untertitel{text-align:center;color:var(--muted);margin:0 0 18px}
+h2{border-left:5px solid var(--teal);background:#0d94880d;color:var(--teal);padding:6px 12px;font-size:16px;margin:24px 0 10px}
+.box{border:1px solid var(--line);border-left:4px solid var(--teal);background:var(--soft);padding:10px 14px;margin:10px 0;border-radius:0 6px 6px 0}
+.box b.label{display:block;font-size:11px;letter-spacing:.04em;color:var(--teal);margin-bottom:2px}
+.box.aufgabe{border-left-color:var(--amber);background:#fff7ed}.box.aufgabe b.label{color:var(--amber)}
+.box.ereignis{border-left-color:var(--red);background:#fef2f2}.box.ereignis b.label{color:var(--red)}
+.box.ergebnis{border-left-color:var(--green);background:#f2faf4}.box.ergebnis b.label{color:var(--green)}
+.kopfzeile{display:grid;grid-template-columns:minmax(260px,340px) 1fr;gap:16px;align-items:start}
+@media(max-width:700px){.kopfzeile{grid-template-columns:1fr}}
+.status{border:1px solid var(--line);border-radius:10px;padding:10px 14px;background:#fff}
+.status .zeile{display:flex;justify-content:space-between;margin:4px 0;font-size:14px}
+.balken{height:10px;border-radius:5px;background:#e5e7eb;overflow:hidden;margin:2px 0 6px}
+.balken i{display:block;height:100%}
+.choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:10px 0}
+.choice{display:flex;flex-direction:column;border:2px solid var(--teal);border-radius:10px;padding:10px 12px;background:#fff;text-align:left;font:inherit;cursor:pointer;min-height:44px;box-shadow:0 2px 0 rgba(13,148,136,.25);transition:background .15s,box-shadow .15s,transform .15s}
+.choice:hover:not(:disabled),.choice:focus:not(:disabled){background:#f0fdfa;box-shadow:0 4px 10px rgba(13,148,136,.35);transform:translateY(-2px);outline:none}
+.choice .go{display:block;margin-top:auto}
+.choice .go span{display:block;margin-top:10px;background:var(--teal);color:#fff;border-radius:8px;padding:6px 12px;font-weight:700;text-align:center}
+.choice:disabled{border-color:var(--line);box-shadow:none}
+.choice:disabled{opacity:.55;cursor:not-allowed;background:#f3f4f6}
+.choice .tr{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.choice b{display:block;font-size:15px;margin:2px 0}
+.choice .kost{font-size:12px;color:var(--muted);margin-top:4px}
+.tag{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11px;font-weight:700;color:#fff;margin-right:4px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
+.chip{padding:2px 10px;border-radius:12px;font-weight:700;font-size:13px;color:#fff}
+.chip.plus{background:var(--green)}.chip.minus{background:var(--red)}
+.btn{background:var(--teal);color:#fff;border:0;border-radius:10px;padding:12px 22px;font:inherit;font-weight:700;font-size:16px;cursor:pointer;min-height:48px}
+table.hist{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+table.hist th{background:#1a4f8a;color:#fff;padding:5px 8px;text-align:left}
+table.hist td{border:1px solid var(--line);padding:5px 8px;vertical-align:top}
+.hinweis{font-size:12px;color:var(--muted)}
+.gross{font-size:20px;font-weight:700}
+.versteckt{display:none}
+svg{width:100%;height:auto;display:block}
+</style>
+</head>
+<body>
+<main>
+<table class="kopf"><tr><td>SO</td><td>SO VBWL</td><td>MAYER</td></tr><tr><td colspan="3">LPE8 Wirtschaftspolitik</td></tr></table>
+<h1>5. Planspiel: Regierung in der Krise</h1>
+<p class="untertitel">Sechs Krisenjahre, sechs Ziele, begrenztes Geld</p>
+
+<div class="box"><b class="label">💡 SPIELIDEE</b>
+Sie regieren ein fiktives Land, in dem in sechs aufeinanderfolgenden Jahren eine Krise eintritt. Zu Beginn stehen alle sechs Ziele des magischen Sechsecks auf 6 von 10 Punkten. In jedem Jahr trifft ein Ereignis das Land, und Sie wählen eine von vier Maßnahmen. Der Haushaltsspielraum ist begrenzt: Eine Maßnahme, die mehr kostet, als Sie zur Verfügung haben, ist durch die Schuldenbremse gesperrt. Manche Maßnahmen wirken erst im folgenden Jahr. Am Ende zählt, wie viele Ziele im Zielbereich (5 Punkte oder mehr) liegen. Sie können allein spielen oder in einer Kleingruppe jede Entscheidung diskutieren.</div>
+<p><button class="btn" id="start">Spiel starten</button></p>
+
+<div id="spiel" class="versteckt">
+  <h2 id="runde">Jahr 1 von 6</h2>
+  <div class="kopfzeile">
+    <div>
+      <div id="radar"></div>
+      <div class="status" id="status"></div>
+    </div>
+    <div>
+      <div class="box ereignis" id="ereignis"></div>
+      <div class="box" id="verzoegert" style="display:none"></div>
+      <div id="auswahl"></div>
+      <div class="box ergebnis versteckt" id="ergebnis"></div>
+      <p><button class="btn versteckt" id="weiter">Nächstes Jahr</button></p>
+    </div>
+  </div>
+  <div class="hinweis">Modellhinweis: Alle Wirkungen sind stark vereinfacht und dienen dem Verständnis von Zielkonflikten und Grenzen der Wirtschaftspolitik. Sie sind keine Prognose.</div>
+</div>
+
+<div id="ende" class="versteckt">
+  <h2>Auswertung</h2>
+  <div class="box"><b class="label">💡 ERGEBNIS</b><div class="gross" id="punkte"></div><div id="bewertung"></div></div>
+  <div class="kopfzeile"><div id="radarEnde"></div><div class="status" id="statusEnde"></div></div>
+  <h2>Ihre Entscheidungen</h2>
+  <div id="protokoll"></div>
+  <h2>Zielkonflikte, die Sie ausgelöst haben</h2>
+  <div id="konflikte"></div>
+  <div class="box aufgabe"><b class="label">✏️ AUFGABE</b>
+  Bearbeiten Sie schriftlich:<br>
+  a) Beschreiben Sie den Endstand Ihres Landes und erklären Sie, welches Ziel Sie am schlechtesten erreicht haben und warum.<br>
+  b) Wählen Sie einen Zielkonflikt aus Ihrem Protokoll und erklären Sie, welches Ziel Sie dabei vorgezogen haben und mit welcher Begründung.<br>
+  c) Erläutern Sie mindestens zwei Grenzen der Wirtschaftspolitik, auf die Sie im Spiel gestoßen sind (zum Beispiel Haushaltsspielraum, Wirkungsverzögerung).<br>
+  d) Beurteilen Sie, was Sie bei einem zweiten Durchgang anders entscheiden würden, und begründen Sie Ihre Antwort.</div>
+  <p><button class="btn" id="neu">Noch einmal spielen</button></p>
+</div>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var ZIELE=[{k:"P",n:"Preisstabilität"},{k:"B",n:"Beschäftigung"},{k:"W",n:"Wachstum"},{k:"A",n:"Außenwirtschaft"},{k:"U",n:"Umweltschutz"},{k:"V",n:"Verteilung"}];
+  var NAME={};ZIELE.forEach(function(z){NAME[z.k]=z.n});
+  var TR={Staat:"#0d9488",EZB:"#1d4ed8",Tarifpartner:"#d97706",Markt:"#6b7280"};
+  var START=6,ZONE=5,BUDGET0=6,EINNAHMEN=1;
+  var E=[
+   {t:"Energiepreisschock",text:"Die Preise für Gas und Strom steigen sprunghaft. Haushalte und Unternehmen zahlen deutlich mehr.",base:{P:-2,W:-1,V:-1},bud:0,
+    m:[{n:"Energiepreisbremse für Haushalte und Unternehmen",tr:"Staat",kost:3,imm:{P:1,V:1,W:1,U:-1},del:{},why:"Die Preisbremse dämpft die Preise und entlastet die Haushalte, kostet aber viel Geld und nimmt den Anreiz zum Energiesparen."},
+      {n:"Zinserhöhung durch die EZB",tr:"EZB",kost:0,imm:{},del:{P:2,W:-1,B:-1},why:"Höhere Zinsen bremsen die Nachfrage und damit die Preise, belasten aber Investitionen und Arbeitsplätze. Die Wirkung kommt erst im nächsten Jahr."},
+      {n:"Ausbau erneuerbarer Energien beschleunigen",tr:"Staat",kost:2,imm:{U:2,B:1},del:{P:1},why:"Erneuerbare Energien schützen das Klima und schaffen Arbeit, senken die Energiepreise aber erst mit Verzögerung."},
+      {n:"Nichts unternehmen und den Markt wirken lassen",tr:"Markt",kost:0,imm:{V:-1,U:1},del:{},why:"Ohne Eingriff bleibt die Belastung bei den Haushalten hängen, der hohe Preis zwingt aber zum Energiesparen."}]},
+   {t:"Handelskonflikt",text:"Ein wichtiger Handelspartner erhebt Zölle auf Ihre Waren. Die Exporte brechen ein.",base:{A:-2,B:-1,W:-1},bud:0,
+    m:[{n:"Konjunkturprogramm mit öffentlichen Investitionen",tr:"Staat",kost:3,imm:{W:1},del:{W:1,B:1,P:-1},why:"Öffentliche Aufträge stützen Wachstum und Beschäftigung, wirken aber spät und können später die Preise treiben."},
+      {n:"Neue Handelsabkommen verhandeln",tr:"Staat",kost:0,imm:{},del:{A:2,W:1},why:"Neue Absatzmärkte stärken die Exporte, brauchen aber Jahre bis zur Wirkung."},
+      {n:"Steuervorteile für Exportunternehmen",tr:"Staat",kost:2,imm:{A:1,W:1,V:-1},del:{},why:"Steuervorteile helfen den Exportbranchen, entlasten aber vor allem Unternehmen und nicht die Beschäftigten."},
+      {n:"Lohnzurückhaltung vereinbaren",tr:"Tarifpartner",kost:0,imm:{A:1,P:1,B:1,V:-2},del:{},why:"Niedrigere Lohnkosten machen Exporte wettbewerbsfähiger, verringern aber die Einkommen der Beschäftigten."}]},
+   {t:"Extremwetter",text:"Ein Rekordsommer verursacht Dürre und Schäden. Der Klimaschutz rückt in den Mittelpunkt der Debatte.",base:{U:-2,W:-1,V:-1},bud:0,
+    m:[{n:"CO2-Preis erhöhen und Einnahmen zurückzahlen",tr:"Staat",kost:0,imm:{U:2,W:-1,P:-1},del:{},why:"Ein höherer CO2-Preis senkt Emissionen, verteuert aber Produktion und Preise."},
+      {n:"Förderprogramm für die Gebäudesanierung",tr:"Staat",kost:3,imm:{U:1,B:1,W:1},del:{U:1},why:"Sanierung senkt Emissionen und schafft Aufträge für das Handwerk, kostet aber viel Geld."},
+      {n:"Klimaauflagen für die Industrie verschärfen",tr:"Staat",kost:0,imm:{U:2,W:-1,B:-1,A:-1},del:{},why:"Strengere Auflagen wirken schnell für die Umwelt, belasten aber Produktion, Arbeitsplätze und die Wettbewerbsfähigkeit."},
+      {n:"Hilfen für betroffene Landwirte",tr:"Staat",kost:2,imm:{V:1,B:1},del:{},why:"Die Hilfen stützen Einkommen und Arbeitsplätze, verbessern aber das Klima nicht."}]},
+   {t:"Fachkräftemangel",text:"Viele Beschäftigte gehen in Rente, offene Stellen bleiben unbesetzt, und die Wirtschaft kann nicht mehr so viel produzieren wie möglich.",base:{W:-1,P:-1},bud:0,
+    m:[{n:"Zuwanderung von Fachkräften erleichtern",tr:"Staat",kost:1,imm:{W:1},del:{W:1,B:1},why:"Zuwanderung füllt Lücken im Arbeitsmarkt, wirkt aber erst mit Verzögerung."},
+      {n:"Weiterbildungsoffensive starten",tr:"Staat",kost:2,imm:{B:1,V:1},del:{W:1},why:"Weiterbildung verbessert die Chancen und die Verteilung, zahlt sich beim Wachstum aber erst später aus."},
+      {n:"Renteneintrittsalter anheben",tr:"Staat",kost:-1,imm:{W:1,B:1,V:-2},del:{},why:"Ein späterer Rentenbeginn entlastet den Haushalt und vergrößert das Arbeitsangebot, trifft aber vor allem Beschäftigte in körperlich belastenden Berufen."},
+      {n:"Hohe Lohnabschlüsse gegen den Personalmangel",tr:"Tarifpartner",kost:0,imm:{V:1,P:-2,A:-1},del:{},why:"Hohe Löhne erhöhen die Einkommen, verteuern aber die Produktion und treiben die Preise."}]},
+   {t:"Wohnungsnot",text:"Die Mieten steigen stark. Vor allem Haushalte mit geringem Einkommen sind betroffen.",base:{V:-2,P:-1},bud:0,
+    m:[{n:"Sozialen Wohnungsbau ausbauen",tr:"Staat",kost:3,imm:{V:1,B:1},del:{V:1,W:1},why:"Neue Wohnungen helfen Haushalten mit geringem Einkommen und schaffen Bauaufträge, brauchen aber Zeit."},
+      {n:"Mietpreisbremse einführen",tr:"Staat",kost:0,imm:{V:1,P:1},del:{W:-1},why:"Gedeckelte Mieten entlasten sofort, schrecken aber Investoren ab und bremsen den Wohnungsbau."},
+      {n:"Zinssenkung durch die EZB",tr:"EZB",kost:0,imm:{W:1,B:1,P:-1},del:{},why:"Niedrigere Zinsen verbilligen Kredite und beleben die Wirtschaft, können die Preise aber steigen lassen."},
+      {n:"Wohngeld erhöhen",tr:"Staat",kost:2,imm:{V:2},del:{},why:"Wohngeld entlastet gezielt, kostet aber Haushaltsmittel."}]},
+   {t:"Hohe Zinslast des Staates",text:"Der Staat zahlt mehr Zinsen für alte Schulden. Der Haushaltsspielraum schrumpft um 2 Punkte.",base:{W:-1},bud:-2,
+    m:[{n:"Sparpaket: Staatsausgaben kürzen",tr:"Staat",kost:-3,imm:{W:-1,B:-1,V:-1,P:1},del:{},why:"Sparen schont den Haushalt, dämpft aber Nachfrage, Wachstum und Beschäftigung."},
+      {n:"Steuern für hohe Einkommen erhöhen",tr:"Staat",kost:-2,imm:{V:2,W:-1},del:{},why:"Höhere Steuern für hohe Einkommen verbessern die Verteilung und die Staatsfinanzen, können aber Investitionen dämpfen."},
+      {n:"Investitionen schützen, Konsumausgaben kürzen",tr:"Staat",kost:-1,imm:{U:1,V:-1},del:{},why:"Der Staat schont zukunftsträchtige Ausgaben, kürzt aber Leistungen für Haushalte."},
+      {n:"Sondervermögen durch neue Schulden schaffen",tr:"Staat",kost:-3,imm:{W:1,B:1},del:{P:-1,V:-1},why:"Neue Schulden geben kurzfristig Spielraum, belasten später Preise und Verteilung durch höhere Zinslasten."}]}
+  ];
+  var st=null;
+  var el=function(id){return document.getElementById(id)};
+  function clamp(x){return Math.max(0,Math.min(10,x))}
+  function sgn(n){return (n>0?"plus ":"minus ")+Math.abs(n)}
+
+  function neu(){
+    st={jahr:0,w:{},budget:BUDGET0,pending:{},log:[],phase:"wahl"};
+    ZIELE.forEach(function(z){st.w[z.k]=START});
+    el("ende").classList.add("versteckt");
+    el("spiel").classList.remove("versteckt");
+    runde();
+    el("spiel").scrollIntoView({behavior:"smooth"});
+  }
+
+  function apply(eff){
+    var chips=[];
+    Object.keys(eff).forEach(function(k){
+      var before=st.w[k];st.w[k]=clamp(st.w[k]+eff[k]);
+      if(eff[k]!==0)chips.push({k:k,d:eff[k]});
+    });
+    return chips;
+  }
+  function chipHtml(chips){
+    if(!chips.length)return "";
+    return '<div class="chips">'+chips.map(function(c){return '<span class="chip '+(c.d>0?"plus":"minus")+'">'+NAME[c.k]+' '+(c.d>0?"+":"")+c.d+'</span>'}).join("")+'</div>';
+  }
+
+  function runde(){
+    var ev=E[st.jahr];
+    el("runde").textContent="Jahr "+(st.jahr+1)+" von "+E.length+": "+ev.t;
+    st.budget=Math.max(0,st.budget+EINNAHMEN+ev.bud);
+    // verzögerte Wirkungen des Vorjahres
+    var pend=st.pending;st.pending={};
+    var vz=Object.keys(pend).length?apply(pend):[];
+    if(vz.length){el("verzoegert").style.display="";el("verzoegert").innerHTML='<b class="label">💡 WIRKUNG AUS DEM VORJAHR</b>Eine Maßnahme aus dem Vorjahr wirkt jetzt:'+chipHtml(vz);}
+    else el("verzoegert").style.display="none";
+    var bc=apply(ev.base);
+    el("ereignis").innerHTML='<b class="label">⚠ EREIGNIS</b>'+ev.text+chipHtml(bc)+'<div class="hinweis">Haushaltsspielraum in diesem Jahr: '+st.budget+' Punkte (jedes Jahr kommen Einnahmen hinzu).</div>';
+    var h='<div class="choices">';
+    ev.m.forEach(function(m,i){
+      var gesperrt=m.kost>st.budget;
+      h+='<button class="choice" data-i="'+i+'"'+(gesperrt?" disabled":"")+'><span class="tr" style="color:'+TR[m.tr]+'">'+m.tr+'</span><b>'+m.n+'</b>'
+        +'<div class="kost">'+(m.kost>0?"Kosten: "+m.kost+" Haushaltspunkte":m.kost<0?"Bringt "+(-m.kost)+" Haushaltspunkte":"Kosten: keine")
+        +((Object.keys(m.del).length)?' <span class="tag" style="background:#d97706">wirkt teils erst im nächsten Jahr</span>':"")
+        +(gesperrt?' <span class="tag" style="background:#dc2626">Schuldenbremse: Spielraum reicht nicht</span>':"")+'</div>'+(gesperrt?'':'<span class="go"><span>▶ Diese Maßnahme wählen</span></span>')+'</button>';
+    });
+    el("auswahl").innerHTML='<b>👆 Klicken Sie eine der Maßnahmen an, um zu entscheiden:</b>'+h+'</div>';
+    Array.prototype.forEach.call(el("auswahl").querySelectorAll(".choice"),function(b){b.onclick=function(){waehlen(+b.getAttribute("data-i"))}});
+    el("ergebnis").classList.add("versteckt");el("weiter").classList.add("versteckt");
+    zeigeStatus();
+  }
+
+  function waehlen(i){
+    var ev=E[st.jahr],m=ev.m[i];
+    st.budget-=m.kost;
+    var chips=apply(m.imm);
+    Object.keys(m.del).forEach(function(k){st.pending[k]=(st.pending[k]||0)+m.del[k]});
+    // Zielkonflikt: Wirkung sofort oder verzögert mit Plus und Minus
+    var all=[];Object.keys(m.imm).forEach(function(k){all.push([k,m.imm[k]])});Object.keys(m.del).forEach(function(k){all.push([k,m.del[k]])});
+    var plus=all.filter(function(a){return a[1]>0}).map(function(a){return a[0]}),minus=all.filter(function(a){return a[1]<0}).map(function(a){return a[0]});
+    var konflikt=plus.length&&minus.length?{plus:uniq(plus),minus:uniq(minus)}:null;
+    st.log.push({jahr:st.jahr+1,ereignis:ev.t,massnahme:m.n,tr:m.tr,konflikt:konflikt,verz:Object.keys(m.del).length>0});
+    var t='<b class="label">✅ ERGEBNIS IHRER ENTSCHEIDUNG</b><b>'+m.n+'</b>'+(chips.length?'<div>Sofortwirkung:</div>'+chipHtml(chips):'<div>Keine Sofortwirkung.</div>')
+      +(Object.keys(m.del).length?'<div>Im nächsten Jahr folgt:</div>'+chipHtml(Object.keys(m.del).map(function(k){return {k:k,d:m.del[k]}})):"")
+      +'<p>'+m.why+'</p>'
+      +(konflikt?'<p><b>Zielkonflikt:</b> Ihre Maßnahme fördert '+konflikt.plus.map(function(k){return NAME[k]}).join(" und ")+' und belastet '+konflikt.minus.map(function(k){return NAME[k]}).join(" und ")+'.</p>':'');
+    el("ergebnis").innerHTML=t;el("ergebnis").classList.remove("versteckt");
+    el("auswahl").innerHTML="";
+    var last=st.jahr>=E.length-1;
+    // Nach letzter Runde: verzögerte Wirkung noch anwenden
+    if(last){var rest=st.pending;st.pending={};var c2=Object.keys(rest).length?apply(rest):[];if(c2.length)el("ergebnis").innerHTML+='<p>Die verzögerte Wirkung tritt zum Ende des Zeitraums ein:</p>'+chipHtml(c2);}
+    el("weiter").textContent=last?"Zur Auswertung":"Nächstes Jahr";
+    el("weiter").classList.remove("versteckt");
+    zeigeStatus();
+  }
+  function uniq(a){return a.filter(function(x,i){return a.indexOf(x)===i})}
+
+  function weiter(){
+    if(st.jahr>=E.length-1){ende();return;}
+    st.jahr++;runde();
+    el("spiel").scrollIntoView({behavior:"smooth"});
+  }
+
+  function zeigeStatus(){
+    // Radar
+    var S=320,C=S/2,R=110,n=ZIELE.length;
+    var pt=function(i,v){var a=-Math.PI/2+i*2*Math.PI/n;return [C+R*v/10*Math.cos(a),C+R*v/10*Math.sin(a)]};
+    var s='<svg viewBox="0 0 '+S+' '+S+'" role="img" aria-label="Zielstand im magischen Sechseck">';
+    [2,4,6,8,10].forEach(function(r){s+='<polygon points="'+ZIELE.map(function(z,i){return pt(i,r).join(",")}).join(" ")+'" fill="none" stroke="#e5e7eb"/>'});
+    s+='<polygon points="'+ZIELE.map(function(z,i){return pt(i,ZONE).join(",")}).join(" ")+'" fill="#16a34a" fill-opacity="0.08" stroke="#16a34a" stroke-dasharray="5,4"/>';
+    ZIELE.forEach(function(z,i){var p=pt(i,10);s+='<line x1="'+C+'" y1="'+C+'" x2="'+p[0]+'" y2="'+p[1]+'" stroke="#e5e7eb"/>'});
+    s+='<polygon points="'+ZIELE.map(function(z,i){return pt(i,st.w[z.k]).join(",")}).join(" ")+'" fill="#1d4ed8" fill-opacity="0.25" stroke="#1d4ed8" stroke-width="2.5"/>';
+    ZIELE.forEach(function(z,i){var a=pt(i,st.w[z.k]);s+='<circle cx="'+a[0]+'" cy="'+a[1]+'" r="4" fill="'+(st.w[z.k]>=ZONE?"#16a34a":"#dc2626")+'"/>';
+      var l=pt(i,12.4);s+='<text x="'+l[0]+'" y="'+l[1]+'" font-size="11" text-anchor="middle" fill="#374151">'+z.n+'</text>'});
+    s+='</svg>';
+    el("radar").innerHTML=s;el("radarEnde").innerHTML=s;
+    var h='';
+    ZIELE.forEach(function(z){var v=st.w[z.k];h+='<div class="zeile"><span>'+z.n+'</span><b>'+v+' von 10</b></div><div class="balken"><i style="width:'+v*10+'%;background:'+(v>=ZONE?"#16a34a":"#dc2626")+'"></i></div>';});
+    h+='<div class="zeile"><span>Haushaltsspielraum</span><b>'+st.budget+' Punkte</b></div><div class="hinweis">Grün: Zielbereich ab 5 Punkten.</div>';
+    el("status").innerHTML=h;el("statusEnde").innerHTML=h;
+  }
+
+  function ende(){
+    el("spiel").classList.add("versteckt");
+    var ok=ZIELE.filter(function(z){return st.w[z.k]>=ZONE}).length;
+    el("punkte").textContent=ok+" von "+ZIELE.length+" Zielen im Zielbereich";
+    var t=ok>=5?"Sehr gut: Fünf Ziele liegen im Zielbereich. Alle sechs Ziele gleichzeitig zu erreichen ist wegen der Zielkonflikte in diesem Spiel nicht möglich.":
+          ok>=4?"Gut: Vier Ziele haben Sie gehalten. Prüfen Sie, welche Ziele Sie dafür zurückgestellt haben.":
+          ok>=3?"Befriedigend: Die Hälfte der Ziele liegt im Zielbereich. Prüfen Sie, wo Zielkonflikte oder Grenzen Ihre Entscheidungen bestimmt haben.":
+          ok>=2?"Ausbaufähig: Mehrere Ziele liegen unter dem Zielbereich. Prüfen Sie in Ihrem Protokoll, welche Maßnahmen die Lage verschärft haben.":
+          "Krise: Fast alle Ziele liegen unter dem Zielbereich. Prüfen Sie in Ihrem Protokoll, welche Maßnahmen die Lage verschärft haben.";
+    el("bewertung").textContent=t;
+    var p='<table class="hist"><tr><th>Jahr</th><th>Ereignis</th><th>Ihre Maßnahme</th><th>Träger</th></tr>';
+    st.log.forEach(function(r){p+='<tr><td>'+r.jahr+'</td><td>'+r.ereignis+'</td><td>'+r.massnahme+(r.verz?' (verzögerte Wirkung)':'')+'</td><td>'+r.tr+'</td></tr>'});
+    el("protokoll").innerHTML=p+'</table>';
+    var ks=st.log.filter(function(r){return r.konflikt});
+    el("konflikte").innerHTML=ks.length?'<table class="hist"><tr><th>Jahr</th><th>Gefördert</th><th>Belastet</th></tr>'+ks.map(function(r){return '<tr><td>'+r.jahr+'</td><td>'+r.konflikt.plus.map(function(k){return NAME[k]}).join(", ")+'</td><td>'+r.konflikt.minus.map(function(k){return NAME[k]}).join(", ")+'</td></tr>'}).join("")+'</table>':'<p>Keine Ihrer Maßnahmen hatte gleichzeitig fördernde und belastende Wirkungen.</p>';
+    el("ende").classList.remove("versteckt");
+    // Endstand im Radar zeigen
+    zeigeStatus();
+    el("ende").scrollIntoView({behavior:"smooth"});
+  }
+
+  el("start").onclick=neu;
+  el("weiter").onclick=weiter;
+  el("neu").onclick=function(){el("ende").classList.add("versteckt");neu()};
+})();
+</script>
+</body>
+</html>

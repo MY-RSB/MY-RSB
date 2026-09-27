@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SO VBWL 4.2 Konjunktur-Regler</title>
+<style>
+:root{--teal:#0d9488;--blue:#1d4ed8;--red:#dc2626;--green:#16a34a;--amber:#d97706;--ink:#111827;--muted:#6b7280;--line:#d5dbe0;--bg:#ffffff;--soft:#f4f8f7}
+*{box-sizing:border-box}
+body{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;font-size:15px;color:var(--ink);background:var(--bg);margin:0;padding:16px;line-height:1.55}
+main{max-width:960px;margin:0 auto}
+.kopf{width:100%;border-collapse:collapse;border:2px solid var(--red);margin-bottom:22px;table-layout:fixed}
+.kopf td{border:2px solid var(--red);padding:4px 10px;background:#e0e7ff;color:var(--blue);font-weight:700;font-size:20px;text-align:center}
+.kopf tr+tr td{background:#f3f4f6;color:#374151;font-size:16px;font-weight:600}
+h1{color:var(--teal);text-align:center;font-size:24px;margin:16px 0 4px}
+.untertitel{text-align:center;color:var(--muted);margin:0 0 18px}
+h2{border-left:5px solid var(--teal);background:#0d94880d;color:var(--teal);padding:6px 12px;font-size:16px;margin:24px 0 10px}
+.box{border:1px solid var(--line);border-left:4px solid var(--teal);background:var(--soft);padding:10px 14px;margin:10px 0;border-radius:0 6px 6px 0}
+.box b.label{display:block;font-size:11px;letter-spacing:.04em;color:var(--teal);margin-bottom:2px}
+.box.aufgabe{border-left-color:var(--amber);background:#fff7ed}.box.aufgabe b.label{color:var(--amber)}
+.szen{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.szen button{display:flex;flex-direction:column;text-align:left;border:2px solid var(--teal);background:#fff;border-radius:10px;padding:12px 14px;font:inherit;cursor:pointer;min-height:44px;box-shadow:0 2px 0 rgba(13,148,136,.25);transition:background .15s,box-shadow .15s,transform .15s}
+.szen button:hover,.szen button:focus{background:#f0fdfa;box-shadow:0 4px 10px rgba(13,148,136,.35);transform:translateY(-2px);outline:none}
+.go{display:block;margin-top:auto;padding-top:0}
+.go span{display:block;margin-top:10px;background:var(--teal);color:#fff;border-radius:8px;padding:7px 12px;font-weight:700;text-align:center}
+.klick{font-weight:700;color:var(--teal);margin:4px 0 10px}
+.szen b{display:block;color:var(--teal);font-size:16px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:10px 0}
+.tile{border:2px solid var(--line);border-radius:10px;padding:8px 12px;background:#fff}
+.tile.ok{border-color:var(--green);background:#f2faf4}.tile.bad{border-color:var(--red);background:#fef2f2}
+.tile .name{font-size:12px;color:var(--muted);font-weight:600}
+.tile .val{font-size:26px;font-weight:700}
+.tile .ziel{font-size:12px;color:var(--muted)}
+.regler{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin:12px 0}
+.karte{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#fff}
+.karte h3{margin:0 0 2px;font-size:15px}
+.karte .traeger{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase}
+.karte .wert{font-size:24px;font-weight:700;color:var(--blue)}
+.karte p{margin:2px 0 6px;font-size:13px;color:var(--muted)}
+input[type=range]{width:100%;height:36px;accent-color:var(--teal)}
+.btn{background:var(--teal);color:#fff;border:0;border-radius:10px;padding:12px 22px;font:inherit;font-weight:700;font-size:16px;cursor:pointer;min-height:48px}
+.btn.zweit{background:#fff;color:var(--teal);border:2px solid var(--teal)}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin:12px 0}
+.chart{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:#fff}
+.chart .t{font-weight:700;font-size:13px}
+svg{width:100%;height:auto;display:block}
+table.hist{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+table.hist th{background:#1a4f8a;color:#fff;padding:5px 8px;text-align:left}
+table.hist td{border:1px solid var(--line);padding:5px 8px}
+td.gut{background:#f2faf4}td.schlecht{background:#fef2f2}
+.erklaer li{margin:3px 0}
+.hinweis{font-size:12px;color:var(--muted)}
+.gross{font-size:20px;font-weight:700}
+.versteckt{display:none}
+@media print{.regler,.szen,.btn{display:none}}
+</style>
+</head>
+<body>
+<main>
+<table class="kopf"><tr><td>SO</td><td>SO VBWL</td><td>MAYER</td></tr><tr><td colspan="3">LPE8 Wirtschaftspolitik</td></tr></table>
+<h1>4.2 Konjunktur-Regler</h1>
+<p class="untertitel">Sie steuern die Wirtschaft eines Landes über sechs Jahre</p>
+
+<div class="box"><b class="label">💡 AUFTRAG</b>
+Sie sind zugleich die drei Träger der Wirtschaftspolitik: die Zentralbank (Leitzins), die Regierung (Staatsausgaben) und die Tarifpartner (Lohnabschluss). In jedem Jahr stellen Sie die drei Regler ein und werten das Jahr aus. Ihr Ziel ist es, die vier Kennzahlen möglichst oft im grünen Zielbereich zu halten. Beachten Sie, dass der Leitzins erst im folgenden Jahr wirkt.</div>
+
+<h2>1 Situation wählen</h2>
+<p class="klick">👆 Klicken Sie eine der drei Karten an, um das Spiel zu starten.</p>
+<div class="szen" id="szenarien"></div>
+
+<div id="spiel" class="versteckt">
+  <h2 id="jahrTitel">2 Ihre Entscheidung</h2>
+  <div class="box" id="nachricht"></div>
+  <div class="tiles" id="kacheln"></div>
+
+  <div class="regler">
+    <div class="karte"><div class="traeger" style="color:#1d4ed8">Zentralbank</div><h3>Leitzins</h3>
+      <div class="wert" id="wertI"></div>
+      <input type="range" id="rI" min="0" max="6" step="0.25" aria-label="Leitzins">
+      <p>Wirkt erst im nächsten Jahr. Neutral ist etwa 2,5 Prozent.</p></div>
+    <div class="karte"><div class="traeger" style="color:#0d9488">Regierung</div><h3>Zusätzliche Staatsausgaben</h3>
+      <div class="wert" id="wertG"></div>
+      <input type="range" id="rG" min="-2" max="3" step="0.5" aria-label="Staatsausgaben">
+      <p>In Prozent der Wirtschaftsleistung. Positiv ist ein Konjunkturprogramm, negativ ein Sparprogramm. Wirkt sofort.</p></div>
+    <div class="karte"><div class="traeger" style="color:#d97706">Tarifpartner</div><h3>Lohnabschluss</h3>
+      <div class="wert" id="wertW"></div>
+      <input type="range" id="rW" min="0" max="8" step="0.5" aria-label="Lohnabschluss">
+      <p>Lohnerhöhung in Prozent. Der Spielraum aus Produktivität und Zielinflation liegt bei etwa 3 Prozent. Wirkt sofort.</p></div>
+  </div>
+  <p><button class="btn" id="auswerten">Jahr auswerten</button></p>
+
+  <div class="box" id="erklaerung"><b class="label">💡 WAS IST PASSIERT?</b><span id="erklaerText">Wählen Sie Ihre Einstellungen und werten Sie das erste Jahr aus.</span></div>
+  <div class="charts" id="diagramme"></div>
+  <h2>Verlauf</h2>
+  <div id="verlauf"></div>
+  <div class="hinweis">Modellhinweis: Dieses Modell ist stark vereinfacht und dient dem Verständnis von Zusammenhängen. Die Zahlen sind keine Prognose und keine Beschreibung eines realen Landes.</div>
+</div>
+
+<div id="ende" class="versteckt">
+  <h2>3 Auswertung</h2>
+  <div class="box"><b class="label">💡 ERGEBNIS</b><div class="gross" id="punkte"></div><div id="bewertung"></div></div>
+  <div class="box aufgabe"><b class="label">✏️ AUFGABE</b>
+  Bearbeiten Sie schriftlich:<br>
+  a) Beschreiben Sie, wie sich Ihre vier Kennzahlen entwickelt haben und welches Ziel Sie am schlechtesten erreicht haben.<br>
+  b) Erklären Sie an einem Beispiel aus Ihrem Spiel, wie eine Wirkungsverzögerung Ihre Entscheidung erschwert hat.<br>
+  c) Nennen Sie einen Zielkonflikt, der in Ihrem Spiel aufgetreten ist, und begründen Sie, welches Ziel Sie vorgezogen haben.<br>
+  d) Vergleichen Sie Ihre Strategie mit der einer Mitschülerin oder eines Mitschülers und beurteilen Sie, welche Strategie erfolgreicher war.</div>
+  <p><button class="btn" id="neu">Noch einmal spielen</button></p>
+</div>
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var SZ = {
+    rezession: {name:"Rezession", text:"Die Wirtschaft schrumpft, die Arbeitslosigkeit ist hoch und die Preise steigen kaum. Der Leitzins steht auf neutralem Niveau.",
+      g:-1.5,p:0.8,a:7.5,d:62,i:2.5,
+      news:["Die Wirtschaft schrumpft. Viele Unternehmen halten sich mit Investitionen zurück.","Die Lage bleibt angespannt, die Verbraucher sind vorsichtig.","Erste Aufträge kommen zurück.","Die Stimmung in den Unternehmen verbessert sich.","Die Wirtschaft läuft wieder deutlich besser.","Das letzte Jahr des Planungszeitraums beginnt."]},
+    boom: {name:"Überhitzter Boom", text:"Die Wirtschaft wächst stark, die Preise steigen deutlich und die Arbeitslosigkeit ist niedrig. Der Leitzins ist niedrig.",
+      g:3.8,p:5.0,a:3.5,d:58,i:1.5,
+      news:["Die Auftragsbücher sind voll, die Kapazitäten ausgelastet.","Die Preise steigen weiter, die Gewerkschaften fordern einen Ausgleich.","Die Verbraucher kaufen vorsichtiger ein.","Die Lage beruhigt sich.","Die Wirtschaft bewegt sich in ruhigerem Fahrwasser.","Das letzte Jahr des Planungszeitraums beginnt."]},
+    energie: {name:"Energiekrise", text:"Ein Angebotsschock verteuert Energie, die Preise steigen, und das Wachstum leidet. Es gibt zwei schwierige Jahre.",
+      g:1.0,p:3.0,a:5.5,d:60,i:1.0,
+      shocks:[{p:3,g:-1.5},{p:2,g:-1.0},{p:0,g:0},{p:-1,g:0.3},{p:-1,g:0.3},{p:0,g:0}],
+      news:["Die Energiepreise steigen sprunghaft. Produktion und Haushalte sind betroffen.","Die Energiepreise bleiben hoch, die Kosten steigen weiter.","Die Energiemärkte beruhigen sich etwas.","Die Preise für Energie geben nach.","Die Wirtschaft stabilisiert sich langsam.","Das letzte Jahr des Planungszeitraums beginnt."]}
+  };
+  var JAHRE = 6;
+  var ZIELE = {p:{name:"Inflationsrate",lo:1.5,hi:2.5,einheit:"%",text:"Ziel: 1,5 bis 2,5 Prozent"},
+               g:{name:"Wirtschaftswachstum",lo:1.0,hi:3.0,einheit:"%",text:"Ziel: 1 bis 3 Prozent"},
+               a:{name:"Arbeitslosenquote",lo:0,hi:5.0,einheit:"%",text:"Ziel: höchstens 5 Prozent"},
+               d:{name:"Schuldenquote",lo:0,hi:70,einheit:"%",text:"Ziel: höchstens 70 Prozent"}};
+  var ORDER = ["p","g","a","d"];
+  var el = function(id){return document.getElementById(id)};
+  var st = null;
+
+  function fmt(x,d){return x.toFixed(d===undefined?1:d).replace(".",",")}
+  function clamp(x,l,h){return Math.max(l,Math.min(h,x))}
+  function inZiel(k,v){return v>=ZIELE[k].lo-1e-9 && v<=ZIELE[k].hi+1e-9}
+
+  function step(s,c,k,sc){
+    var sh=(sc.shocks&&sc.shocks[k])||{p:0,g:0};
+    var g=1.2+0.5*(s.g-1.2)-0.5*(s.i-2.5)+0.8*c.G+0.2*(c.w-3)+sh.g;
+    var p=2.0+0.5*(s.p-2.0)+0.35*(g-1.2)+0.35*(c.w-3)-0.1*(s.i-2.5)+sh.p;
+    var a=s.a-0.45*(g-1.2)+0.2*(c.w-3)-0.1*(s.a-5);
+    var d=s.d+c.G+0.15*(s.i-2.5)-0.3*(g-1.2);
+    return {g:clamp(g,-6,8),p:clamp(p,-1,15),a:clamp(a,2,15),d:clamp(d,30,130),i:c.i,sh:sh};
+  }
+
+  function start(key){
+    var sc=SZ[key];
+    st={key:key,sc:sc,jahr:0,punkte:0,werte:{p:[sc.p],g:[sc.g],a:[sc.a],d:[sc.d]},rows:[],cur:{g:sc.g,p:sc.p,a:sc.a,d:sc.d,i:sc.i}};
+    el("spiel").classList.remove("versteckt");
+    el("ende").classList.add("versteckt");
+    el("rI").value=sc.i;el("rG").value=0;el("rW").value=3;
+    el("erklaerText").textContent="Wählen Sie Ihre Einstellungen und werten Sie das erste Jahr aus.";
+    render();
+    el("spiel").scrollIntoView({behavior:"smooth"});
+  }
+
+  function render(){
+    var sc=st.sc;
+    var fertig=st.jahr>=JAHRE;
+    el("jahrTitel").textContent=fertig?"2 Ergebnis nach "+JAHRE+" Jahren ("+sc.name+")":"2 Ihre Entscheidung für Jahr "+(st.jahr+1)+" von "+JAHRE+" ("+sc.name+")";
+    el("nachricht").innerHTML='<b class="label">💡 NACHRICHTEN</b>'+(fertig?"Der Planungszeitraum ist beendet.":(st.jahr===0?sc.text+" ":"")+sc.news[st.jahr]);
+    var h="";
+    ORDER.forEach(function(k){
+      var v=st.cur[k];var ok=inZiel(k,v);
+      h+='<div class="tile '+(ok?"ok":"bad")+'"><div class="name">'+ZIELE[k].name+'</div><div class="val">'+fmt(v)+' '+ZIELE[k].einheit+'</div><div class="ziel">'+ZIELE[k].text+'</div></div>';
+    });
+    el("kacheln").innerHTML=h;
+    el("wertI").textContent=fmt(+el("rI").value,2)+" %";
+    var g=+el("rG").value;el("wertG").textContent=(g>0?"plus ":g<0?"minus ":"")+fmt(Math.abs(g))+" % des BIP";
+    el("wertW").textContent=fmt(+el("rW").value)+" %";
+    diagramme();verlauf();
+    el("auswerten").disabled=st.jahr>=JAHRE;
+  }
+
+  function diagramme(){
+    var h="";
+    ORDER.forEach(function(k){
+      var z=ZIELE[k],vals=st.werte[k];
+      var W=300,H=110,L=34,R=8,T=8,B=20;
+      var lo=Math.min.apply(null,vals.concat(z.lo>0?[z.lo]:[])),hi=Math.max.apply(null,vals.concat([z.hi]));
+      var pad=(hi-lo)*0.15+0.5;lo-=pad;hi+=pad;
+      var X=function(i){return L+(W-L-R)*i/JAHRE},Y=function(v){return T+(H-T-B)*(1-(v-lo)/(hi-lo))};
+      var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Verlauf '+z.name+'">';
+      var yTop=Y(Math.min(z.hi,hi)),yBot=Y(z.lo>0?Math.max(z.lo,lo):lo);
+      s+='<rect x="'+L+'" y="'+yTop+'" width="'+(W-L-R)+'" height="'+Math.max(0,yBot-yTop)+'" fill="#16a34a" opacity="0.15"/>';
+      s+='<line x1="'+L+'" y1="'+(H-B)+'" x2="'+(W-R)+'" y2="'+(H-B)+'" stroke="#9ca3af"/><line x1="'+L+'" y1="'+T+'" x2="'+L+'" y2="'+(H-B)+'" stroke="#9ca3af"/>';
+      s+='<text x="'+(L-4)+'" y="'+(T+8)+'" font-size="9" text-anchor="end" fill="#6b7280">'+fmt(hi,0)+'</text><text x="'+(L-4)+'" y="'+(H-B)+'" font-size="9" text-anchor="end" fill="#6b7280">'+fmt(lo,0)+'</text>';
+      for(var i=0;i<=JAHRE;i++){s+='<text x="'+X(i)+'" y="'+(H-6)+'" font-size="9" text-anchor="middle" fill="#6b7280">'+i+'</text>';}
+      var pts=vals.map(function(v,i){return X(i)+","+Y(v)}).join(" ");
+      s+='<polyline points="'+pts+'" fill="none" stroke="#1d4ed8" stroke-width="2.5"/>';
+      vals.forEach(function(v,i){s+='<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="3.5" fill="'+(inZiel(k,v)?"#16a34a":"#dc2626")+'"/>';});
+      s+='</svg>';
+      h+='<div class="chart"><div class="t">'+z.name+' (Jahr 0 bis '+JAHRE+', grün: Zielbereich)</div>'+s+'</div>';
+    });
+    el("diagramme").innerHTML=h;
+  }
+
+  function verlauf(){
+    if(!st.rows.length){el("verlauf").innerHTML='<p class="hinweis">Noch keine ausgewerteten Jahre.</p>';return;}
+    var h='<table class="hist"><tr><th>Jahr</th><th>Leitzins</th><th>Staat</th><th>Lohn</th><th>Inflation</th><th>Wachstum</th><th>Arbeitslosigkeit</th><th>Schulden</th><th>Ziele erreicht</th></tr>';
+    st.rows.forEach(function(r){
+      h+='<tr><td>'+r.jahr+'</td><td>'+fmt(r.i,2)+'</td><td>'+fmt(r.G)+'</td><td>'+fmt(r.w)+'</td>';
+      ORDER.forEach(function(k){h+='<td class="'+(inZiel(k,r[k])?"gut":"schlecht")+'">'+fmt(r[k])+'</td>';});
+      h+='<td>'+r.ok+' von 4</td></tr>';
+    });
+    el("verlauf").innerHTML=h+'</table>';
+  }
+
+  function erklaerung(prevI,c,s,sh,zinsGeaendert){
+    var l=[];
+    var dz=prevI-2.5;
+    if(dz>0.25)l.push("Der Leitzins des Vorjahres ("+fmt(prevI,2)+" %) liegt über dem neutralen Niveau. Kredite sind teuer, das dämpft Investitionen, Nachfrage und Preise.");
+    else if(dz<-0.25)l.push("Der Leitzins des Vorjahres ("+fmt(prevI,2)+" %) liegt unter dem neutralen Niveau. Kredite sind günstig, das regt Investitionen und Nachfrage an.");
+    else l.push("Der Leitzins des Vorjahres ("+fmt(prevI,2)+" %) liegt nahe am neutralen Niveau und hat kaum Wirkung.");
+    if(c.G>0.25)l.push("Ihr Konjunkturprogramm von "+fmt(c.G)+" % des BIP erhöht die Nachfrage sofort, lässt aber die Schuldenquote steigen.");
+    else if(c.G<-0.25)l.push("Ihr Sparprogramm von "+fmt(-c.G)+" % des BIP senkt die Schuldenquote, dämpft aber die Nachfrage.");
+    if(c.w>3.25)l.push("Der Lohnabschluss von "+fmt(c.w)+" % liegt über dem Spielraum von etwa 3 %. Das stärkt die Kaufkraft, verteuert aber die Produktion, und die Preise steigen.");
+    else if(c.w<2.75)l.push("Der Lohnabschluss von "+fmt(c.w)+" % liegt unter dem Spielraum von etwa 3 %. Die Kosten der Unternehmen sinken, aber die Kaufkraft der Haushalte wächst langsamer.");
+    else l.push("Der Lohnabschluss von "+fmt(c.w)+" % entspricht etwa dem Spielraum aus Produktivität und Zielinflation.");
+    if(sh.p||sh.g)l.push("Ein äußerer Schock wirkt zusätzlich: "+(sh.p>0?"Die Preise werden von außen nach oben getrieben. ":"")+(sh.g<0?"Das Wachstum wird von außen gebremst.":""));
+    if(zinsGeaendert)l.push("Ihre Zinsänderung in diesem Jahr wirkt erst im nächsten Jahr (Wirkungsverzögerung).");
+    var diag=[];
+    if(s.p>2.5&&s.a>5)diag.push("Preise und Arbeitslosigkeit liegen zugleich über dem Zielbereich. Hier zeigt sich ein Zielkonflikt zwischen Preisstabilität und Beschäftigung.");
+    if(s.p>2.5&&s.g>3)diag.push("Die Wirtschaft ist überhitzt.");
+    if(s.g<0)diag.push("Die Wirtschaft schrumpft.");
+    if(s.d>70)diag.push("Die Schuldenquote liegt über 70 Prozent und damit über dem Zielbereich.");
+    return "<ul class='erklaer'>"+l.map(function(x){return "<li>"+x+"</li>"}).join("")+"</ul>"+(diag.length?"<b>Einschätzung:</b> "+diag.join(" "):"");
+  }
+
+  function auswerten(){
+    if(st.jahr>=JAHRE)return;
+    var c={i:+el("rI").value,G:+el("rG").value,w:+el("rW").value};
+    var prevI=st.cur.i;
+    var s=step(st.cur,c,st.jahr,st.sc);
+    var ok=0;ORDER.forEach(function(k){if(inZiel(k,s[k]))ok++});
+    st.punkte+=ok;st.jahr++;
+    ORDER.forEach(function(k){st.werte[k].push(s[k])});
+    st.rows.push({jahr:st.jahr,i:c.i,G:c.G,w:c.w,p:s.p,g:s.g,a:s.a,d:s.d,ok:ok});
+    st.cur={g:s.g,p:s.p,a:s.a,d:s.d,i:c.i};
+    el("erklaerText").innerHTML=erklaerung(prevI,c,s,s.sh,Math.abs(c.i-prevI)>0.001);
+    render();
+    if(st.jahr>=JAHRE)ende();
+  }
+
+  function ende(){
+    var max=JAHRE*4;
+    el("punkte").textContent=st.punkte+" von "+max+" Zielerreichungen";
+    var t=st.punkte>=20?"Sehr gut: Sie haben die Wirtschaft über fast den ganzen Zeitraum im Zielbereich gehalten.":
+          st.punkte>=15?"Gut: Die meisten Ziele waren die meiste Zeit erreicht.":
+          st.punkte>=10?"Ausbaufähig: Einzelne Ziele haben Sie dauerhaft verfehlt. Prüfen Sie, welche Zielkonflikte dahinterstecken.":
+          "Krise: Die Wirtschaft ist überwiegend außerhalb des Zielbereichs geblieben. Prüfen Sie, wo Wirkungsverzögerungen und Zielkonflikte Ihre Entscheidungen erschwert haben.";
+    el("bewertung").textContent=t;
+    el("ende").classList.remove("versteckt");
+    el("ende").scrollIntoView({behavior:"smooth"});
+  }
+
+  var box=el("szenarien");
+  Object.keys(SZ).forEach(function(k){
+    var b=document.createElement("button");
+    b.innerHTML="<b>"+SZ[k].name+"</b>"+SZ[k].text+'<span class="go"><span>▶ Diese Situation starten</span></span>';
+    b.onclick=function(){start(k)};
+    box.appendChild(b);
+  });
+  ["rI","rG","rW"].forEach(function(id){el(id).addEventListener("input",function(){
+    el("wertI").textContent=fmt(+el("rI").value,2)+" %";
+    var g=+el("rG").value;el("wertG").textContent=(g>0?"plus ":g<0?"minus ":"")+fmt(Math.abs(g))+" % des BIP";
+    el("wertW").textContent=fmt(+el("rW").value)+" %";
+  })});
+  el("auswerten").onclick=auswerten;
+  el("neu").onclick=function(){el("spiel").classList.add("versteckt");el("ende").classList.add("versteckt");window.scrollTo({top:0,behavior:"smooth"})};
+})();
+</script>
+</body>
+</html>
