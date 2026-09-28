@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LF13 Frühwarnsignal-Prüfer</title>
+<style>
+:root{--blue:#1547b5;--navy:#17365d;--red:#d33a3a;--green:#18734a;--amber:#a85d00;--ink:#171b19;--muted:#5f6863;--line:#cfd6d2;--soft:#eef4ff}
+*{box-sizing:border-box}
+body{margin:0;padding:18px;font-family:Arial,sans-serif;color:var(--ink);font-size:15px;line-height:1.45;background:#f6f8fb}
+main{max-width:940px;margin:0 auto;background:#fff;padding:20px;box-shadow:0 2px 14px rgba(23,54,93,.12)}
+.info-header{width:100%;table-layout:fixed;border-collapse:collapse;margin-bottom:15px;border:2px solid var(--red)}
+.info-header td{border:1px solid var(--red);padding:6px 8px;text-align:center}
+.info-header .top td{background:#e8eefb;color:var(--blue);font-weight:700;font-size:17px}
+.info-header .sub td{background:#f3f4f6;font-weight:600;font-size:12px}
+h1{text-align:center;color:var(--blue);font-size:25px;margin:15px 0 3px}
+.subtitle{text-align:center;color:var(--muted);margin:0 0 18px}
+h2{font-size:18px;color:var(--navy);border-left:5px solid var(--blue);padding:5px 10px;margin:22px 0 10px;background:#f5f8ff}
+.box{border:1px solid var(--line);border-left:5px solid var(--blue);background:var(--soft);padding:10px 13px;margin:12px 0}
+.box strong.label{display:block;color:var(--blue);font-size:12px;letter-spacing:.03em;margin-bottom:3px}
+.signals{display:grid;gap:12px}
+.signal{border:1px solid var(--line);border-radius:7px;padding:13px;background:#fff}
+.signal.done{border-color:var(--green);background:#f5fbf7}
+.signal h3{margin:0 0 5px;color:var(--navy);font-size:17px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:9px}
+.field label{display:block;font-weight:700;margin-bottom:4px}
+select{width:100%;border:1px solid #89938d;border-radius:4px;padding:9px;font:inherit;background:#fff}
+select:focus{outline:3px solid #bfd1ff;border-color:var(--blue)}
+.feedback{font-size:13px;margin:8px 0 0;min-height:20px}
+.feedback.ok{color:var(--green)}
+.feedback.bad{color:#a12424}
+button{border:0;border-radius:5px;background:var(--blue);color:#fff;padding:9px 15px;font:inherit;font-weight:700;cursor:pointer;min-height:42px;margin-top:9px}
+button:hover,button:focus{background:var(--navy);outline:3px solid #bfd1ff}
+button.secondary{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+button:disabled{background:#7d8b9e;cursor:default}
+.hidden{display:none}
+.questions{display:grid;gap:10px}
+.question{border:1px solid var(--line);border-radius:7px;padding:11px}
+.question p{font-weight:700;margin:0 0 7px}
+.question label{display:block;padding:5px 7px;border-radius:4px;cursor:pointer}
+.question label:hover{background:#f1f5ff}
+.question input{margin-right:7px}
+.protocol{border:2px solid var(--green);background:#f2faf5;padding:12px 15px;overflow-x:auto}
+.protocol h3{margin:0 0 8px;color:var(--green)}
+table.result{width:100%;border-collapse:collapse;font-size:13px}
+table.result th,table.result td{border:1px solid #b7c9bd;padding:7px;vertical-align:top;text-align:left}
+table.result th{background:#dff0e5}
+.notice{color:var(--amber);font-weight:700}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:13px 0}
+@media(max-width:650px){body{padding:0}main{padding:12px;box-shadow:none}.info-header .top td{font-size:13px}.choices{grid-template-columns:1fr}}
+@media print{body{background:#fff;padding:0}main{box-shadow:none;max-width:none}.signals,.questions,.actions{display:none}.protocol{display:block!important}}
+</style>
+</head>
+<body>
+<main>
+<table class="info-header"><tr class="top"><td>W1BKY/BKWFB1</td><td>BFK LF13</td><td>Mayer</td></tr><tr class="sub"><td colspan="3">Interaktive Aufgabe zu Arbeitsblatt 10, Dateinummer 11</td></tr></table>
+<h1>Frühwarnsignal-Prüfer</h1>
+<p class="subtitle">Signale einordnen und angemessene Maßnahmen ableiten</p>
+
+<div class="box"><strong class="label">ARBEITSAUFTRAG</strong>Prüfen Sie die vier Beobachtungen aus Aufgabe 1. Ordnen Sie jedem Signal seine Bedeutung und eine angemessene erste Maßnahme zu. Beurteilen Sie anschließend das Gesamtbild und grenzen Sie Intensivbetreuung, Sanierung und Abwicklung voneinander ab.</div>
+
+<h2>1 Vier Frühwarnsignale prüfen</h2>
+<div class="signals" id="signals"></div>
+
+<section class="hidden" id="assessment">
+<h2>2 Gesamtbild beurteilen</h2>
+<div class="question" id="overall"><p>Welche Folgerung ist aufgrund der vier Signale angemessen?</p>
+  <label><input type="radio" name="overall" value="a">Der Kredit muss ohne weitere Prüfung sofort gekündigt werden.</label>
+  <label><input type="radio" name="overall" value="b">Die Bank sollte enger überwachen, aktuelle Unterlagen anfordern, ein Folgerating durchführen und eine Intensivbetreuung prüfen.</label>
+  <label><input type="radio" name="overall" value="c">Solange noch keine Insolvenz eröffnet wurde, besteht kein Handlungsbedarf.</label>
+  <p class="feedback"></p>
+</div>
+<div class="actions"><button id="checkOverall">Gesamtbild prüfen</button></div>
+<p class="notice hidden" id="overallNotice">Prüfen Sie, welche Reaktion zum aktuellen Informationsstand verhältnismäßig ist.</p>
+
+<section class="hidden" id="stages">
+<h2>3 Weitere Bearbeitung zuordnen</h2>
+<div class="questions">
+  <div class="question stage" data-answer="intensiv"><p>Die Risiken sind erhöht, der Kapitaldienst ist nach aktueller Planung aber noch tragfähig. Das Engagement soll enger überwacht und stabilisiert werden.</p><select><option value="">Bearbeitungsform auswählen</option><option value="intensiv">Intensivbetreuung</option><option value="sanierung">Sanierung</option><option value="abwicklung">Abwicklung</option></select><p class="feedback"></p></div>
+  <div class="question stage" data-answer="sanierung"><p>Die Kapitaldienstfähigkeit ist beeinträchtigt. Ein belastbares Konzept zeigt eine begründete Aussicht, sie wiederherzustellen.</p><select><option value="">Bearbeitungsform auswählen</option><option value="intensiv">Intensivbetreuung</option><option value="sanierung">Sanierung</option><option value="abwicklung">Abwicklung</option></select><p class="feedback"></p></div>
+  <div class="question stage" data-answer="abwicklung"><p>Die Rückzahlung ist akut gefährdet, und ein tragfähiges Sanierungskonzept liegt nicht vor. Das Engagement soll geordnet beendet werden.</p><select><option value="">Bearbeitungsform auswählen</option><option value="intensiv">Intensivbetreuung</option><option value="sanierung">Sanierung</option><option value="abwicklung">Abwicklung</option></select><p class="feedback"></p></div>
+</div>
+<div class="actions"><button id="checkStages">Bearbeitungsformen prüfen</button></div>
+<p class="notice hidden" id="stageNotice">Überarbeiten Sie die noch markierten Zuordnungen.</p>
+</section>
+</section>
+
+<section class="hidden" id="protocol">
+<h2>4 Prüfprotokoll für die Aufgaben 1 und 2</h2>
+<div class="protocol">
+<h3>Frühwarnsignale und erste Maßnahmen</h3>
+<table class="result"><thead><tr><th>Signal</th><th>Bedeutung</th><th>Angemessene erste Maßnahme</th></tr></thead><tbody id="resultRows"></tbody></table>
+<p><strong>Gesamtbeurteilung:</strong> Die Kombination der Signale verlangt eine engere Überwachung, aktuelle Unterlagen, ein anlassbezogenes Folgerating sowie die Prüfung von Kreditlimit, Sicherheiten und Intensivbetreuung. Eine unmittelbare Festlegung auf Sanierung oder Abwicklung wäre ohne Fortführungsprognose und Kapitaldienstplanung verfrüht.</p>
+<p><strong>Abgrenzung:</strong> Intensivbetreuung bedeutet engere Überwachung und Stabilisierung bei erhöhtem Risiko. Eine Sanierung setzt ein tragfähiges Konzept und eine begründete Aussicht auf Wiederherstellung der Kapitaldienstfähigkeit voraus. Die Abwicklung verfolgt die geordnete Rückführung oder Beendigung, wenn die Rückzahlung akut gefährdet ist und keine tragfähige Sanierung besteht.</p>
+</div>
+<div class="box"><strong class="label">WEITERE BEARBEITUNG</strong>Ergänzen oder überarbeiten Sie Aufgabe 1 mithilfe des Protokolls. Formulieren Sie anschließend für Aufgabe 2 die Unterschiede in eigenen Worten. Aufgabe 3 bearbeiten Sie weiterhin eigenständig.</div>
+<div class="actions"><button class="secondary" id="restart">Eingaben zurücksetzen</button><button onclick="window.print()">Prüfprotokoll drucken</button></div>
+</section>
+</main>
+<script>
+(function(){
+  "use strict";
+  var meanings=[
+    "Das Informationsverhalten verschlechtert sich und die laufende Bonitätsprüfung wird erschwert",
+    "Es bestehen Hinweise auf Liquiditätsdruck",
+    "Abnehmerstreuung, Absatz und künftige Ertragskraft werden belastet",
+    "Ertragskraft und Kapitaldienstfähigkeit können sich verschlechtern"
+  ];
+  var measures=[
+    "Informationsgespräch führen und aktuelle Unterlagen mit Frist anfordern",
+    "Aktuelle Liquiditätsplanung anfordern und Kreditlimit sowie Kontoführung prüfen",
+    "Auswirkungen auf Auftragslage und Planung untersuchen und ein Folgerating veranlassen",
+    "Aktuelle BWA und Ertragsplanung prüfen sowie Sicherheiten und Kapitaldienst neu beurteilen"
+  ];
+  var data=[
+    {title:"Unterlagen kommen verspätet",text:"Der Firmenkunde reicht angeforderte wirtschaftliche Unterlagen wiederholt erst nach Erinnerung ein.",meaning:0,measure:0,hint:"Betrachten Sie zunächst Transparenz und Aktualität der Bonitätsprüfung."},
+    {title:"Kreditrahmen wird überschritten",text:"Der vereinbarte Kreditrahmen wird wiederholt und nicht nur kurzfristig überschritten.",meaning:1,measure:1,hint:"Wiederholte Überziehungen können auf einen angespannten Zahlungsmittelbestand hinweisen."},
+    {title:"Großkunde fällt weg",text:"Ein wichtiger Abnehmer beendet die Geschäftsbeziehung. Ein erheblicher Umsatzanteil ist betroffen.",meaning:2,measure:2,hint:"Prüfen Sie die Abhängigkeit von einzelnen Abnehmern und die künftige Auftragslage."},
+    {title:"Umsätze gehen zurück",text:"Die aktuellen Umsätze liegen deutlich unter Vorjahr und Planung.",meaning:3,measure:3,hint:"Sinkende Umsätze können Ertrag und künftigen Kapitaldienst belasten."}
+  ];
+  var attempts=data.map(function(){return {meaning:0,measure:0,done:false}});
+  function el(id){return document.getElementById(id)}
+  function options(values,label){return '<option value="">'+label+'</option>'+values.map(function(value,index){return '<option value="'+index+'">'+value+'</option>'}).join("")}
+  function renderSignals(){
+    el("signals").innerHTML=data.map(function(item,index){return '<article class="signal" id="signal'+index+'"><h3>'+(index+1)+' '+item.title+'</h3><p>'+item.text+'</p><div class="choices"><div class="field"><label for="meaning'+index+'">Bedeutung</label><select id="meaning'+index+'">'+options(meanings,"Bedeutung auswählen")+'</select></div><div class="field"><label for="measure'+index+'">Erste Maßnahme</label><select id="measure'+index+'">'+options(measures,"Maßnahme auswählen")+'</select></div></div><button data-index="'+index+'">Signal prüfen</button><p class="feedback" id="feedback'+index+'"></p></article>'}).join("");
+    Array.prototype.forEach.call(document.querySelectorAll(".signal button"),function(button){button.addEventListener("click",function(){checkSignal(+button.getAttribute("data-index"))})});
+  }
+  function checkSignal(index){
+    var item=data[index],state=attempts[index],meaning=el("meaning"+index).value,measure=el("measure"+index).value;
+    var meaningOk=meaning!==""&&+meaning===item.meaning,measureOk=measure!==""&&+measure===item.measure,messages=[];
+    if(!meaningOk){state.meaning++;messages.push(state.meaning<2?item.hint:"Passende Einordnung: "+meanings[item.meaning]+".")}
+    if(!measureOk){state.measure++;messages.push(state.measure<2?"Wählen Sie eine Maßnahme, die das konkrete Informationsdefizit oder Risiko zuerst klärt.":"Angemessene erste Maßnahme: "+measures[item.measure]+".")}
+    var feedback=el("feedback"+index);
+    if(meaningOk&&measureOk){state.done=true;feedback.className="feedback ok";feedback.textContent="Einordnung und erste Maßnahme sind angemessen.";el("signal"+index).classList.add("done");el("meaning"+index).disabled=true;el("measure"+index).disabled=true;el("signal"+index).querySelector("button").disabled=true}
+    else{feedback.className="feedback bad";feedback.textContent=messages.join(" ")}
+    if(attempts.every(function(entry){return entry.done})){el("assessment").classList.remove("hidden");el("assessment").scrollIntoView({behavior:"smooth"})}
+  }
+  el("checkOverall").addEventListener("click",function(){
+    var chosen=document.querySelector('input[name="overall"]:checked'),ok=chosen&&chosen.value==="b",feedback=el("overall").querySelector(".feedback");
+    feedback.className="feedback "+(ok?"ok":"bad");feedback.textContent=ok?"Die Folgerung ist zum aktuellen Informationsstand angemessen.":"Eine endgültige Entscheidung verlangt aktuelle Unterlagen sowie eine Fortführungs- und Kapitaldienstbeurteilung.";el("overallNotice").classList.toggle("hidden",ok);if(ok)el("stages").classList.remove("hidden")
+  });
+  el("checkStages").addEventListener("click",function(){
+    var all=true;Array.prototype.forEach.call(document.querySelectorAll(".stage"),function(item){var ok=item.querySelector("select").value===item.getAttribute("data-answer"),feedback=item.querySelector(".feedback");feedback.className="feedback "+(ok?"ok":"bad");feedback.textContent=ok?"Die Zuordnung ist richtig.":"Prüfen Sie Risikolage, Fortführungsaussicht und Ziel der Bearbeitung.";all=all&&ok});el("stageNotice").classList.toggle("hidden",all);if(all)showProtocol()
+  });
+  function showProtocol(){el("resultRows").innerHTML=data.map(function(item){return '<tr><td>'+item.title+'</td><td>'+meanings[item.meaning]+'</td><td>'+measures[item.measure]+'</td></tr>'}).join("");el("protocol").classList.remove("hidden");el("protocol").scrollIntoView({behavior:"smooth"})}
+  el("restart").addEventListener("click",function(){attempts=data.map(function(){return {meaning:0,measure:0,done:false}});Array.prototype.forEach.call(document.querySelectorAll('input[name="overall"]'),function(input){input.checked=false});el("assessment").classList.add("hidden");el("stages").classList.add("hidden");el("protocol").classList.add("hidden");el("overallNotice").classList.add("hidden");el("stageNotice").classList.add("hidden");renderSignals();window.scrollTo({top:0,behavior:"smooth"})});
+  renderSignals();
+})();
+</script>
+</body>
+</html>

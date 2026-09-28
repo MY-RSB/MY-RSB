@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LF13 Rating-Vorprüfung</title>
+<style>
+:root{--blue:#1547b5;--navy:#17365d;--red:#d33a3a;--green:#18734a;--amber:#a85d00;--ink:#171b19;--muted:#5f6863;--line:#cfd6d2;--soft:#eef4ff}
+*{box-sizing:border-box}
+body{margin:0;padding:18px;font-family:Arial,sans-serif;color:var(--ink);font-size:15px;line-height:1.45;background:#f6f8fb}
+main{max-width:900px;margin:0 auto;background:#fff;padding:20px;box-shadow:0 2px 14px rgba(23,54,93,.12)}
+.info-header{width:100%;table-layout:fixed;border-collapse:collapse;margin-bottom:15px;border:2px solid var(--red)}
+.info-header td{border:1px solid var(--red);padding:6px 8px;text-align:center}
+.info-header .top td{background:#e8eefb;color:var(--blue);font-weight:700;font-size:17px}
+.info-header .sub td{background:#f3f4f6;font-weight:600;font-size:12px}
+h1{text-align:center;color:var(--blue);font-size:25px;margin:15px 0 3px}
+.subtitle{text-align:center;color:var(--muted);margin:0 0 18px}
+h2{font-size:18px;color:var(--navy);border-left:5px solid var(--blue);padding:5px 10px;margin:22px 0 10px;background:#f5f8ff}
+.box{border:1px solid var(--line);border-left:5px solid var(--blue);background:var(--soft);padding:10px 13px;margin:12px 0}
+.box strong.label{display:block;color:var(--blue);font-size:12px;letter-spacing:.03em;margin-bottom:3px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:11px}
+.card{border:1px solid var(--line);border-radius:7px;padding:12px;background:#fff}
+.card label{display:block;font-weight:700;margin-bottom:4px}
+.formula{font-size:12px;color:var(--muted);min-height:36px}
+.input-row{display:flex;align-items:center;gap:8px;margin-top:8px}
+input{width:120px;border:1px solid #89938d;border-radius:4px;padding:9px;font:inherit}
+input:focus{outline:3px solid #bfd1ff;border-color:var(--blue)}
+.feedback{font-size:13px;margin:7px 0 0;min-height:38px}
+.feedback.ok{color:var(--green)}
+.feedback.bad{color:#a12424}
+button{border:0;border-radius:5px;background:var(--blue);color:#fff;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer;min-height:44px}
+button:hover,button:focus{background:var(--navy);outline:3px solid #bfd1ff}
+button.secondary{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+.hidden{display:none}
+.questions{display:grid;gap:10px}
+.question{border:1px solid var(--line);border-radius:7px;padding:11px}
+.question p{font-weight:700;margin:0 0 7px}
+.question label{display:block;padding:5px 7px;border-radius:4px;cursor:pointer}
+.question label:hover{background:#f1f5ff}
+.question input{width:auto;margin-right:7px}
+.protocol{border:2px solid var(--green);background:#f2faf5;padding:12px 15px}
+.protocol h3{margin:0 0 7px;color:var(--green)}
+.protocol ul{margin:5px 0 8px;padding-left:22px}
+.protocol li{margin:4px 0}
+.notice{color:var(--amber);font-weight:700}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:13px 0}
+@media(max-width:600px){body{padding:0}main{padding:12px;box-shadow:none}.info-header .top td{font-size:13px}.grid{grid-template-columns:1fr}}
+@media print{body{background:#fff;padding:0}main{box-shadow:none;max-width:none}.actions,.entry,.questions{display:none}.protocol{display:block!important}}
+</style>
+</head>
+<body>
+<main>
+<table class="info-header"><tr class="top"><td>W1BKY/BKWFB1</td><td>BFK LF13</td><td>Mayer</td></tr><tr class="sub"><td colspan="3">Interaktive Aufgabe zu Arbeitsblatt 4</td></tr></table>
+<h1>Rating-Vorprüfung</h1>
+<p class="subtitle">Nova Maschinenbau GmbH</p>
+
+<div class="box"><strong class="label">ARBEITSAUFTRAG</strong>Berechnen Sie zunächst die Kennzahlen in den Aufgaben 1 bis 3 des Arbeitsblatts. Tragen Sie danach Ihre Ergebnisse hier ein. Nach der Kontrolle beurteilen Sie die Aussagen und erhalten ein Prüfprotokoll für Aufgabe 4.</div>
+
+<section class="entry" id="entry">
+<h2>1 Kennzahlen prüfen</h2>
+<div class="grid">
+  <div class="card"><label for="equity">Eigenkapitalquote</label><div class="formula">Eigenkapital geteilt durch Gesamtkapital mal 100</div><div class="input-row"><input id="equity" inputmode="decimal" autocomplete="off"><span>Prozent</span></div><p class="feedback" id="equityFeedback"></p></div>
+  <div class="card"><label for="coverage">Anlagendeckung II</label><div class="formula">Langfristiges Kapital geteilt durch Anlagevermögen mal 100</div><div class="input-row"><input id="coverage" inputmode="decimal" autocomplete="off"><span>Prozent</span></div><p class="feedback" id="coverageFeedback"></p></div>
+  <div class="card"><label for="return">Gesamtkapitalrentabilität</label><div class="formula">Jahresüberschuss plus Fremdkapitalzinsen, geteilt durch Gesamtkapital, mal 100</div><div class="input-row"><input id="return" inputmode="decimal" autocomplete="off"><span>Prozent</span></div><p class="feedback" id="returnFeedback"></p></div>
+  <div class="card"><label for="debtor">Debitorenziel</label><div class="formula">Forderungen geteilt durch Umsatzerlöse mal 360</div><div class="input-row"><input id="debtor" inputmode="decimal" autocomplete="off"><span>Tage</span></div><p class="feedback" id="debtorFeedback"></p></div>
+  <div class="card"><label for="creditor">Kreditorenziel</label><div class="formula">Lieferantenverbindlichkeiten geteilt durch Wareneinkauf mal 360</div><div class="input-row"><input id="creditor" inputmode="decimal" autocomplete="off"><span>Tage</span></div><p class="feedback" id="creditorFeedback"></p></div>
+</div>
+<div class="actions"><button id="checkValues">Kennzahlen prüfen</button></div>
+<p class="notice hidden" id="valueNotice">Prüfen Sie die noch markierten Eingaben. Die Beurteilung wird freigeschaltet, sobald alle Werte stimmen.</p>
+</section>
+
+<section class="hidden" id="assessment">
+<h2>2 Ergebnisse beurteilen</h2>
+<div class="questions">
+  <div class="question" data-answer="b"><p>Welche Aussage zur Eigenkapitalquote von 30,0 Prozent ist fachlich angemessen?</p><label><input type="radio" name="q1" value="a">Die Quote beweist allein eine sehr gute Bonität.</label><label><input type="radio" name="q1" value="b">Die Quote ist ein positiver Anhaltspunkt, muss aber im Zeit- und Branchenvergleich beurteilt werden.</label><label><input type="radio" name="q1" value="c">Die Quote sagt ausschließlich etwas über die Zahlungsdauer der Kunden aus.</label><p class="feedback"></p></div>
+  <div class="question" data-answer="a"><p>Was zeigt die Anlagendeckung II von 117,9 Prozent?</p><label><input type="radio" name="q2" value="a">Das Anlagevermögen ist vollständig durch langfristiges Kapital gedeckt.</label><label><input type="radio" name="q2" value="b">Das Unternehmen erzielt eine Gesamtkapitalrentabilität von 117,9 Prozent.</label><label><input type="radio" name="q2" value="c">Die Kunden zahlen ihre Rechnungen nach 117,9 Tagen.</label><p class="feedback"></p></div>
+  <div class="question" data-answer="c"><p>Wie sind Gesamtkapitalrentabilität und Cashflow einzuordnen?</p><label><input type="radio" name="q3" value="a">Beide Größen bestimmen unmittelbar und abschließend die Ratingklasse.</label><label><input type="radio" name="q3" value="b">Der Cashflow ersetzt die Prüfung des künftigen Kapitaldienstes.</label><label><input type="radio" name="q3" value="c">Beide Größen liefern Anhaltspunkte für Ertragskraft und Innenfinanzierung, reichen allein aber nicht aus.</label><p class="feedback"></p></div>
+  <div class="question" data-answer="b"><p>Wie sind Debitoren- und Kreditorenziel von jeweils 45 Tagen zu beurteilen?</p><label><input type="radio" name="q4" value="a">Die gleichen Werte beweisen, dass keine Liquiditätsrisiken bestehen.</label><label><input type="radio" name="q4" value="b">Die Zahlungsziele sind rechnerisch ausgeglichen. Für eine belastbare Beurteilung fehlen weitere Angaben.</label><label><input type="radio" name="q4" value="c">Ein Kreditorenziel von 45 Tagen führt zwingend zur Kreditablehnung.</label><p class="feedback"></p></div>
+</div>
+<div class="actions"><button id="checkAssessment">Aussagen prüfen</button></div>
+<p class="notice hidden" id="assessmentNotice">Überarbeiten Sie die noch markierten Aussagen.</p>
+</section>
+
+<section class="hidden" id="protocol">
+<h2>3 Prüfprotokoll für Aufgabe 4</h2>
+<div class="protocol">
+<h3>Vorläufige Rating-Vorprüfung</h3>
+<p><strong>Positive Anhaltspunkte</strong></p>
+<ul><li>Die Eigenkapitalquote beträgt 30,0 Prozent.</li><li>Die Anlagendeckung II beträgt 117,9 Prozent. Das Anlagevermögen ist vollständig langfristig finanziert.</li><li>Die Gesamtkapitalrentabilität von 8,0 Prozent und der Cashflow von 310.000 Euro liefern Anhaltspunkte für Ertragskraft und Innenfinanzierung.</li><li>Debitoren- und Kreditorenziel sind mit jeweils 45 Tagen rechnerisch ausgeglichen.</li></ul>
+<p><strong>Offene Prüfpunkte</strong></p>
+<ul><li>Es fehlen Werte aus mehreren Geschäftsjahren.</li><li>Es fehlen belastbare Branchenvergleichswerte.</li><li>Es fehlen qualitative Angaben zu Management, Marktstellung und Abhängigkeiten.</li><li>Es fehlen Planungsdaten und die Höhe des künftigen Kapitaldienstes.</li></ul>
+<p><strong>Fazit:</strong> Die berechneten Werte liefern positive Anhaltspunkte. Eine endgültige Ratingklasse oder Kreditentscheidung lässt sich daraus nicht ableiten.</p>
+</div>
+<div class="box"><strong class="label">WEITERE BEARBEITUNG</strong>Bearbeiten Sie jetzt Aufgabe 4 auf dem Arbeitsblatt. Formulieren Sie eine eigene vorläufige Beurteilung und übernehmen Sie das Protokoll nicht lediglich als Aufzählung.</div>
+<div class="actions"><button class="secondary" id="restart">Eingaben zurücksetzen</button><button onclick="window.print()">Prüfprotokoll drucken</button></div>
+</section>
+</main>
+<script>
+(function(){
+  "use strict";
+  var expected={equity:30,coverage:117.9,return:8,debtor:45,creditor:45};
+  var hints={
+    equity:"Prüfen Sie, ob Sie das Eigenkapital durch das Gesamtkapital geteilt und anschließend mit 100 multipliziert haben.",
+    coverage:"Prüfen Sie, ob das langfristige Kapital im Zähler und das Anlagevermögen im Nenner steht.",
+    return:"Addieren Sie Jahresüberschuss und Fremdkapitalzinsen, bevor Sie durch das Gesamtkapital teilen.",
+    debtor:"Verwenden Sie die Kundenforderungen, die Umsatzerlöse und 360 Tage.",
+    creditor:"Verwenden Sie die Lieferantenverbindlichkeiten, den Wareneinkauf und 360 Tage."
+  };
+  function el(id){return document.getElementById(id)}
+  function number(value){return Number(String(value).trim().replace(/\s/g,"").replace(",","."))}
+  function close(a,b){return Number.isFinite(a)&&Math.abs(a-b)<=0.11}
+  el("checkValues").addEventListener("click",function(){
+    var all=true;
+    Object.keys(expected).forEach(function(id){
+      var ok=close(number(el(id).value),expected[id]);
+      var feedback=el(id+"Feedback");
+      feedback.className="feedback "+(ok?"ok":"bad");
+      feedback.textContent=ok?"Der Wert ist richtig.":hints[id];
+      all=all&&ok;
+    });
+    el("valueNotice").classList.toggle("hidden",all);
+    if(all){el("assessment").classList.remove("hidden");el("assessment").scrollIntoView({behavior:"smooth"})}
+  });
+  el("checkAssessment").addEventListener("click",function(){
+    var all=true;
+    Array.prototype.forEach.call(document.querySelectorAll(".question"),function(question){
+      var chosen=question.querySelector("input:checked");
+      var ok=chosen&&chosen.value===question.getAttribute("data-answer");
+      var feedback=question.querySelector(".feedback");
+      feedback.className="feedback "+(ok?"ok":"bad");
+      feedback.textContent=ok?"Die Beurteilung ist richtig.":"Prüfen Sie, ob die Kennzahl allein eine abschließende Aussage erlaubt.";
+      all=all&&ok;
+    });
+    el("assessmentNotice").classList.toggle("hidden",all);
+    if(all){el("protocol").classList.remove("hidden");el("protocol").scrollIntoView({behavior:"smooth"})}
+  });
+  el("restart").addEventListener("click",function(){
+    Object.keys(expected).forEach(function(id){el(id).value="";el(id+"Feedback").textContent=""});
+    Array.prototype.forEach.call(document.querySelectorAll('input[type="radio"]'),function(input){input.checked=false});
+    Array.prototype.forEach.call(document.querySelectorAll(".question .feedback"),function(feedback){feedback.textContent=""});
+    el("assessment").classList.add("hidden");el("protocol").classList.add("hidden");el("valueNotice").classList.add("hidden");el("assessmentNotice").classList.add("hidden");
+    window.scrollTo({top:0,behavior:"smooth"});
+  });
+})();
+</script>
+</body>
+</html>

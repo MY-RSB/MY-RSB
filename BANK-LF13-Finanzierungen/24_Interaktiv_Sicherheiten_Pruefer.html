@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LF13 Sicherheiten-Prüfer</title>
+<style>
+:root{--blue:#1547b5;--navy:#17365d;--red:#d33a3a;--green:#18734a;--amber:#a85d00;--ink:#171b19;--muted:#5f6863;--line:#cfd6d2;--soft:#eef4ff}
+*{box-sizing:border-box}
+body{margin:0;padding:18px;font-family:Arial,sans-serif;color:var(--ink);font-size:15px;line-height:1.45;background:#f6f8fb}
+main{max-width:920px;margin:0 auto;background:#fff;padding:20px;box-shadow:0 2px 14px rgba(23,54,93,.12)}
+.info-header{width:100%;table-layout:fixed;border-collapse:collapse;margin-bottom:15px;border:2px solid var(--red)}
+.info-header td{border:1px solid var(--red);padding:6px 8px;text-align:center}
+.info-header .top td{background:#e8eefb;color:var(--blue);font-weight:700;font-size:17px}
+.info-header .sub td{background:#f3f4f6;font-weight:600;font-size:12px}
+h1{text-align:center;color:var(--blue);font-size:25px;margin:15px 0 3px}
+.subtitle{text-align:center;color:var(--muted);margin:0 0 18px}
+h2{font-size:18px;color:var(--navy);border-left:5px solid var(--blue);padding:5px 10px;margin:22px 0 10px;background:#f5f8ff}
+.box{border:1px solid var(--line);border-left:5px solid var(--blue);background:var(--soft);padding:10px 13px;margin:12px 0}
+.box strong.label{display:block;color:var(--blue);font-size:12px;letter-spacing:.03em;margin-bottom:3px}
+.cases{display:grid;gap:12px}
+.case{border:1px solid var(--line);border-radius:7px;padding:13px;background:#fff}
+.case.done{border-color:var(--green);background:#f5fbf7}
+.case h3{margin:0 0 4px;color:var(--navy);font-size:17px}
+.case .situation{margin:0 0 11px;color:var(--muted)}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.field label{display:block;font-weight:700;margin-bottom:4px}
+select{width:100%;border:1px solid #89938d;border-radius:4px;padding:9px;font:inherit;background:#fff}
+select:focus{outline:3px solid #bfd1ff;border-color:var(--blue)}
+.feedback{font-size:13px;margin:8px 0 0;min-height:20px}
+.feedback.ok{color:var(--green)}
+.feedback.bad{color:#a12424}
+button{border:0;border-radius:5px;background:var(--blue);color:#fff;padding:9px 15px;font:inherit;font-weight:700;cursor:pointer;min-height:42px;margin-top:9px}
+button:hover,button:focus{background:var(--navy);outline:3px solid #bfd1ff}
+button.secondary{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+button:disabled{background:#7d8b9e;cursor:default}
+.hidden{display:none}
+.protocol{border:2px solid var(--green);background:#f2faf5;padding:12px 15px;overflow-x:auto}
+.protocol h3{margin:0 0 8px;color:var(--green)}
+table.result{width:100%;border-collapse:collapse;font-size:13px}
+table.result th,table.result td{border:1px solid #b7c9bd;padding:7px;vertical-align:top;text-align:left}
+table.result th{background:#dff0e5}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:13px 0}
+@media(max-width:650px){body{padding:0}main{padding:12px;box-shadow:none}.info-header .top td{font-size:13px}.choices{grid-template-columns:1fr}}
+@media print{body{background:#fff;padding:0}main{box-shadow:none;max-width:none}.cases,.actions{display:none}.protocol{display:block!important}}
+</style>
+</head>
+<body>
+<main>
+<table class="info-header"><tr class="top"><td>W1BKY/BKWFB1</td><td>BFK LF13</td><td>Mayer</td></tr><tr class="sub"><td colspan="3">Interaktive Aufgabe zu Arbeitsblatt 5</td></tr></table>
+<h1>Sicherheiten-Prüfer</h1>
+<p class="subtitle">Sicherheit auswählen und entscheidende Kontrolle bestimmen</p>
+
+<div class="box"><strong class="label">ARBEITSAUFTRAG</strong>Prüfen Sie für jeden Fall zuerst die grundsätzlich geeignete Sicherheit. Wählen Sie danach die Kontrolle, die für diesen Fall besonders wichtig ist. Bearbeiten Sie anschließend die Aufgaben 2 und 3 mit dem erzeugten Prüfprotokoll.</div>
+
+<h2>Fünf Kreditfälle</h2>
+<div class="cases" id="cases"></div>
+
+<section class="hidden" id="protocol">
+<h2>Prüfprotokoll für die Aufgaben 2 und 3</h2>
+<div class="protocol">
+<h3>Zuordnung und zentrale Kontrolle</h3>
+<table class="result"><thead><tr><th>Fall</th><th>Geeignete Sicherheit</th><th>Besonders wichtige Kontrolle</th></tr></thead><tbody id="resultRows"></tbody></table>
+<p><strong>Fazit:</strong> Die Zuordnung zeigt nur eine grundsätzlich geeignete Sicherheit. Vor der Annahme muss die Bank ihren rechtlichen Bestand, ihre Werthaltigkeit und ihre Verwertbarkeit im konkreten Kreditfall prüfen.</p>
+</div>
+<div class="box"><strong class="label">WEITERE BEARBEITUNG</strong>Vergleichen Sie für Aufgabe 2 Bürgschaft und Grundschuld. Nutzen Sie für Aufgabe 3 besonders die Fälle Maschinenpark und Kundenforderungen.</div>
+<div class="actions"><button class="secondary" id="restart">Eingaben zurücksetzen</button><button onclick="window.print()">Prüfprotokoll drucken</button></div>
+</section>
+</main>
+<script>
+(function(){
+  "use strict";
+  var securities=["Bürgschaft","Sicherungsübereignung","Verpfändung von Wertpapieren","Globalzession","Sicherungsgrundschuld"];
+  var controls=[
+    "Bonität und wirtschaftliche Leistungsfähigkeit des Sicherungsgebers fortlaufend prüfen",
+    "Eigentum, Kennzeichnung, Versicherung und Wertentwicklung der Gegenstände prüfen",
+    "Depotbestand, Verfügbarkeit, Kursrisiko und Sicherheitsabschlag prüfen",
+    "Abtretbarkeit, Vorrechte, Einreden und mögliche Forderungsausfälle prüfen",
+    "Grundbuch, Rangstelle und vorsichtigen Beleihungswert prüfen"
+  ];
+  var data=[
+    {title:"Maschinenpark",text:"Ein Produktionsunternehmen bietet mehrere weiterhin benötigte Maschinen als Sicherheit an.",security:1,control:1,hint:"Die Maschinen sollen im Betrieb bleiben und weiter genutzt werden."},
+    {title:"Wertpapierdepot",text:"Ein Unternehmen besitzt ein breit gestreutes Depot mit börsengehandelten Wertpapieren.",security:2,control:2,hint:"Die Bank benötigt ein Verwertungsrecht, während das Unternehmen Eigentümer bleibt."},
+    {title:"Kundenforderungen",text:"Ein Großhändler möchte seine gegenwärtigen und künftigen Forderungen aus Lieferungen und Leistungen einsetzen.",security:3,control:3,hint:"Die Sicherheit soll einen wechselnden Forderungsbestand erfassen."},
+    {title:"Betriebsgrundstück",text:"Eine GmbH besitzt ein bebautes Betriebsgrundstück und möchte es zur Sicherung eines Investitionskredits einsetzen.",security:4,control:4,hint:"Für Grundstücke wird ein dingliches Recht im Grundbuch bestellt."},
+    {title:"Solventer Gesellschafter",text:"Ein wirtschaftlich leistungsfähiger Gesellschafter ist bereit, persönlich für den Kredit der GmbH einzustehen.",security:0,control:0,hint:"Eine dritte Person soll für die Verbindlichkeit des Unternehmens einstehen."}
+  ];
+  var attempts=data.map(function(){return {security:0,control:0,done:false}});
+  function el(id){return document.getElementById(id)}
+  function options(values,label){return '<option value="">'+label+'</option>'+values.map(function(value,index){return '<option value="'+index+'">'+value+'</option>'}).join("")}
+  function render(){
+    el("cases").innerHTML=data.map(function(item,index){
+      return '<article class="case" id="case'+index+'"><h3>'+(index+1)+' '+item.title+'</h3><p class="situation">'+item.text+'</p><div class="choices">'
+        +'<div class="field"><label for="security'+index+'">Grundsätzlich geeignete Sicherheit</label><select id="security'+index+'">'+options(securities,"Sicherheit auswählen")+'</select></div>'
+        +'<div class="field"><label for="control'+index+'">Besonders wichtige Kontrolle</label><select id="control'+index+'">'+options(controls,"Kontrolle auswählen")+'</select></div></div>'
+        +'<button data-index="'+index+'">Fall prüfen</button><p class="feedback" id="feedback'+index+'"></p></article>';
+    }).join("");
+    Array.prototype.forEach.call(document.querySelectorAll(".case button"),function(button){button.addEventListener("click",function(){checkCase(+button.getAttribute("data-index"))})});
+  }
+  function checkCase(index){
+    var item=data[index],state=attempts[index];
+    var security=el("security"+index).value,control=el("control"+index).value;
+    var securityOk=security!==""&&+security===item.security;
+    var controlOk=control!==""&&+control===item.control;
+    if(!securityOk)state.security++;
+    if(!controlOk)state.control++;
+    var messages=[];
+    if(!securityOk)messages.push(state.security<2?item.hint:"Passend ist hier: "+securities[item.security]+".");
+    if(!controlOk)messages.push(state.control<2?"Prüfen Sie, welches besondere rechtliche oder wirtschaftliche Risiko bei diesem Sicherungsgegenstand besteht.":"Zentral ist hier: "+controls[item.control]+".");
+    var feedback=el("feedback"+index);
+    if(securityOk&&controlOk){
+      state.done=true;feedback.className="feedback ok";feedback.textContent="Zuordnung und Kontrolle sind richtig.";
+      el("case"+index).classList.add("done");
+      el("security"+index).disabled=true;el("control"+index).disabled=true;
+      el("case"+index).querySelector("button").disabled=true;
+    }else{
+      feedback.className="feedback bad";feedback.textContent=messages.join(" ");
+    }
+    if(attempts.every(function(entry){return entry.done}))showProtocol();
+  }
+  function showProtocol(){
+    el("resultRows").innerHTML=data.map(function(item){return '<tr><td>'+item.title+'</td><td>'+securities[item.security]+'</td><td>'+controls[item.control]+'</td></tr>'}).join("");
+    el("protocol").classList.remove("hidden");el("protocol").scrollIntoView({behavior:"smooth"});
+  }
+  el("restart").addEventListener("click",function(){attempts=data.map(function(){return {security:0,control:0,done:false}});el("protocol").classList.add("hidden");render();window.scrollTo({top:0,behavior:"smooth"})});
+  render();
+})();
+</script>
+</body>
+</html>

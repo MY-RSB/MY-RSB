@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>LF13 Darlehensvergleich</title>
+<style>
+:root{--blue:#1547b5;--navy:#17365d;--red:#d33a3a;--green:#18734a;--amber:#a85d00;--ink:#171b19;--muted:#5f6863;--line:#cfd6d2;--soft:#eef4ff}
+*{box-sizing:border-box}
+body{margin:0;padding:18px;font-family:Arial,sans-serif;color:var(--ink);font-size:15px;line-height:1.45;background:#f6f8fb}
+main{max-width:940px;margin:0 auto;background:#fff;padding:20px;box-shadow:0 2px 14px rgba(23,54,93,.12)}
+.info-header{width:100%;table-layout:fixed;border-collapse:collapse;margin-bottom:15px;border:2px solid var(--red)}
+.info-header td{border:1px solid var(--red);padding:6px 8px;text-align:center}
+.info-header .top td{background:#e8eefb;color:var(--blue);font-weight:700;font-size:17px}
+.info-header .sub td{background:#f3f4f6;font-weight:600;font-size:12px}
+h1{text-align:center;color:var(--blue);font-size:25px;margin:15px 0 3px}
+.subtitle{text-align:center;color:var(--muted);margin:0 0 18px}
+h2{font-size:18px;color:var(--navy);border-left:5px solid var(--blue);padding:5px 10px;margin:22px 0 10px;background:#f5f8ff}
+.box{border:1px solid var(--line);border-left:5px solid var(--blue);background:var(--soft);padding:10px 13px;margin:12px 0}
+.box strong.label{display:block;color:var(--blue);font-size:12px;letter-spacing:.03em;margin-bottom:3px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:11px}
+.card{border:1px solid var(--line);border-radius:7px;padding:12px;background:#fff}
+.card label{display:block;font-weight:700;margin-bottom:4px}
+.input-row{display:flex;align-items:center;gap:7px;margin-top:8px}
+input[type=text]{width:135px;border:1px solid #89938d;border-radius:4px;padding:9px;font:inherit}
+input:focus,select:focus{outline:3px solid #bfd1ff;border-color:var(--blue)}
+.feedback{font-size:13px;margin:7px 0 0;min-height:38px}
+.feedback.ok{color:var(--green)}
+.feedback.bad{color:#a12424}
+button{border:0;border-radius:5px;background:var(--blue);color:#fff;padding:10px 16px;font:inherit;font-weight:700;cursor:pointer;min-height:44px}
+button:hover,button:focus{background:var(--navy);outline:3px solid #bfd1ff}
+button.secondary{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+.hidden{display:none}
+.table-wrap{overflow-x:auto}
+table.compare{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0}
+table.compare th,table.compare td{border:1px solid var(--line);padding:7px;text-align:right;vertical-align:top}
+table.compare th{background:#dbe9f5;text-align:center}
+table.compare th:first-child,table.compare td:first-child{text-align:left}
+.bars{display:grid;gap:8px;margin:12px 0}
+.bar-row{display:grid;grid-template-columns:150px 1fr 105px;gap:8px;align-items:center;font-size:13px}
+.track{height:18px;background:#e7ebef;border-radius:3px;overflow:hidden}
+.track i{display:block;height:100%;background:var(--blue)}
+.situations{display:grid;gap:10px}
+.situation{border:1px solid var(--line);border-radius:7px;padding:11px}
+.situation p{font-weight:700;margin:0 0 7px}
+select{width:100%;border:1px solid #89938d;border-radius:4px;padding:9px;font:inherit;background:#fff}
+.protocol{border:2px solid var(--green);background:#f2faf5;padding:12px 15px}
+.protocol h3{margin:0 0 8px;color:var(--green)}
+.protocol ul{margin:5px 0 8px;padding-left:22px}
+.protocol li{margin:4px 0}
+.notice{color:var(--amber);font-weight:700}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:13px 0}
+@media(max-width:650px){body{padding:0}main{padding:12px;box-shadow:none}.info-header .top td{font-size:13px}.bar-row{grid-template-columns:115px 1fr 90px}}
+@media print{body{background:#fff;padding:0}main{box-shadow:none;max-width:none}.entry,.situations,.actions,.bars{display:none}.protocol{display:block!important}}
+</style>
+</head>
+<body>
+<main>
+<table class="info-header"><tr class="top"><td>W1BKY/BKWFB1</td><td>BFK LF13</td><td>Mayer</td></tr><tr class="sub"><td colspan="3">Interaktive Aufgabe zu Arbeitsblatt 7, Dateinummer 08</td></tr></table>
+<h1>Darlehensvergleich</h1>
+<p class="subtitle">300.000 Euro, fünf Jahre, 5 Prozent Sollzins und jährliche Zahlung</p>
+
+<div class="box"><strong class="label">ARBEITSAUFTRAG</strong>Berechnen Sie zuerst die Ergebnisse in den Aufgaben 1 und 2 des Arbeitsblatts. Prüfen Sie hier Ihre Werte. Vergleichen Sie danach Zahlungsverlauf, Restschuld und Rückzahlungsrisiko der drei Darlehensformen.</div>
+
+<section class="entry">
+<h2>1 Eigene Ergebnisse prüfen</h2>
+<div class="grid">
+  <div class="card"><label for="repayment">Jährliche Tilgung</label><div class="input-row"><input type="text" id="repayment" inputmode="decimal" autocomplete="off"><span>Euro</span></div><p class="feedback" id="repaymentFeedback"></p></div>
+  <div class="card"><label for="year1">Zahlung im ersten Jahr</label><div class="input-row"><input type="text" id="year1" inputmode="decimal" autocomplete="off"><span>Euro</span></div><p class="feedback" id="year1Feedback"></p></div>
+  <div class="card"><label for="year2">Zahlung im zweiten Jahr</label><div class="input-row"><input type="text" id="year2" inputmode="decimal" autocomplete="off"><span>Euro</span></div><p class="feedback" id="year2Feedback"></p></div>
+  <div class="card"><label for="annuity">Jahresannuität</label><div class="input-row"><input type="text" id="annuity" inputmode="decimal" autocomplete="off"><span>Euro</span></div><p class="feedback" id="annuityFeedback"></p></div>
+</div>
+<div class="actions"><button id="checkValues">Ergebnisse prüfen</button></div>
+<p class="notice hidden" id="valueNotice">Prüfen Sie die markierten Eingaben. Der Vergleich wird erst nach vier richtigen Ergebnissen geöffnet.</p>
+</section>
+
+<section class="hidden" id="comparison">
+<h2>2 Zahlungsverläufe vergleichen</h2>
+<div class="table-wrap"><table class="compare"><thead><tr><th rowspan="2">Jahr</th><th colspan="2">Tilgungsdarlehen</th><th colspan="2">Annuitätendarlehen</th><th colspan="2">Festdarlehen</th></tr><tr><th>Zahlung</th><th>Restschuld</th><th>Zahlung</th><th>Restschuld</th><th>Zahlung</th><th>Restschuld</th></tr></thead><tbody id="schedule"></tbody></table></div>
+<div class="bars" id="interestBars"></div>
+<p class="box"><strong class="label">MODELLHINWEIS</strong>Beim Annuitätendarlehen wird die letzte Zahlung wegen Rundungen geringfügig angepasst. Beim Festdarlehen wird unterstellt, dass während der Laufzeit nur Zinsen an die Bank gezahlt werden.</p>
+
+<h2>3 Unternehmenssituationen zuordnen</h2>
+<div class="situations">
+  <div class="situation" data-answer="tilgung"><p>Das Unternehmen kann anfangs eine höhere Belastung tragen. Die jährliche Gesamtzahlung soll anschließend sinken.</p><select><option value="">Darlehensform auswählen</option><option value="annuitaet">Annuitätendarlehen</option><option value="tilgung">Tilgungsdarlehen</option><option value="fest">Festdarlehen</option></select><p class="feedback"></p></div>
+  <div class="situation" data-answer="annuitaet"><p>Das Unternehmen benötigt während der Laufzeit eine möglichst gleichbleibende und gut planbare Jahreszahlung.</p><select><option value="">Darlehensform auswählen</option><option value="annuitaet">Annuitätendarlehen</option><option value="tilgung">Tilgungsdarlehen</option><option value="fest">Festdarlehen</option></select><p class="feedback"></p></div>
+  <div class="situation" data-answer="fest"><p>Am Laufzeitende wird ein vertraglich gesicherter Verkaufserlös erwartet. Das Unternehmen akzeptiert das hohe Risiko der Schlusszahlung.</p><select><option value="">Darlehensform auswählen</option><option value="annuitaet">Annuitätendarlehen</option><option value="tilgung">Tilgungsdarlehen</option><option value="fest">Festdarlehen</option></select><p class="feedback"></p></div>
+</div>
+<div class="actions"><button id="checkSituations">Zuordnungen prüfen</button></div>
+<p class="notice hidden" id="situationNotice">Überarbeiten Sie die noch markierten Zuordnungen.</p>
+</section>
+
+<section class="hidden" id="protocol">
+<h2>4 Prüfprotokoll für Aufgabe 3</h2>
+<div class="protocol">
+<h3>Vergleich der Darlehensformen</h3>
+<ul>
+  <li>Beim Tilgungsdarlehen bleibt die jährliche Tilgung mit 60.000 Euro gleich. Die Gesamtzahlung sinkt von 75.000 auf 63.000 Euro. Die Zinsbelastung beträgt 45.000 Euro.</li>
+  <li>Beim Annuitätendarlehen bleibt die Jahreszahlung bei rund 69.292 Euro. Der Zinsanteil sinkt und der Tilgungsanteil steigt. Die Zinsbelastung beträgt rund 46.462 Euro.</li>
+  <li>Beim Festdarlehen werden während der Laufzeit jährlich 15.000 Euro Zinsen gezahlt. Am Ende werden zusätzlich 300.000 Euro getilgt. Die Zinsbelastung beträgt 75.000 Euro, und es besteht ein hohes Schlusszahlungsrisiko.</li>
+</ul>
+<p><strong>Grundsätzliche Zuordnung:</strong> Eine anfangs höhere und danach sinkende Belastung passt zum Tilgungsdarlehen. Eine gleichbleibende Jahreszahlung passt zum Annuitätendarlehen. Ein sicher erwarteter Enderlös kann ein Festdarlehen begründen, wenn das Schlusszahlungsrisiko vertretbar ist.</p>
+</div>
+<div class="box"><strong class="label">WEITERE BEARBEITUNG</strong>Bearbeiten Sie jetzt Aufgabe 3. Ergänzen Sie den Vergleich um vier Prüfungen, die vor der Auszahlung eines zweckgebundenen Darlehens erforderlich sind.</div>
+<div class="actions"><button class="secondary" id="restart">Eingaben zurücksetzen</button><button onclick="window.print()">Prüfprotokoll drucken</button></div>
+</section>
+</main>
+<script>
+(function(){
+  "use strict";
+  var principal=300000,rate=.05,years=5;
+  var annuity=principal*(Math.pow(1+rate,years)*rate)/(Math.pow(1+rate,years)-1);
+  var expected={repayment:60000,year1:75000,year2:72000,annuity:annuity};
+  var hints={
+    repayment:"Teilen Sie den Darlehensbetrag durch die Laufzeit.",
+    year1:"Addieren Sie die jährliche Tilgung und 5 Prozent Zinsen auf 300.000 Euro.",
+    year2:"Berechnen Sie die Zinsen auf die Restschuld nach der ersten Tilgung und addieren Sie 60.000 Euro.",
+    annuity:"Verwenden Sie den angegebenen Annuitätenfaktor mit i = 0,05 und q = 1,05."
+  };
+  function el(id){return document.getElementById(id)}
+  function parseNumber(value){
+    var text=String(value).trim().replace(/\s/g,"").replace(/€/g,"");
+    if(text.indexOf(",")>=0)text=text.replace(/\./g,"").replace(",",".");
+    else if(/^\d{1,3}(\.\d{3})+$/.test(text))text=text.replace(/\./g,"");
+    return Number(text);
+  }
+  function money(value){return value.toLocaleString("de-DE",{minimumFractionDigits:2,maximumFractionDigits:2})+" Euro"}
+  function close(a,b){return Number.isFinite(a)&&Math.abs(a-b)<=.51}
+  el("checkValues").addEventListener("click",function(){
+    var all=true;
+    Object.keys(expected).forEach(function(id){
+      var ok=close(parseNumber(el(id).value),expected[id]);
+      var feedback=el(id+"Feedback");
+      feedback.className="feedback "+(ok?"ok":"bad");
+      feedback.textContent=ok?"Das Ergebnis ist richtig.":hints[id];
+      all=all&&ok;
+    });
+    el("valueNotice").classList.toggle("hidden",all);
+    if(all){buildComparison();el("comparison").classList.remove("hidden");el("comparison").scrollIntoView({behavior:"smooth"})}
+  });
+  function buildComparison(){
+    var rows=[],restTilgung=principal,restAnnuity=principal,totalTilgungInterest=0,totalAnnuityInterest=0;
+    for(var year=1;year<=years;year++){
+      var interestTilgung=restTilgung*rate,paymentTilgung=principal/years+interestTilgung;totalTilgungInterest+=interestTilgung;restTilgung-=principal/years;
+      var interestAnnuity=restAnnuity*rate,repaymentAnnuity=annuity-interestAnnuity,paymentAnnuity=annuity;
+      if(year===years){repaymentAnnuity=restAnnuity;paymentAnnuity=restAnnuity+interestAnnuity}
+      totalAnnuityInterest+=interestAnnuity;restAnnuity=Math.max(0,restAnnuity-repaymentAnnuity);
+      var paymentFest=principal*rate+(year===years?principal:0),restFest=year===years?0:principal;
+      rows.push('<tr><td>'+year+'</td><td>'+money(paymentTilgung)+'</td><td>'+money(restTilgung)+'</td><td>'+money(paymentAnnuity)+'</td><td>'+money(restAnnuity)+'</td><td>'+money(paymentFest)+'</td><td>'+money(restFest)+'</td></tr>');
+    }
+    el("schedule").innerHTML=rows.join("");
+    var interests=[{name:"Tilgungsdarlehen",value:totalTilgungInterest},{name:"Annuitätendarlehen",value:totalAnnuityInterest},{name:"Festdarlehen",value:principal*rate*years}];
+    el("interestBars").innerHTML='<strong>Gesamte Zinsbelastung im Grundfall</strong>'+interests.map(function(item){return '<div class="bar-row"><span>'+item.name+'</span><span class="track"><i style="width:'+(item.value/75000*100).toFixed(1)+'%"></i></span><b>'+money(item.value)+'</b></div>'}).join("");
+  }
+  el("checkSituations").addEventListener("click",function(){
+    var all=true;
+    Array.prototype.forEach.call(document.querySelectorAll(".situation"),function(item){
+      var ok=item.querySelector("select").value===item.getAttribute("data-answer");
+      var feedback=item.querySelector(".feedback");feedback.className="feedback "+(ok?"ok":"bad");
+      feedback.textContent=ok?"Die Zuordnung ist fachlich passend.":"Prüfen Sie den gewünschten Zahlungsverlauf und das besondere Rückzahlungsrisiko.";all=all&&ok;
+    });
+    el("situationNotice").classList.toggle("hidden",all);
+    if(all){el("protocol").classList.remove("hidden");el("protocol").scrollIntoView({behavior:"smooth"})}
+  });
+  el("restart").addEventListener("click",function(){
+    Object.keys(expected).forEach(function(id){el(id).value="";el(id+"Feedback").textContent=""});
+    Array.prototype.forEach.call(document.querySelectorAll(".situation select"),function(select){select.value=""});
+    Array.prototype.forEach.call(document.querySelectorAll(".situation .feedback"),function(feedback){feedback.textContent=""});
+    el("comparison").classList.add("hidden");el("protocol").classList.add("hidden");el("valueNotice").classList.add("hidden");el("situationNotice").classList.add("hidden");window.scrollTo({top:0,behavior:"smooth"});
+  });
+})();
+</script>
+</body>
+</html>
