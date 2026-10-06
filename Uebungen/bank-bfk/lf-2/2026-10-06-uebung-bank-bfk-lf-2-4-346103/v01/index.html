@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interaktive Übung: Kontoeröffnungsantrag, AGB und SCHUFA</title>
+<style>
+  :root { --ink:#1d2733; --muted:#566371; --line:#c9d2dc; --bg:#f4f6f9; --accent:#1f5f8b; --ok:#1b6b3a; --okbg:#e6f4ea; --bad:#9c2a1f; --badbg:#fbe9e7; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, "Segoe UI", Arial, sans-serif; color:var(--ink); background:var(--bg); line-height:1.5; }
+  main { max-width: 860px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 1.5rem; margin: .5rem 0; }
+  h2 { font-size: 1.2rem; margin: 0 0 .5rem; color: var(--accent); }
+  section { background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px; margin:16px 0; }
+  .intro { background:#fff; border:1px solid var(--line); border-radius:10px; padding:16px; }
+  .item { display:grid; grid-template-columns: 1fr; gap:6px; padding:12px 0; border-top:1px solid var(--line); }
+  .item:first-of-type { border-top:0; }
+  .item label { font-weight:600; }
+  .item .letter { display:inline-block; min-width:1.6em; color:var(--accent); }
+  select { font: inherit; padding:10px; border:1px solid var(--line); border-radius:8px; width:100%; max-width:380px; background:#fff; }
+  select:focus, button:focus { outline:3px solid #f2b705; outline-offset:2px; }
+  .feedback { margin:0; padding:8px 10px; border-radius:8px; font-size:.95rem; display:none; }
+  .feedback.ok { display:block; background:var(--okbg); color:var(--ok); }
+  .feedback.bad { display:block; background:var(--badbg); color:var(--bad); }
+  .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:12px; }
+  button { font: inherit; padding:10px 16px; border-radius:8px; border:1px solid var(--accent); background:var(--accent); color:#fff; cursor:pointer; min-height:44px; }
+  button.secondary { background:#fff; color:var(--accent); }
+  .result { margin-top:12px; font-weight:600; }
+  @media (min-width: 640px) { .item { grid-template-columns: 1fr 380px; align-items:start; } .item .feedback { grid-column: 1 / -1; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Kontoeröffnungsantrag, AGB und SCHUFA</h1>
+  <div class="intro">
+    <p>Diese Seite gehört zur Übung „Die Kontoeröffnung von Emilia Konrad“ bei der Sparbank AG. Alle Fälle sind angenommen. Sie können die Seite ohne Anmeldung nutzen, es werden keine Daten gespeichert.</p>
+    <p>Wählen Sie bei jeder Zeile eine Antwort aus und klicken Sie auf „Zuordnung prüfen“. Jede Rückmeldung erklärt, warum eine Zuordnung richtig oder falsch ist.</p>
+  </div>
+
+  <section id="aufgabe-1-3" aria-labelledby="h13">
+    <h2 id="h13">Aufgabe 1.3: Pflichten aus den AGB zuordnen</h2>
+    <p>Beschreibt die Regelung eine Pflicht der Bank oder eine Pflicht der Kundin?</p>
+    <form class="zuordnung" data-options="Pflicht der Bank|Pflicht der Kundin" novalidate>
+      <div class="item" data-answer="Pflicht der Bank" data-ok="Richtig: Die weisungsgerechte Ausführung mit der Sorgfalt eines ordentlichen Kaufmanns schuldet die Bank, wenn sie Aufträge der Kundin erledigt." data-bad="Nicht ganz: Hier geht es um die Ausführung von Aufträgen. Diese Sorgfalt muss die Bank aufbringen, nicht die Kundin.">
+        <label><span class="letter">A</span> Aufträge werden weisungsgerecht und mit der Sorgfalt eines ordentlichen Kaufmanns ausgeführt.</label>
+      </div>
+      <div class="item" data-answer="Pflicht der Kundin" data-ok="Richtig: Die Kundin muss Kontoauszüge und Abrechnungen unverzüglich prüfen und Fehler beanstanden, damit sie rechtzeitig korrigiert werden können." data-bad="Nicht ganz: Die Bank erstellt die Auszüge, aber die Prüfung und die Reklamation liegen bei der Kundin.">
+        <label><span class="letter">B</span> Kontoauszüge und sonstige Abrechnungen werden unverzüglich geprüft und gegebenenfalls beanstandet.</label>
+      </div>
+      <div class="item" data-answer="Pflicht der Bank" data-ok="Richtig: Das Bankgeheimnis bindet die Bank. Sie darf Tatsachen und Wertungen über die Kundin nicht ohne Einwilligung weitergeben." data-bad="Nicht ganz: Das Bankgeheimnis ist eine Verschwiegenheitspflicht der Bank. Die Kundin muss dafür nichts tun.">
+        <label><span class="letter">C</span> Tatsachen und Wertungen über Kundinnen und Kunden werden vertraulich behandelt.</label>
+      </div>
+      <div class="item" data-answer="Pflicht der Kundin" data-ok="Richtig: Wesentliche Änderungen wie ein Umzug müssen der Bank unverzüglich mitgeteilt werden, damit die Geschäftsbeziehung korrekt geführt werden kann." data-bad="Nicht ganz: Nur die Kundin weiß von der Änderung ihrer Anschrift. Sie muss sie deshalb unverzüglich mitteilen.">
+        <label><span class="letter">D</span> Wesentliche Änderungen, zum Beispiel der Anschrift, werden unverzüglich mitgeteilt.</label>
+      </div>
+      <div class="item" data-answer="Pflicht der Bank" data-ok="Richtig: Die Bank haftet für ihr eigenes Verschulden. Das gehört zu den Pflichten des Kreditinstituts." data-bad="Nicht ganz: Die Haftung für eigenes Verschulden ist in den AGB als Pflicht der Bank geregelt.">
+        <label><span class="letter">E</span> Für eigenes Verschulden wird gehaftet.</label>
+      </div>
+      <div class="item" data-answer="Pflicht der Kundin" data-ok="Richtig: Eindeutige Angaben in Aufträgen verhindern Fehler bei der Ausführung. Das ist Sache der Kundin." data-bad="Nicht ganz: Wer einen Auftrag erteilt, muss ihn eindeutig formulieren. Das ist eine Pflicht der Kundin.">
+        <label><span class="letter">F</span> Aufträge enthalten eindeutige Angaben.</label>
+      </div>
+      <div class="actions">
+        <button type="button" class="check">Zuordnung prüfen</button>
+        <button type="button" class="secondary reset">Zurücksetzen</button>
+      </div>
+      <p class="result" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <section id="aufgabe-1-5" aria-labelledby="h15">
+    <h2 id="h15">Aufgabe 1.5: SCHUFA-Merkmale zuordnen</h2>
+    <p>Ist das Ereignis ein Positivmerkmal oder ein Negativmerkmal?</p>
+    <form class="zuordnung" data-options="Positivmerkmal|Negativmerkmal" novalidate>
+      <div class="item" data-answer="Positivmerkmal" data-ok="Richtig: Kontoeröffnungsantrag, Kontoeröffnung und die vereinbarungsgemäße Beendigung der Kontoverbindung werden als Positivmerkmale gemeldet." data-bad="Nicht ganz: Die Eröffnung eines Girokontos ist vertragsgemäßes Verhalten und damit ein Positivmerkmal.">
+        <label><span class="letter">A</span> Ein Kunde eröffnet bei einer Bank ein Girokonto.</label>
+      </div>
+      <div class="item" data-answer="Negativmerkmal" data-ok="Richtig: Die Kündigung eines Darlehens wegen rückständiger Raten zeigt Zahlungsschwierigkeiten und ist ein Negativmerkmal." data-bad="Nicht ganz: Die Bank kündigt hier wegen nicht gezahlter Raten. Das ist nicht vertragsgemäßes Verhalten und damit ein Negativmerkmal.">
+        <label><span class="letter">B</span> Eine Bank kündigt einen Ratenkredit, weil mehrere Raten nicht gezahlt wurden.</label>
+      </div>
+      <div class="item" data-answer="Positivmerkmal" data-ok="Richtig: Die Ausgabe einer Kreditkarte wird als Positivmerkmal gemeldet." data-bad="Nicht ganz: Die bloße Ausgabe einer Kreditkarte ist noch kein Zahlungsproblem. Sie zählt als Positivmerkmal.">
+        <label><span class="letter">C</span> Ein Kunde erhält von seiner Bank eine Kreditkarte.</label>
+      </div>
+      <div class="item" data-answer="Negativmerkmal" data-ok="Richtig: Zwangsvollstreckungsmaßnahmen wie die Kontopfändung gehören zu den Negativmerkmalen." data-bad="Nicht ganz: Eine Kontopfändung ist eine Zwangsvollstreckungsmaßnahme und damit ein Negativmerkmal.">
+        <label><span class="letter">D</span> Ein Gläubiger lässt das Konto eines Kunden pfänden.</label>
+      </div>
+      <div class="item" data-answer="Positivmerkmal" data-ok="Richtig: Die vereinbarungsgemäße Abwicklung eines Kredits, auch die vorzeitige Rückzahlung, ist ein Positivmerkmal." data-bad="Nicht ganz: Der Kunde verhält sich hier vertragsgemäß. Die vereinbarungsgemäße Rückzahlung ist ein Positivmerkmal.">
+        <label><span class="letter">E</span> Ein Kunde zahlt einen Kredit vereinbarungsgemäß zurück.</label>
+      </div>
+      <div class="item" data-answer="Negativmerkmal" data-ok="Richtig: Die Kündigung eines Girokontos wegen missbräuchlicher Nutzung wird als Negativmerkmal gemeldet." data-bad="Nicht ganz: Ein Missbrauch des Kontos, hier für Betrug, führt zur Kündigung und ist deshalb ein Negativmerkmal.">
+        <label><span class="letter">F</span> Eine Bank kündigt ein Girokonto, weil es für Betrug genutzt wurde.</label>
+      </div>
+      <div class="actions">
+        <button type="button" class="check">Zuordnung prüfen</button>
+        <button type="button" class="secondary reset">Zurücksetzen</button>
+      </div>
+      <p class="result" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+</main>
+
+<script>
+(function () {
+  document.querySelectorAll("form.zuordnung").forEach(function (form, formIndex) {
+    var options = form.getAttribute("data-options").split("|");
+    var items = form.querySelectorAll(".item");
+    items.forEach(function (item, i) {
+      var id = "sel-" + formIndex + "-" + i;
+      var label = item.querySelector("label");
+      label.setAttribute("for", id);
+      var select = document.createElement("select");
+      select.id = id;
+      var blank = document.createElement("option");
+      blank.value = "";
+      blank.textContent = "Bitte auswählen";
+      select.appendChild(blank);
+      options.forEach(function (o) {
+        var opt = document.createElement("option");
+        opt.value = o;
+        opt.textContent = o;
+        select.appendChild(opt);
+      });
+      var fb = document.createElement("p");
+      fb.className = "feedback";
+      fb.id = "fb-" + id;
+      select.setAttribute("aria-describedby", fb.id);
+      item.appendChild(select);
+      item.appendChild(fb);
+      select.addEventListener("change", function () { fb.className = "feedback"; fb.textContent = ""; });
+    });
+    form.querySelector(".check").addEventListener("click", function () {
+      var correct = 0, open = 0;
+      items.forEach(function (item) {
+        var select = item.querySelector("select");
+        var fb = item.querySelector(".feedback");
+        if (!select.value) { open++; fb.className = "feedback bad"; fb.textContent = "Hier fehlt noch eine Auswahl."; return; }
+        if (select.value === item.getAttribute("data-answer")) {
+          correct++; fb.className = "feedback ok"; fb.textContent = item.getAttribute("data-ok");
+        } else {
+          fb.className = "feedback bad"; fb.textContent = item.getAttribute("data-bad");
+        }
+      });
+      var result = form.querySelector(".result");
+      result.textContent = correct + " von " + items.length + " Zuordnungen sind richtig." + (open ? " " + open + " noch offen." : (correct === items.length ? " Alles richtig." : " Lesen Sie die Hinweise und korrigieren Sie Ihre Auswahl."));
+    });
+    form.querySelector(".reset").addEventListener("click", function () {
+      items.forEach(function (item) {
+        item.querySelector("select").value = "";
+        var fb = item.querySelector(".feedback"); fb.className = "feedback"; fb.textContent = "";
+      });
+      form.querySelector(".result").textContent = "";
+    });
+  });
+})();
+</script>
+</body>
+</html>
