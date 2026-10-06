@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="de"><head><meta name="robots" content="noindex"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TEST Veröffentlichung</title>
+<style>body{font-family:Arial,sans-serif;max-width:40rem;margin:2rem auto;padding:0 1rem}input,button{font-size:1rem;padding:.4rem}#antwort{margin-top:1rem}</style></head>
+<body><main id="aufgabe-1-2"><h1>Aufgabe 1.2</h1>
+<p>Ein Sparguthaben von 2.000,00 Euro wird ein Jahr lang mit 2 Prozent verzinst. Wie hoch ist das Guthaben nach einem Jahr (in Euro)?</p>
+<label for="eingabe">Ihr Ergebnis:</label> <input id="eingabe" inputmode="decimal"> <button id="pruefen" type="button">Prüfen</button>
+<p id="antwort" role="status"></p></main>
+<script>
+document.getElementById('pruefen').addEventListener('click', function () {
+  var wert = parseFloat(document.getElementById('eingabe').value.replace(/\./g, '').replace(',', '.'));
+  var text = isNaN(wert) ? 'Bitte eine Zahl eingeben.'
+    : Math.abs(wert - 2040) < 0.005 ? 'Richtig. Zinsen 40,00 Euro plus Kapital 2.000,00 Euro ergeben 2.040,00 Euro.'
+    : Math.abs(wert - 40) < 0.005 ? 'Das ist nur der Zinsbetrag. Das Guthaben enthält auch das Kapital.'
+    : 'Noch nicht richtig. Rechnen Sie zuerst 2 Prozent von 2.000 Euro und addieren Sie dann das Kapital.';
+  document.getElementById('antwort').textContent = text;
+});
+</script></body></html>
