@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5. Konten für Privatkunden Übung Teil I: Interaktive Aufgaben</title>
+<style>
+  :root { --fg:#1d2733; --bg:#f5f7fa; --card:#fff; --accent:#0b5cad; --ok:#176b3a; --okbg:#e3f4ea; --bad:#9b2323; --badbg:#fbe9e9; --line:#c9d2dc; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif; color:var(--fg); background:var(--bg); line-height:1.5; }
+  header, main { max-width: 52rem; margin: 0 auto; padding: 1rem; }
+  h1 { font-size: 1.5rem; margin: .5rem 0; }
+  h2 { font-size: 1.25rem; margin-top: 0; }
+  section { background:var(--card); border:1px solid var(--line); border-radius:.6rem; padding:1rem; margin-bottom:1.5rem; }
+  .task { background:#eef3f9; border-left:4px solid var(--accent); padding:.6rem .8rem; border-radius:.3rem; }
+  button { font:inherit; padding:.6rem 1rem; min-height:44px; border:1px solid var(--accent); background:var(--accent); color:#fff; border-radius:.4rem; cursor:pointer; }
+  button.alt { background:#fff; color:var(--accent); }
+  button:focus-visible, input:focus-visible { outline:3px solid #f2a900; outline-offset:2px; }
+  .opt { display:block; width:100%; text-align:left; margin:.4rem 0; background:#fff; color:var(--fg); border-color:var(--line); }
+  .opt:hover { border-color:var(--accent); }
+  .opt.right { background:var(--okbg); border-color:var(--ok); }
+  .opt.wrong { background:var(--badbg); border-color:var(--bad); }
+  .fb { margin:.4rem 0 .8rem; padding:.6rem .8rem; border-radius:.4rem; }
+  .fb.right { background:var(--okbg); border:1px solid var(--ok); }
+  .fb.wrong { background:var(--badbg); border:1px solid var(--bad); }
+  fieldset { border:1px solid var(--line); border-radius:.4rem; margin:.6rem 0; padding:.6rem .8rem; }
+  legend { font-weight:600; padding:0 .3rem; }
+  label { display:inline-block; margin-right:1.2rem; min-height:44px; padding:.5rem 0; }
+  input[type=radio] { width:1.2rem; height:1.2rem; margin-right:.4rem; }
+  .meta { color:#4a5868; font-size:.95rem; }
+  nav a { color:var(--accent); margin-right:1rem; }
+  @media (max-width:480px) { header, main { padding:.6rem; } section { padding:.7rem; } label { display:block; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>5. Konten für Privatkunden Übung Teil I</h1>
+  <p class="meta">Bank BFK, LF 2: Gemeinschaftskonten und Konten für Minderjährige. Alle Personen und Beträge sind angenommen. Die Seite funktioniert ohne Anmeldung und speichert keine Daten.</p>
+  <nav aria-label="Aufgaben">
+    <a href="#aufgabe-1-3">Aufgabe 1.3</a>
+    <a href="#aufgabe-1-7">Aufgabe 1.7</a>
+    <a href="#aufgabe-1-8">Aufgabe 1.8</a>
+  </nav>
+</header>
+<main>
+
+<section id="aufgabe-1-3" aria-labelledby="h13">
+  <h2 id="h13">Aufgabe 1.3 Oder-Konto oder Und-Konto</h2>
+  <p class="task">Ordnen Sie jede Aussage dem Oder-Konto oder dem Und-Konto zu.</p>
+  <form id="zuordnung" novalidate></form>
+  <p><button type="button" id="z-pruefen">Zuordnung prüfen</button> <button type="button" class="alt" id="z-reset">Neu beginnen</button></p>
+  <p id="z-ergebnis" role="status" aria-live="polite"></p>
+</section>
+
+<section id="aufgabe-1-7" aria-labelledby="h17">
+  <h2 id="h17">Aufgabe 1.7 Fallberatung Minderjährige</h2>
+  <p class="task">Entscheiden Sie bei jedem der vier Fälle, wie Sie als Berater vorgehen.</p>
+  <div id="faelle"></div>
+</section>
+
+<section id="aufgabe-1-8" aria-labelledby="h18">
+  <h2 id="h18">Aufgabe 1.8 Adaptiver Prüfungstrainer</h2>
+  <p class="task">Sie beantworten sechs Fragen. Richtige Antworten führen zu schwierigeren Fragen, falsche Antworten zu leichteren.</p>
+  <div id="trainer"></div>
+</section>
+
+</main>
+<script>
+(function () {
+  "use strict";
+
+  function el(tag, attrs, text) {
+    var e = document.createElement(tag);
+    if (attrs) { Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); }); }
+    if (text) { e.textContent = text; }
+    return e;
+  }
+
+  /* Aufgabe 1.3 */
+  var ZUORDNUNG = [
+    { t: "Jeder Kontoinhaber darf allein Überweisungen auslösen.", a: "oder",
+      ok: "Das ist das Kennzeichen des Oder-Kontos: Jeder Kontoinhaber ist allein verfügungsberechtigt.",
+      bad: "Hier handelt es sich um das Oder-Konto. Nur dort darf jeder Kontoinhaber allein verfügen, beim Und-Konto geht das nur gemeinsam." },
+    { t: "Alle Kontoinhaber müssen jeder Verfügung zustimmen.", a: "und",
+      ok: "Das ist das Kennzeichen des Und-Kontos: Die Kontoinhaber sind nur gemeinsam verfügungsberechtigt.",
+      bad: "Hier handelt es sich um das Und-Konto. Wenn alle zustimmen müssen, liegt eine gemeinschaftliche Verfügungsberechtigung vor." },
+    { t: "Ein Kontoinhaber darf das Konto kurzfristig im banküblichen Rahmen überziehen.", a: "oder",
+      ok: "Beim Oder-Konto sind kurzfristige Überziehungen durch einen Kontoinhaber im banküblichen Rahmen zulässig.",
+      bad: "Beim Und-Konto sind Überziehungen nicht möglich. Die kurzfristige Überziehung durch einen Inhaber gehört zum Oder-Konto." },
+    { t: "Eine Kontoüberziehung ist nicht möglich.", a: "und",
+      ok: "Beim Und-Konto ist eine kurzfristige Kontoüberziehung nicht möglich.",
+      bad: "Beim Oder-Konto sind kurzfristige Überziehungen im banküblichen Rahmen erlaubt. Der Ausschluss gilt für das Und-Konto." },
+    { t: "Nach dem Tod eines Kontoinhabers darf der andere Inhaber das Konto allein auflösen oder umschreiben lassen.", a: "oder",
+      ok: "Beim Oder-Konto bleibt die Einzelverfügungsberechtigung auch im Todesfall gültig, der verbleibende Inhaber darf das Konto allein auflösen.",
+      bad: "Beim Und-Konto geht es nach dem Tod nur zusammen mit den Erben. Das Alleinrecht des verbleibenden Inhabers gehört zum Oder-Konto." },
+    { t: "Nach dem Tod eines Kontoinhabers sind Verfügungen nur zusammen mit den Erben möglich.", a: "und",
+      ok: "Beim Und-Konto müssen nach dem Tod eines Inhabers die Erben mitwirken, auch bei der Kontoauflösung.",
+      bad: "Beim Oder-Konto kann der verbleibende Inhaber allein handeln. Die Mitwirkung der Erben ist die Regel beim Und-Konto." }
+  ];
+  var zForm = document.getElementById("zuordnung");
+  var zOut = document.getElementById("z-ergebnis");
+
+  function buildZuordnung() {
+    zForm.innerHTML = "";
+    zOut.textContent = "";
+    ZUORDNUNG.forEach(function (item, i) {
+      var fs = el("fieldset");
+      fs.appendChild(el("legend", null, (i + 1) + ". " + item.t));
+      ["oder", "und"].forEach(function (v) {
+        var id = "z" + i + v;
+        var lab = el("label", { "for": id });
+        var inp = el("input", { type: "radio", name: "z" + i, id: id, value: v });
+        lab.appendChild(inp);
+        lab.appendChild(document.createTextNode(v === "oder" ? "Oder-Konto" : "Und-Konto"));
+        fs.appendChild(lab);
+      });
+      var fb = el("div", { id: "zfb" + i, "aria-live": "polite" });
+      fs.appendChild(fb);
+      zForm.appendChild(fs);
+    });
+  }
+  document.getElementById("z-pruefen").addEventListener("click", function () {
+    var richtig = 0, offen = 0;
+    ZUORDNUNG.forEach(function (item, i) {
+      var sel = zForm.querySelector("input[name=z" + i + "]:checked");
+      var fb = document.getElementById("zfb" + i);
+      fb.className = "";
+      if (!sel) { fb.textContent = "Bitte wählen Sie zuerst eine Zuordnung aus."; offen++; return; }
+      if (sel.value === item.a) { richtig++; fb.className = "fb right"; fb.textContent = "Richtig. " + item.ok; }
+      else { fb.className = "fb wrong"; fb.textContent = "Noch nicht richtig. " + item.bad; }
+    });
+    zOut.textContent = offen ? "Es fehlen noch " + offen + " Zuordnungen. Bisher richtig: " + richtig + " von " + ZUORDNUNG.length + "."
+      : "Ergebnis: " + richtig + " von " + ZUORDNUNG.length + " Aussagen richtig zugeordnet.";
+  });
+  document.getElementById("z-reset").addEventListener("click", buildZuordnung);
+  buildZuordnung();
+
+  /* Frage-Renderer für 1.7 und 1.8 */
+  function renderQuestion(box, q, onAnswer) {
+    var done = false;
+    var p = el("p", null, q.text);
+    p.style.fontWeight = "600";
+    box.appendChild(p);
+    var fbBox = el("div", { "aria-live": "polite" });
+    var btns = [];
+    q.opts.forEach(function (o, i) {
+      var b = el("button", { type: "button", "class": "opt" }, String.fromCharCode(97 + i) + ") " + o.t);
+      b.addEventListener("click", function () {
+        if (done) { return; }
+        done = true;
+        btns.forEach(function (x, j) {
+          x.disabled = true;
+          if (q.opts[j].c) { x.classList.add("right"); }
+        });
+        if (!o.c) { b.classList.add("wrong"); }
+        fbBox.className = "fb " + (o.c ? "right" : "wrong");
+        fbBox.textContent = (o.c ? "Richtig. " : "Noch nicht richtig. ") + o.fb;
+        if (!o.c) {
+          var r = q.opts.filter(function (x) { return x.c; })[0];
+          fbBox.textContent += " Die richtige Antwort lautet: " + r.t + " " + r.fb;
+        }
+        if (onAnswer) { onAnswer(o.c); }
+      });
+      btns.push(b);
+      box.appendChild(b);
+    });
+    box.appendChild(fbBox);
+  }
+
+  /* Aufgabe 1.7 */
+  var FAELLE = [
+    { text: "Fall A: Der 17-jährige Felix möchte auf seinem Girokonto einen Dispositionskredit über 300,00 Euro. Seine Eltern haben schriftlich zugestimmt. Wie entscheiden Sie?",
+      opts: [
+        { t: "Ich richte den Kredit ein, weil die Eltern zugestimmt haben.", c: false, fb: "Die Zustimmung der Eltern genügt bei Krediten für Minderjährige nicht. Es braucht zusätzlich die Genehmigung des Familiengerichts." },
+        { t: "Ich richte den Kredit nur mit Genehmigung des Familiengerichts ein.", c: true, fb: "Kreditgewährungen an Minderjährige sind nur mit Zustimmung der Eltern und Genehmigung des Familiengerichts zulässig. Diese wird nur in Ausnahmefällen erteilt, daher gibt es im Alltag keine Dispositionskredite für Minderjährige." },
+        { t: "Ich richte den Kredit ein, aber nur mit einem Limit von 100,00 Euro.", c: false, fb: "Auch ein kleiner Betrag ist eine Kreditaufnahme. Die Höhe ändert nichts an der Pflicht zur gerichtlichen Genehmigung." }
+      ] },
+    { text: "Fall B: Die 16-jährige Sophie wünscht eine klassische Kreditkarte mit Verfügungsrahmen. Was bieten Sie an?",
+      opts: [
+        { t: "Ich gebe die Karte aus, wenn die Eltern zustimmen.", c: false, fb: "Kreditkarten mit Verfügungsrahmen dürfen an Minderjährige nicht ausgegeben werden, auch nicht mit Zustimmung der Eltern." },
+        { t: "Ich gebe die Karte mit einem niedrigen Rahmen von 50,00 Euro aus.", c: false, fb: "Jeder Verfügungsrahmen kann zu einer unzulässigen Kreditaufnahme führen, auch ein niedriger." },
+        { t: "Ich biete eine Prepaid-Kreditkarte auf Guthabenbasis an.", c: true, fb: "Bei der Prepaid-Kreditkarte sind Zahlungen nur im Umfang des aufgeladenen Guthabens möglich. Eine Überziehung ist daher ausgeschlossen." }
+      ] },
+    { text: "Fall C: Der 15-jährige Emre möchte eine Girocard. Wie gehen Sie vor?",
+      opts: [
+        { t: "Ich lehne ab, weil Minderjährige keine Bankkarten erhalten dürfen.", c: false, fb: "Eine Girocard darf an Minderjährige ausgegeben werden, wenn bestimmte Voraussetzungen erfüllt sind." },
+        { t: "Ich gebe die Karte aus, weil die Eltern ohnehin für Schulden haften.", c: false, fb: "Das Kreditinstitut muss selbst verhindern, dass das Konto überzogen wird. Die Haftung der Eltern ersetzt diese Prüfung nicht." },
+        { t: "Ich gebe die Karte aus, wenn bei jeder Verfügung online geprüft wird, ob ausreichend Guthaben vorhanden ist.", c: true, fb: "So werden Überziehungen verhindert. Lastschriften, die zu einer Überziehung führen würden, löst das Kreditinstitut ebenfalls nicht ein." }
+      ] },
+    { text: "Fall D: Ein volljähriger Onkel will seiner 16-jährigen Nichte eine Vollmacht für sein Girokonto erteilen. Ist das möglich?",
+      opts: [
+        { t: "Nein, die Nichte ist beschränkt geschäftsfähig und kann deshalb keine Vollmacht erhalten.", c: false, fb: "Vollmachten können auch beschränkt Geschäftsfähige erhalten. Die Wirksamkeit der Erklärung des Vertreters wird dadurch nicht berührt." },
+        { t: "Ja, aber nur mit Einwilligung der Eltern der Nichte.", c: false, fb: "Die Einwilligung der Eltern der Nichte ist nicht nötig, weil sie als Bevollmächtigte nur für den Onkel handelt. Der Onkel ist voll geschäftsfähig." },
+        { t: "Ja, die Vollmacht ist wirksam.", c: true, fb: "Nach Paragraf 165 BGB kann ein beschränkt Geschäftsfähiger Bevollmächtigter sein. Umgekehrt könnte eine 16-Jährige selbst keine Vollmacht ohne Einwilligung ihrer Eltern erteilen." }
+      ] }
+  ];
+  var faelleBox = document.getElementById("faelle");
+  FAELLE.forEach(function (q) {
+    var fs = el("fieldset");
+    renderQuestion(fs, q, null);
+    faelleBox.appendChild(fs);
+  });
+
+  /* Aufgabe 1.8 */
+  var POOL = [
+    { l: 1, text: "Ab wann ist eine Person voll geschäftsfähig?", opts: [
+      { t: "Mit Vollendung des 7. Lebensjahres.", c: false, fb: "Mit sieben Jahren beginnt die beschränkte Geschäftsfähigkeit." },
+      { t: "Mit Vollendung des 18. Lebensjahres.", c: true, fb: "Erst nach Vollendung des 18. Lebensjahres sind Personen voll geschäftsfähig." },
+      { t: "Mit Vollendung des 16. Lebensjahres.", c: false, fb: "Mit 16 Jahren ändert sich an der beschränkten Geschäftsfähigkeit nichts." } ] },
+    { l: 1, text: "Die sechsjährige Lena unterschreibt allein den Antrag für ein Sparkonto. Was gilt für ihre Willenserklärung?", opts: [
+      { t: "Sie ist schwebend unwirksam.", c: false, fb: "Schwebende Unwirksamkeit gilt für beschränkt Geschäftsfähige, Lena ist aber noch geschäftsunfähig." },
+      { t: "Sie ist nichtig.", c: true, fb: "Kinder unter sieben Jahren sind geschäftsunfähig, ihre Willenserklärung ist nach den Paragrafen 104 und 105 BGB nichtig." },
+      { t: "Sie ist wirksam, wenn die Bank zustimmt.", c: false, fb: "Die Zustimmung der Bank heilt die Nichtigkeit nicht. Es handeln die gesetzlichen Vertreter." } ] },
+    { l: 1, text: "Wer vertritt ein minderjähriges Kind grundsätzlich gesetzlich?", opts: [
+      { t: "Die Eltern gemeinsam.", c: true, fb: "Die Eltern vertreten das Kind nach Paragraf 1629 BGB gemeinsam, es sei denn, ein Elternteil übt das Sorgerecht allein aus." },
+      { t: "Das Kreditinstitut.", c: false, fb: "Das Kreditinstitut ist Vertragspartner und vertritt den Kunden nicht." },
+      { t: "Jeder Verwandte.", c: false, fb: "Verwandte haben ohne Vollmacht oder gerichtliche Bestellung keine Vertretungsmacht." } ] },
+    { l: 2, text: "Ein 14-Jähriger schließt ohne Einwilligung der Eltern einen Kontovertrag. Welcher Zustand liegt vor?", opts: [
+      { t: "Der Vertrag ist bis zur Genehmigung der Eltern schwebend unwirksam.", c: true, fb: "Bei mehrseitigen Rechtsgeschäften hängt die Wirksamkeit von der Genehmigung des gesetzlichen Vertreters ab." },
+      { t: "Der Vertrag ist von Anfang an wirksam.", c: false, fb: "Ohne Einwilligung ist der Vertrag nicht wirksam, solange die Genehmigung fehlt." },
+      { t: "Der Vertrag ist nichtig.", c: false, fb: "Nichtig wäre die Erklärung nur bei Geschäftsunfähigkeit. Beschränkt Geschäftsfähige schließen schwebend unwirksame Verträge." } ] },
+    { l: 2, text: "Die 16-jährige Klara kündigt ihren Sparvertrag allein. Wie ist das zu beurteilen?", opts: [
+      { t: "Die Kündigung ist schwebend unwirksam.", c: false, fb: "Das gilt für mehrseitige Rechtsgeschäfte. Die Kündigung ist aber einseitig." },
+      { t: "Die Kündigung ist wirksam, weil sie Klaras eigenes Geld betrifft.", c: false, fb: "Die Verfügung über eigenes Geld macht ein einseitiges Geschäft ohne Einwilligung nicht wirksam." },
+      { t: "Die Kündigung ist als einseitiges Rechtsgeschäft ohne Einwilligung unwirksam.", c: true, fb: "Einseitige Rechtsgeschäfte wie Kündigung oder Vollmacht sind ohne Einwilligung des gesetzlichen Vertreters nach Paragraf 111 BGB unwirksam." } ] },
+    { l: 2, text: "Wie haften die Inhaber eines Gemeinschaftskontos für Verbindlichkeiten aus dem Konto?", opts: [
+      { t: "Jeder nur für seinen eigenen Anteil.", c: false, fb: "Die Haftung wird nicht nach Anteilen aufgeteilt." },
+      { t: "Nur der Inhaber, der verfügt hat.", c: false, fb: "Es kommt nicht darauf an, wer die Verbindlichkeit verursacht hat." },
+      { t: "Als Gesamtschuldner.", c: true, fb: "Die Bank kann die Forderung von jedem Kontoinhaber in voller Höhe verlangen." } ] },
+    { l: 3, text: "Die Eltern des 17-jährigen Jan möchten von dessen Girokonto eine private Urlaubsreise der Eltern bezahlen. Ist das zulässig?", opts: [
+      { t: "Ja, die Eltern sind gesetzliche Vertreter und dürfen frei verfügen.", c: false, fb: "Die Vertretungsmacht erlaubt keine freie Verwendung. Die Eltern müssen das Vermögen im Interesse des Kindes verwalten." },
+      { t: "Nein, das Vermögen des Kindes muss im Interesse des Kindes verwaltet werden.", c: true, fb: "Eine Verwendung des Kindesguthabens für eigene Zwecke der Eltern ist unzulässig." },
+      { t: "Ja, wenn Jan zustimmt, weil er 17 Jahre alt ist.", c: false, fb: "Auch mit Zustimmung ändert sich nichts an der Pflicht zur Verwaltung im Interesse des Kindes." } ] },
+    { l: 3, text: "Ein Vormund möchte das Geld seines 14-jährigen Mündels vollständig in spekulative Aktien investieren. Wie beurteilen Sie das?", opts: [
+      { t: "Zulässig, weil der Vormund das Mündel gesetzlich vertritt.", c: false, fb: "Die Vertretungsmacht ist an die Pflicht zur sicheren Anlage gebunden." },
+      { t: "Zulässig, wenn das Familiengericht informiert wird.", c: false, fb: "Eine bloße Information ändert nichts an der Anlagepflicht." },
+      { t: "Unzulässig, Mündelgeld ist verzinslich und mündelsicher anzulegen.", c: true, fb: "Geeignet sind etwa Bundesanleihen, Pfandbriefe oder festverzinsliche Sparformen. Spekulative Wertpapiere sind unzulässig." } ] },
+    { l: 3, text: "Bei einem Und-Konto stirbt ein Kontoinhaber. Wer kann über das Guthaben verfügen?", opts: [
+      { t: "Der verbleibende Kontoinhaber allein.", c: false, fb: "Das gilt für das Oder-Konto. Beim Und-Konto reicht der verbleibende Inhaber allein nicht aus." },
+      { t: "Niemand, das Konto wird gesperrt, bis die Bank entscheidet.", c: false, fb: "Das Konto bleibt nutzbar, aber nur mit den Erben." },
+      { t: "Der verbleibende Kontoinhaber nur zusammen mit den Erben.", c: true, fb: "Beim Und-Konto sind Verfügungen und die Kontoauflösung im Todesfall nur zusammen mit den Erben möglich." } ] }
+  ];
+  var ANZAHL = 6;
+  var tBox = document.getElementById("trainer");
+  var state;
+
+  function startTrainer() {
+    state = { level: 2, used: [], richtig: 0, nr: 0, pfad: [] };
+    tBox.innerHTML = "";
+    var b = el("button", { type: "button" }, "Trainer starten");
+    b.addEventListener("click", nextQuestion);
+    tBox.appendChild(b);
+  }
+  function pick() {
+    var lv = state.level, order = [lv, lv - 1, lv + 1, lv - 2, lv + 2], i, c;
+    for (i = 0; i < order.length; i++) {
+      c = POOL.filter(function (q, idx) { return q.l === order[i] && state.used.indexOf(idx) < 0; });
+      if (c.length) { var q = c[0]; state.used.push(POOL.indexOf(q)); return q; }
+    }
+    return null;
+  }
+  function nextQuestion() {
+    var q = pick();
+    if (!q || state.nr >= ANZAHL) { return finish(); }
+    state.nr++;
+    tBox.innerHTML = "";
+    tBox.appendChild(el("p", { "class": "meta" }, "Frage " + state.nr + " von " + ANZAHL + ", Stufe " + q.l + " von 3"));
+    var box = el("div");
+    tBox.appendChild(box);
+    renderQuestion(box, q, function (c) {
+      if (c) { state.richtig++; state.level = Math.min(3, state.level + 1); }
+      else { state.level = Math.max(1, state.level - 1); }
+      state.pfad.push(c);
+      var weiter = el("button", { type: "button" }, state.nr >= ANZAHL ? "Ergebnis anzeigen" : "Nächste Frage");
+      weiter.addEventListener("click", nextQuestion);
+      box.appendChild(weiter);
+      weiter.focus();
+    });
+  }
+  function finish() {
+    tBox.innerHTML = "";
+    var rec = state.richtig >= 5 ? "Sehr gut, Sie beherrschen den Stoff sicher."
+      : state.richtig >= 3 ? "Solide Grundlage. Wiederholen Sie die Aufgaben, die Sie falsch beantwortet haben, anhand von Anlage 1 und Anlage 2."
+      : "Wiederholen Sie zuerst die Altersstufen der Geschäftsfähigkeit und den Unterschied zwischen Oder-Konto und Und-Konto in den Anlagen.";
+    var out = el("div", { "class": "fb " + (state.richtig >= 3 ? "right" : "wrong"), role: "status" });
+    out.textContent = "Ergebnis: " + state.richtig + " von " + state.nr + " Fragen richtig. " + rec;
+    tBox.appendChild(out);
+    var b = el("button", { type: "button", "class": "alt" }, "Noch einmal üben");
+    b.addEventListener("click", startTrainer);
+    tBox.appendChild(b);
+    b.focus();
+  }
+  startTrainer();
+})();
+</script>
+</body>
+</html>
