@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unternehmensformen Teil 1: interaktive Aufgaben</title>
+<style>
+  body { font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif; line-height: 1.5; margin: 0; background: #f5f6f8; color: #1d2733; }
+  main { max-width: 52rem; margin: 0 auto; padding: 1rem; }
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.25rem; margin-top: 0; }
+  section { background: #fff; border-radius: 8px; padding: 1rem 1.25rem; margin: 1.5rem 0; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+  .item { border-top: 1px solid #d9dee5; padding: .75rem 0; }
+  .item p { margin: 0 0 .5rem; }
+  select, button { font: inherit; padding: .5rem .75rem; min-height: 2.75rem; }
+  button { background: #1f5a99; color: #fff; border: 0; border-radius: 6px; cursor: pointer; margin-top: .75rem; }
+  button.sec { background: #5b6672; margin-left: .5rem; }
+  :focus-visible { outline: 3px solid #e08a00; outline-offset: 2px; }
+  fieldset { border: 0; padding: 0; margin: 0; }
+  legend { padding: 0; }
+  label.opt { display: inline-block; margin-right: 1.25rem; min-height: 2.75rem; line-height: 2.75rem; }
+  .fb { margin-top: .5rem; padding: .5rem .75rem; border-radius: 6px; display: none; }
+  .fb.ok { display: block; background: #e3f4e6; border-left: 5px solid #2e7d32; }
+  .fb.bad { display: block; background: #fdeaea; border-left: 5px solid #c62828; }
+  .fb.open { display: block; background: #fff4d6; border-left: 5px solid #e08a00; }
+  .score { font-weight: 600; margin-top: .75rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Unternehmensformen Teil 1: Einzelunternehmen, GbR und OHG</h1>
+  <p>Diese Seite gehört zur Übung für Bank BFK, Lernfeld 3. Es werden keine Daten gespeichert und keine Anmeldung ist nötig.</p>
+
+  <section id="aufgabe-1-3" aria-labelledby="h13">
+    <h2 id="h13">Aufgabe 1.3: Aussagen den Rechtsformen zuordnen</h2>
+    <p>Ordnen Sie jede Aussage dem Einzelunternehmen, der GbR oder der OHG zu. Jede Rechtsform kommt dreimal vor.</p>
+    <div id="zuordnung"></div>
+    <button type="button" id="pruef13">Zuordnung prüfen</button>
+    <button type="button" class="sec" id="reset13">Zurücksetzen</button>
+    <p class="score" id="score13" role="status" aria-live="polite"></p>
+  </section>
+
+  <section id="aufgabe-2-2" aria-labelledby="h22">
+    <h2 id="h22">Aufgabe 2.2: Aussagen zur GbR beurteilen</h2>
+    <p>Beurteilen Sie zuerst auf Ihrem Blatt schriftlich mit Begründung. Wählen Sie danach hier aus, ob die Aussage richtig oder falsch ist.</p>
+    <div id="selbst"></div>
+    <button type="button" id="pruef22">Antworten prüfen</button>
+    <button type="button" class="sec" id="reset22">Zurücksetzen</button>
+    <p class="score" id="score22" role="status" aria-live="polite"></p>
+  </section>
+</main>
+
+<script>
+(function () {
+  var FORMEN = ["Einzelunternehmen", "GbR", "OHG"];
+
+  var ZUORD = [
+    { t: "Für die Gründung genügt eine einzige Person.", a: 0,
+      ok: "Richtig. Nur das Einzelunternehmen hat einen einzigen Inhaber. GbR und OHG sind Gesellschaften und brauchen mindestens zwei Personen.",
+      bad: "Nicht ganz. GbR und OHG entstehen durch einen Gesellschaftsvertrag und brauchen deshalb mindestens zwei Personen. Nur eine Rechtsform lässt sich allein gründen." },
+    { t: "Die Eintragung in das Gesellschaftsregister ist freiwillig. Eine Eintragung im Handelsregister gibt es nicht, weil die Gesellschaft nicht kaufmännisch ist.", a: 1,
+      ok: "Richtig. Eine rechtsfähige GbR kann sich freiwillig ins Gesellschaftsregister eintragen lassen und heißt dann eGbR.",
+      bad: "Nicht ganz. Einzelunternehmer und OHG werden im Handelsregister Abteilung A eingetragen, sobald sie Kaufleute sind. Nur bei einer Rechtsform ist die Eintragung freiwillig und nicht kaufmännisch." },
+    { t: "Die Firma muss den Zusatz „offene Handelsgesellschaft“ oder die Abkürzung dazu enthalten.", a: 2,
+      ok: "Richtig. Der Rechtsformzusatz OHG ist Pflicht und zeigt Geschäftspartnern, dass alle Gesellschafter persönlich haften.",
+      bad: "Nicht ganz. Der Einzelunternehmer führt den Zusatz e. K., e. Kfm. oder e. Kfr. Die GbR führt den Zusatz GbR. Gesucht ist die Rechtsform mit dem Zusatz „offene Handelsgesellschaft“." },
+    { t: "Ohne abweichende Regelung im Vertrag darf jeder persönlich haftende Gesellschafter die Gesellschaft allein vertreten.", a: 2,
+      ok: "Richtig. Bei der OHG gilt Einzelvertretung, sofern der Gesellschaftsvertrag nichts anderes bestimmt.",
+      bad: "Nicht ganz. Bei der GbR vertreten die Gesellschafter ohne abweichende Regelung gemeinschaftlich. Der Einzelunternehmer hat keine Mitgesellschafter, die ihn vertreten könnten. Gesucht ist die Handelsgesellschaft mit mehreren Gesellschaftern und Einzelvertretung." },
+    { t: "Der Inhaber vertritt das Unternehmen allein und haftet mit dem Geschäftsvermögen und seinem Privatvermögen.", a: 0,
+      ok: "Richtig. Der Einzelunternehmer ist Geschäftsführer, Vertreter und Haftender in einer Person.",
+      bad: "Nicht ganz. Bei Gesellschaften gibt es mehrere Gesellschafter. Hier ist von einem Inhaber die Rede, also von der Rechtsform ohne Gesellschafter." },
+    { t: "Die Gesellschafter vertreten die Gesellschaft nur gemeinsam, soweit der Gesellschaftsvertrag nichts anderes bestimmt.", a: 1,
+      ok: "Richtig. Das ist die gesetzliche Gesamtvertretung bei der GbR (§ 720 BGB).",
+      bad: "Nicht ganz. Bei der OHG gilt Einzelvertretung. Gesamtvertretung als gesetzlicher Normalfall gilt bei der Gesellschaft, die nicht im Handelsregister steht." },
+    { t: "Die Firma enthält den Zusatz „eingetragener Kaufmann“ oder „e. K.“ und der Unternehmer steht im Handelsregister Abteilung A.", a: 0,
+      ok: "Richtig. Der Zusatz e. K. gehört zur Einzelunternehmung, wenn der Inhaber Kaufmann ist (§ 19 HGB).",
+      bad: "Nicht ganz. Die Abkürzung e. K. steht für eingetragenen Kaufmann und passt nur zu der Rechtsform ohne Gesellschafter." },
+    { t: "Es sind mindestens zwei Gründer nötig und die Gesellschaft muss im Handelsregister Abteilung A eingetragen werden.", a: 2,
+      ok: "Richtig. Die OHG ist eine Personenhandelsgesellschaft und wird in Abteilung A eingetragen. Abteilung B ist Kapitalgesellschaften wie der GmbH und der AG vorbehalten.",
+      bad: "Nicht ganz. Die GbR ist nicht kaufmännisch und steht nicht im Handelsregister. Der Einzelunternehmer braucht keinen zweiten Gründer. Gesucht ist die Personenhandelsgesellschaft." },
+    { t: "Der Name enthält mindestens den Namen eines Gesellschafters und den Zusatz „GbR“.", a: 1,
+      ok: "Richtig. So empfiehlt es sich laut Unterricht, damit die Gesellschaft nach außen erkennbar ist.",
+      bad: "Nicht ganz. Der Zusatz GbR gehört zu der Gesellschaft des bürgerlichen Rechts. Einzelunternehmen und OHG führen jeweils einen eigenen Rechtsformzusatz." }
+  ];
+
+  var SELBST = [
+    { t: "Für eine GbR sind mindestens zwei Personen erforderlich.", r: true,
+      ok: "Richtig. Eine GbR entsteht durch einen Vertrag mehrerer Gesellschafter, die einen gemeinsamen Zweck verfolgen (§ 705 BGB).",
+      bad: "Das stimmt. Die GbR ist eine Gesellschaft und entsteht durch einen Vertrag mehrerer Gesellschafter (§ 705 BGB). Eine einzelne Person kann keinen Gesellschaftsvertrag mit sich selbst schließen." },
+    { t: "Eine GbR braucht ein Mindestkapital von 25.000,00 EUR.", r: false,
+      ok: "Richtig. Für die GbR gibt es keine Vorgaben zum Mindestkapital. Die 25.000,00 EUR gehören zur GmbH.",
+      bad: "Das ist falsch. Ein Mindestkapital verlangt das Gesetz bei der GbR nicht. Die Summe von 25.000,00 EUR ist das Mindeststammkapital der GmbH." },
+    { t: "Die GbR wird im Handelsregister Abteilung A eingetragen.", r: false,
+      ok: "Richtig. Die GbR ist nicht kaufmännisch. Sie kann sich freiwillig ins Gesellschaftsregister eintragen lassen und heißt dann eGbR.",
+      bad: "Das ist falsch. Das Handelsregister Abteilung A ist für Einzelkaufleute und Personenhandelsgesellschaften (OHG, KG) vorgesehen. Die GbR kann sich nur freiwillig ins Gesellschaftsregister eintragen lassen." },
+    { t: "Für die Verbindlichkeiten der GbR haftet nur das Gesellschaftsvermögen.", r: false,
+      ok: "Richtig. Die Gesellschafter haften zusätzlich mit ihrem Privatvermögen, und zwar persönlich, gesamtschuldnerisch und unbeschränkt (§ 721 BGB).",
+      bad: "Das ist falsch. Eine Haftung nur mit dem Gesellschaftsvermögen gibt es bei Kapitalgesellschaften wie der AG. Bei der GbR haften die Gesellschafter auch mit ihrem Privatvermögen." },
+    { t: "Wenn der Gesellschaftsvertrag nichts anderes bestimmt, vertreten die Gesellschafter die GbR gemeinschaftlich.", r: true,
+      ok: "Richtig. Das ist die gesetzliche Gesamtvertretung (§ 720 BGB). Ein Gesellschafter allein kann deshalb zum Beispiel kein Konto eröffnen.",
+      bad: "Das stimmt. Die gesetzliche Regelung ist die gemeinschaftliche Vertretung (§ 720 BGB). Die Einzelvertretung gilt bei der OHG oder gilt bei der GbR nur, wenn der Vertrag sie ausdrücklich vorsieht." },
+    { t: "Der Gesellschaftsvertrag einer GbR muss notariell beurkundet werden.", r: false,
+      ok: "Richtig. Der Vertrag ist formlos möglich. Die Schriftform ist aus Beweisgründen empfehlenswert.",
+      bad: "Das ist falsch. Die GbR kann formlos gegründet werden. Eine notarielle Beurkundung ist bei der Gründung einer GmbH oder AG vorgeschrieben." }
+  ];
+
+  function el(tag, attrs, text) {
+    var e = document.createElement(tag);
+    for (var k in attrs) { e.setAttribute(k, attrs[k]); }
+    if (text) { e.textContent = text; }
+    return e;
+  }
+
+  var z = document.getElementById("zuordnung");
+  ZUORD.forEach(function (it, i) {
+    var d = el("div", { "class": "item" });
+    d.appendChild(el("p", { id: "zt" + i }, (i + 1) + ". " + it.t));
+    var s = el("select", { id: "zs" + i, "aria-labelledby": "zt" + i });
+    s.appendChild(el("option", { value: "" }, "Bitte auswählen"));
+    FORMEN.forEach(function (f, j) { s.appendChild(el("option", { value: String(j) }, f)); });
+    d.appendChild(s);
+    d.appendChild(el("div", { "class": "fb", id: "zf" + i }));
+    z.appendChild(d);
+  });
+
+  var sb = document.getElementById("selbst");
+  SELBST.forEach(function (it, i) {
+    var f = el("fieldset", { "class": "item" });
+    f.appendChild(el("legend", {}, (i + 1) + ". " + it.t));
+    [["true", "richtig"], ["false", "falsch"]].forEach(function (o) {
+      var l = el("label", { "class": "opt" });
+      var r = el("input", { type: "radio", name: "sb" + i, value: o[0] });
+      l.appendChild(r);
+      l.appendChild(document.createTextNode(" " + o[1]));
+      f.appendChild(l);
+    });
+    f.appendChild(el("div", { "class": "fb", id: "sf" + i }));
+    sb.appendChild(f);
+  });
+
+  function show(id, cls, text) {
+    var b = document.getElementById(id);
+    b.className = "fb " + cls;
+    b.textContent = text;
+  }
+
+  document.getElementById("pruef13").addEventListener("click", function () {
+    var richtig = 0, offen = 0;
+    ZUORD.forEach(function (it, i) {
+      var v = document.getElementById("zs" + i).value;
+      if (v === "") { offen++; show("zf" + i, "open", "Noch keine Zuordnung gewählt."); return; }
+      if (Number(v) === it.a) { richtig++; show("zf" + i, "ok", it.ok); }
+      else { show("zf" + i, "bad", "Falsch zugeordnet. " + it.bad + " Richtig ist: " + FORMEN[it.a] + "."); }
+    });
+    document.getElementById("score13").textContent = richtig + " von " + ZUORD.length + " richtig zugeordnet" + (offen ? ", " + offen + " noch offen." : ".");
+  });
+
+  document.getElementById("pruef22").addEventListener("click", function () {
+    var richtig = 0, offen = 0;
+    SELBST.forEach(function (it, i) {
+      var c = document.querySelector('input[name="sb' + i + '"]:checked');
+      if (!c) { offen++; show("sf" + i, "open", "Noch keine Antwort gewählt."); return; }
+      if ((c.value === "true") === it.r) { richtig++; show("sf" + i, "ok", it.ok); }
+      else { show("sf" + i, "bad", "Falsch beurteilt. " + it.bad); }
+    });
+    document.getElementById("score22").textContent = richtig + " von " + SELBST.length + " richtig beurteilt" + (offen ? ", " + offen + " noch offen." : ".");
+  });
+
+  document.getElementById("reset13").addEventListener("click", function () {
+    ZUORD.forEach(function (it, i) {
+      document.getElementById("zs" + i).value = "";
+      document.getElementById("zf" + i).className = "fb";
+    });
+    document.getElementById("score13").textContent = "";
+  });
+
+  document.getElementById("reset22").addEventListener("click", function () {
+    SELBST.forEach(function (it, i) {
+      Array.prototype.forEach.call(document.getElementsByName("sb" + i), function (r) { r.checked = false; });
+      document.getElementById("sf" + i).className = "fb";
+    });
+    document.getElementById("score22").textContent = "";
+  });
+})();
+</script>
+</body>
+</html>
