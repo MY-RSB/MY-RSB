@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LF 9 Baufinanzierungen abschließen: Interaktive Aufgaben</title>
+<style>
+:root { --text:#1b2430; --bg:#f4f6f9; --card:#ffffff; --line:#c8d0da; --accent:#0b4f8a; --ok:#0a6b2d; --okbg:#e6f4ea; --bad:#9c2020; --badbg:#fbe9e9; --info:#fff6dd; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif; line-height:1.55; color:var(--text); background:var(--bg); }
+header, main, footer { max-width:60rem; margin:0 auto; padding:1rem; }
+h1 { font-size:1.6rem; margin:.5rem 0; }
+h2 { font-size:1.3rem; margin-top:0; }
+section { background:var(--card); border:1px solid var(--line); border-radius:.6rem; padding:1rem 1.2rem; margin:1.2rem 0; }
+nav ul { padding-left:1.2rem; }
+a { color:var(--accent); }
+fieldset { border:1px solid var(--line); border-radius:.4rem; margin:.8rem 0; padding:.6rem .9rem; }
+legend { font-weight:600; padding:0 .3rem; }
+label { display:inline-block; margin-right:1.2rem; padding:.3rem 0; }
+input[type=radio] { width:1.2rem; height:1.2rem; vertical-align:middle; margin-right:.3rem; }
+select { font:inherit; padding:.35rem; min-width:9rem; max-width:100%; }
+button { font:inherit; padding:.55rem 1rem; margin:.3rem .4rem .3rem 0; border:1px solid var(--accent); background:var(--accent); color:#fff; border-radius:.4rem; cursor:pointer; }
+button.secondary { background:#fff; color:var(--accent); }
+button.option { display:block; width:100%; text-align:left; background:#fff; color:var(--text); border-color:var(--line); }
+button.option[aria-disabled=true] { opacity:.65; }
+button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible, h3:focus-visible { outline:3px solid #ffb000; outline-offset:2px; }
+.fb { margin:.5rem 0; padding:.5rem .8rem; border-radius:.4rem; border-left:5px solid var(--line); background:var(--info); }
+.fb.ok { background:var(--okbg); border-color:var(--ok); }
+.fb.bad { background:var(--badbg); border-color:var(--bad); }
+.sum { font-weight:600; }
+table { border-collapse:collapse; width:100%; margin:.6rem 0; }
+th, td { border:1px solid var(--line); padding:.4rem .5rem; text-align:left; vertical-align:top; }
+.tblwrap { overflow-x:auto; }
+.meta { color:#44505e; font-size:.95rem; }
+@media (max-width:600px) { header, main, footer { padding:.6rem; } section { padding:.8rem; } label { display:block; } }
+</style>
+</head>
+<body>
+<header>
+<h1>LF 9 Baufinanzierungen abschließen: Interaktive Aufgaben</h1>
+<p>Diese Seite gehört zur Übung zum Lernfeld 9 der Bankkaufleute. Sie enthält vier interaktive Aufgaben zum Fall der Familie Brandt, die bei der Sparbank AG eine Wohnung finanzieren möchte. Alle Namen und Zahlen sind angenommen. Die Seite läuft ohne Anmeldung und speichert keine Daten.</p>
+<nav aria-label="Aufgaben">
+<ul>
+<li><a href="#aufgabe-1-4">Aufgabe 1.4: Grundstück, Wohnungseigentum und Erbbaurecht</a></li>
+<li><a href="#aufgabe-2-2">Aufgabe 2.2: Rangfolge der Rechte im Grundbuch</a></li>
+<li><a href="#aufgabe-2-4">Aufgabe 2.4: Beratungsgespräch zur Grundschuld</a></li>
+<li><a href="#aufgabe-3-4">Aufgabe 3.4: Adaptiver Prüfungstrainer</a></li>
+</ul>
+</nav>
+</header>
+<main>
+
+<section id="aufgabe-1-4" aria-labelledby="h-1-4">
+<h2 id="h-1-4">Aufgabe 1.4 Selbstprüfer: Grundstück, Wohnungseigentum und Erbbaurecht</h2>
+<p>Beurteilen Sie die acht Aussagen als richtig oder falsch. Nach dem Klick auf „Antworten prüfen“ erhalten Sie zu jeder Aussage einen fachlichen Hinweis.</p>
+<div id="sp-1-4"></div>
+</section>
+
+<section id="aufgabe-2-2" aria-labelledby="h-2-2">
+<h2 id="h-2-2">Aufgabe 2.2 Selbstprüfer: Rangfolge der Rechte im Grundbuch</h2>
+<p>Die folgenden Rechte stehen in den Abteilungen II und III des Wohnungsgrundbuchs der Wohnung Nr. 7 (Anlage 1). Weisen Sie jedem Recht den Rangplatz 1 bis 6 zu, wobei Platz 1 den besten Rang hat. Jeder Platz darf nur einmal vergeben werden.</p>
+<div id="rang-2-2"></div>
+</section>
+
+<section id="aufgabe-2-4" aria-labelledby="h-2-4">
+<h2 id="h-2-4">Aufgabe 2.4 Fall- und Beratungstrainer: Gespräch zur Grundschuld</h2>
+<p>Sie beraten Lena und Tobias Brandt bei der Sparbank AG. Wählen Sie bei jeder Kundenfrage die passende Antwort. Bei einer unpassenden Antwort erhalten Sie einen Hinweis und wählen erneut.</p>
+<div id="fall-2-4"></div>
+</section>
+
+<section id="aufgabe-3-4" aria-labelledby="h-3-4">
+<h2 id="h-3-4">Aufgabe 3.4 Adaptiver Prüfungstrainer: Baufinanzierung</h2>
+<p>Sie beantworten acht Fragen. Nach einer richtigen Antwort wird die nächste Frage schwieriger, nach einer falschen Antwort leichter. Die Stufen heißen leicht, mittel und anspruchsvoll.</p>
+<div id="pt-3-4"></div>
+</section>
+
+</main>
+<footer>
+<p class="meta">Übung zum Lernfeld 9, Bank BFK. Die Hinweise folgen dem Unterricht der Lehrkraft und den Vorschriften des BGB und des EGBGB.</p>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  function el(tag, props, kids) {
+    var node = document.createElement(tag);
+    var key;
+    props = props || {};
+    for (key in props) {
+      if (key === 'text') { node.textContent = props[key]; }
+      else { node.setAttribute(key, props[key]); }
+    }
+    (kids || []).forEach(function (k) { node.appendChild(k); });
+    return node;
+  }
+
+  /* ---------- Aufgabe 1.4: Selbstprüfer ---------- */
+  var statements = [
+    { t: 'Ein Gebäude, das fest mit dem Grund und Boden verbunden ist, ist ein wesentlicher Bestandteil des Grundstücks.', ok: true,
+      h: 'Gebäude sind fest mit Grund und Boden verbunden und damit wesentliche Bestandteile des Grundstücks (§§ 93, 94 BGB).' },
+    { t: 'Ein Traktor, der dauernd dem Betrieb eines Hofes dient, ist ein wesentlicher Bestandteil des Grundstücks.', ok: false,
+      h: 'Der Traktor ist eine bewegliche Sache, die dauernd dem wirtschaftlichen Zweck des Grundstücks dient. Er ist Zubehör des Grundstücks.' },
+    { t: 'Gemarkung, Flur und Flurstück sind Begriffe aus dem Liegenschaftskataster.', ok: true,
+      h: 'Mit Gemarkung, Flur und Flurstück wird ein Grundstück im Liegenschaftskataster eindeutig bezeichnet.' },
+    { t: 'Teileigentum ist das Sondereigentum an Wohnräumen.', ok: false,
+      h: 'Das Sondereigentum an Wohnräumen heißt Wohnungseigentum. Teileigentum ist das Sondereigentum an Gewerberäumen, zum Beispiel an einer Bäckereifiliale.' },
+    { t: 'Treppenhaus und Heizungsanlage gehören zum gemeinschaftlichen Eigentum, an dem jeder Wohnungseigentümer einen Miteigentumsanteil hat.', ok: true,
+      h: 'Gemeinschaftliche Teile wie Treppenhaus und Heizung gehören allen Eigentümern gemeinsam. Jeder hat daran einen Miteigentumsanteil.' },
+    { t: 'Das Erbbaurecht erlaubt es, auf einem fremden Grundstück ein Bauwerk zu errichten, in der Regel für 99 Jahre.', ok: true,
+      h: 'Das Erbbaurecht ist ein grundstücksbezogenes Recht für den Erbbauberechtigten. Die übliche Laufzeit beträgt 99 Jahre.' },
+    { t: 'Der Erbbauberechtigte wird Eigentümer des Grundstücks.', ok: false,
+      h: 'Das Grundstück bleibt Eigentum des Erbbaurechtsgebers. Der Erbbauberechtigte ist Eigentümer des Gebäudes und zahlt dafür den Erbbauzins.' },
+    { t: 'Für ein Erbbaurecht wird ein besonderes Grundbuch angelegt, das Erbbaugrundbuch.', ok: true,
+      h: 'Neben dem Erbbaugrundbuch gibt es das Wohnungsgrundbuch und das Teileigentumsgrundbuch als besondere Grundbücher.' }
+  ];
+
+  function buildSelf(root, items, checkLabel) {
+    var box = root;
+    var sets = [];
+    var sum = el('p', { 'class': 'sum', 'aria-live': 'polite' });
+    items.forEach(function (it, i) {
+      var name = 'sp' + i;
+      var fb = el('div', { 'aria-live': 'polite' });
+      var r1 = el('input', { type: 'radio', name: name, value: 'richtig', id: name + 'a' });
+      var r2 = el('input', { type: 'radio', name: name, value: 'falsch', id: name + 'b' });
+      var fs = el('fieldset', {}, [
+        el('legend', { text: 'Aussage ' + (i + 1) }),
+        el('p', { text: it.t }),
+        el('label', { 'for': name + 'a' }, [r1, document.createTextNode('richtig')]),
+        el('label', { 'for': name + 'b' }, [r2, document.createTextNode('falsch')]),
+        fb
+      ]);
+      sets.push({ r1: r1, r2: r2, fb: fb, it: it });
+      box.appendChild(fs);
+    });
+    var check = el('button', { type: 'button', text: checkLabel });
+    var reset = el('button', { type: 'button', 'class': 'secondary', text: 'Zurücksetzen' });
+    check.addEventListener('click', function () {
+      var right = 0, open = 0;
+      sets.forEach(function (s) {
+        var val = s.r1.checked ? true : (s.r2.checked ? false : null);
+        s.fb.textContent = '';
+        if (val === null) {
+          open++;
+          s.fb.appendChild(el('div', { 'class': 'fb', text: 'Bitte wählen Sie richtig oder falsch.' }));
+        } else if (val === s.it.ok) {
+          right++;
+          s.fb.appendChild(el('div', { 'class': 'fb ok', text: 'Richtig. Die Aussage ist ' + (s.it.ok ? 'richtig' : 'falsch') + '. ' + s.it.h }));
+        } else {
+          s.fb.appendChild(el('div', { 'class': 'fb bad', text: 'Das passt noch nicht. Die Aussage ist ' + (s.it.ok ? 'richtig' : 'falsch') + '. ' + s.it.h }));
+        }
+      });
+      sum.textContent = right + ' von ' + sets.length + ' Aussagen richtig beurteilt.' + (open ? ' ' + open + ' Aussage(n) noch ohne Antwort.' : '');
+    });
+    reset.addEventListener('click', function () {
+      sets.forEach(function (s) { s.r1.checked = false; s.r2.checked = false; s.fb.textContent = ''; });
+      sum.textContent = '';
+    });
+    box.appendChild(check); box.appendChild(reset); box.appendChild(sum);
+  }
+  buildSelf(document.getElementById('sp-1-4'), statements, 'Antworten prüfen');
+
+  /* ---------- Aufgabe 2.2: Rangfolge ---------- */
+  var rights = [
+    { id: 'III/2', txt: 'III/2 Grundschuld über 60.000 EUR, eingetragen am 15.01.2016', rank: 4,
+      h: 'Abteilung III und II werden nach dem Datum verglichen. Der 15.01.2016 liegt nach dem Leitungsrecht II/2 (2014) und vor der Grundschuld III/3 (2018).' },
+    { id: 'II/1', txt: 'II/1 Geh- und Fahrrecht, eingetragen am 14.05.2009', rank: 1,
+      h: 'Der 14.05.2009 ist das früheste Datum aller sechs Rechte. Das Geh- und Fahrrecht hat deshalb den besten Rang.' },
+    { id: 'II/3', txt: 'II/3 Vorkaufsrecht, eingetragen am 20.06.2019', rank: 6,
+      h: 'Der 20.06.2019 ist das späteste Datum. Das Vorkaufsrecht steht trotz seiner Abteilung II an letzter Stelle.' },
+    { id: 'III/1', txt: 'III/1 Grundschuld über 120.000 EUR, eingetragen am 02.06.2009', rank: 2,
+      h: 'Der Eintrag liegt in einer anderen Abteilung als II/1, daher entscheidet das Datum. Der 02.06.2009 folgt direkt auf den 14.05.2009.' },
+    { id: 'III/3', txt: 'III/3 Grundschuld über 40.000 EUR, eingetragen am 08.03.2018', rank: 5,
+      h: 'Der 08.03.2018 liegt nach III/2 (gleiche Abteilung, niedrigere Nummer geht vor) und vor dem Vorkaufsrecht II/3 vom 20.06.2019.' },
+    { id: 'II/2', txt: 'II/2 Leitungsrecht, eingetragen am 03.11.2014', rank: 3,
+      h: 'Der 03.11.2014 liegt nach der Grundschuld III/1 (2009) und vor III/2 (2016). Innerhalb der Abteilung II steht es hinter II/1.' }
+  ];
+  (function () {
+    var root = document.getElementById('rang-2-2');
+    var rows = [], head = el('tr', {}, [el('th', { scope: 'col', text: 'Recht' }), el('th', { scope: 'col', text: 'Rangplatz' })]);
+    var tbody = el('tbody');
+    var fbs = [];
+    rights.forEach(function (r, i) {
+      var sel = el('select', { id: 'rg' + i, 'aria-label': 'Rangplatz für ' + r.id });
+      sel.appendChild(el('option', { value: '', text: 'bitte wählen' }));
+      for (var n = 1; n <= 6; n++) { sel.appendChild(el('option', { value: String(n), text: 'Platz ' + n })); }
+      var fb = el('div', { 'aria-live': 'polite' });
+      rows.push(sel); fbs.push(fb);
+      tbody.appendChild(el('tr', {}, [el('td', {}, [el('label', { 'for': 'rg' + i, text: r.txt }), fb]), el('td', {}, [sel])]));
+    });
+    var wrap = el('div', { 'class': 'tblwrap' }, [el('table', {}, [el('thead', {}, [head]), tbody])]);
+    var sum = el('p', { 'class': 'sum', 'aria-live': 'polite' });
+    var check = el('button', { type: 'button', text: 'Rangfolge prüfen' });
+    var reset = el('button', { type: 'button', 'class': 'secondary', text: 'Zurücksetzen' });
+    var rule = el('div', { 'class': 'fb', text: 'Regel (§ 879 BGB): Rechte in derselben Abteilung richten sich nach der Reihenfolge der Eintragung. Rechte in verschiedenen Abteilungen richten sich nach dem Datum der Eintragung.' });
+    check.addEventListener('click', function () {
+      var used = {}, dup = false, right = 0, open = 0;
+      rows.forEach(function (s) { if (s.value) { if (used[s.value]) { dup = true; } used[s.value] = true; } });
+      rights.forEach(function (r, i) {
+        var v = rows[i].value;
+        fbs[i].textContent = '';
+        if (!v) { open++; fbs[i].appendChild(el('div', { 'class': 'fb', text: 'Bitte wählen Sie einen Rangplatz.' })); return; }
+        if (Number(v) === r.rank) { right++; fbs[i].appendChild(el('div', { 'class': 'fb ok', text: 'Richtig, Platz ' + r.rank + '. ' + r.h })); }
+        else { fbs[i].appendChild(el('div', { 'class': 'fb bad', text: 'Das passt noch nicht. Gehen Sie nach Abteilung und Datum vor. Der richtige Platz ist ' + r.rank + '. ' + r.h })); }
+      });
+      sum.textContent = right + ' von 6 Rechten richtig eingeordnet.' + (dup ? ' Hinweis: Mindestens ein Rangplatz wurde doppelt vergeben.' : '') + (open ? ' ' + open + ' Recht(e) noch ohne Platz.' : '');
+      if (right === 6) { sum.textContent += ' Eine neue Grundschuld der Sparbank AG käme als III/4 hinter alle bestehenden Rechte, solange die alten Grundschulden nicht gelöscht sind.'; }
+    });
+    reset.addEventListener('click', function () {
+      rows.forEach(function (s) { s.value = ''; });
+      fbs.forEach(function (f) { f.textContent = ''; });
+      sum.textContent = '';
+    });
+    root.appendChild(rule); root.appendChild(wrap); root.appendChild(check); root.appendChild(reset); root.appendChild(sum);
+  })();
+
+  /* ---------- Aufgabe 2.4: Falltrainer ---------- */
+  var steps = [
+    { who: 'Lena Brandt', q: 'Warum möchten Sie eine Grundschuld eintragen lassen und keine Hypothek?', o: [
+      { t: 'Die Grundschuld ist abstrakt und unabhängig von der Forderung. Sie sichert auch wechselnde oder künftige Forderungen, und die gesicherte Forderung lässt sich formlos austauschen.', ok: true,
+        f: 'Das trifft zu. Die Hypothek ist akzessorisch, also von der Forderung abhängig, und deshalb in der Bankpraxis nicht üblich.' },
+      { t: 'Die Hypothek ist gesetzlich verboten.', ok: false,
+        f: 'Die Hypothek ist weiterhin zulässig. In der Praxis wird sie nur selten gewählt, weil sie an die Forderung gebunden ist.' },
+      { t: 'Bei der Grundschuld haften Sie mit Ihrem gesamten Vermögen, bei der Hypothek nur mit der Wohnung.', ok: false,
+        f: 'Das ist vertauscht. Aus der Grundschuld besteht lediglich eine dingliche Haftung mit dem Grundstück. Eine Hypothek kann persönliche und dingliche Haftung umfassen.' } ] },
+    { who: 'Tobias Brandt', q: 'Wir zahlen jedes Jahr Tilgung. Wird die Grundschuld dadurch kleiner?', o: [
+      { t: 'Die Grundschuld bleibt in voller Höhe bestehen. Nur bei einer Hypothek würde die Sicherheit mit der Forderung sinken.', ok: true,
+        f: 'Richtig. Weil die Grundschuld abstrakt ist, bleibt ihre volle Höhe auch nach Tilgungen erhalten.' },
+      { t: 'Ja, die Grundschuld sinkt mit jeder Tilgung automatisch.', ok: false,
+        f: 'Das gilt für die Hypothek, deren Höhe mit der Forderung fällt. Die Grundschuld bleibt in voller Höhe bestehen.' },
+      { t: 'Sie sinkt erst, wenn mehr als die Hälfte getilgt ist.', ok: false,
+        f: 'Eine solche Regel gibt es nicht. Die Höhe der Grundschuld ist von der Höhe der Forderung unabhängig.' } ] },
+    { who: 'Lena Brandt', q: 'Was geschieht mit der Grundschuld, wenn wir das Darlehen in 25 Jahren ganz zurückgezahlt haben?', o: [
+      { t: 'Sie haben einen Löschungsanspruch. Wir erteilen eine Löschungsbewilligung, mit der die Grundschuld im Grundbuch gelöscht werden kann.', ok: true,
+        f: 'Richtig. Nach der Rückzahlung entfällt der Sicherungszweck, und die Löschung erfolgt in der Regel aufgrund einer Löschungsbewilligung.' },
+      { t: 'Die Grundschuld erlischt automatisch, ohne dass im Grundbuch etwas geschieht.', ok: false,
+        f: 'Eine Grundschuld erlischt nicht von selbst. Sie bleibt eingetragen, bis sie im Grundbuch gelöscht wird.' },
+      { t: 'Die Bank darf die Grundschuld für beliebige andere Zwecke behalten.', ok: false,
+        f: 'Die Sicherungsabrede bindet die Bank, sie hat nur ein eingeschränktes Verwertungsrecht (Fiduziarität). Nach der Rückzahlung besteht der Löschungsanspruch.' } ] },
+    { who: 'Tobias Brandt', q: 'Welche Rolle spielt die Sicherungszweckerklärung, die wir unterschreiben sollen?', o: [
+      { t: 'Sie verbindet die Grundschuld mit dem Darlehen und legt fest, welche Forderung die Grundschuld sichert.', ok: true,
+        f: 'Richtig. Weil die Grundschuld abstrakt ist, stellt erst die Sicherungsabrede die Verbindung zur Kreditforderung her.' },
+      { t: 'Sie ersetzt den Darlehensvertrag.', ok: false,
+        f: 'Der Darlehensvertrag bleibt erforderlich und wird schriftlich geschlossen. Die Sicherungszweckerklärung ergänzt ihn für die Grundschuld.' },
+      { t: 'Sie überträgt der Bank das Eigentum an der Wohnung.', ok: false,
+        f: 'Die Bank erhält lediglich einen dinglichen Anspruch aus dem Grundstück. Das Eigentum bleibt bei den Brandts.' } ] },
+    { who: 'Lena Brandt', q: 'Wer sorgt dafür, dass die Grundschuld ins Grundbuch kommt?', o: [
+      { t: 'Die Grundschuld wird in einer notariellen Urkunde bestellt, und der Notar veranlasst die Eintragung beim Grundbuchamt.', ok: true,
+        f: 'Richtig. Der Notar veranlasst die Eintragung entsprechend der vereinbarten Rangfolge.' },
+      { t: 'Sie beantragen die Eintragung selbst per E-Mail beim Amtsgericht.', ok: false,
+        f: 'Die Bestellung der Grundschuld erfolgt in einer notariellen Urkunde. Der Notar veranlasst die Eintragung.' },
+      { t: 'Die Sparbank AG trägt die Grundschuld selbst ins Grundbuch ein.', ok: false,
+        f: 'Eintragungen nimmt ausschließlich das Grundbuchamt beim Amtsgericht vor.' } ] }
+  ];
+  (function () {
+    var root = document.getElementById('fall-2-4');
+    var idx = 0, firstTry = 0, tried = false;
+    function show() {
+      root.textContent = '';
+      if (idx >= steps.length) {
+        root.appendChild(el('h3', { text: 'Gesprächsende', tabindex: '-1', id: 'fall-end' }));
+        root.appendChild(el('p', { 'class': 'sum', text: 'Sie haben ' + firstTry + ' von ' + steps.length + ' Fragen im ersten Versuch passend beantwortet.' }));
+        var again = el('button', { type: 'button', text: 'Gespräch neu starten' });
+        again.addEventListener('click', function () { idx = 0; firstTry = 0; show(); });
+        root.appendChild(again);
+        document.getElementById('fall-end').focus();
+        return;
+      }
+      var s = steps[idx];
+      tried = false;
+      var h = el('h3', { text: 'Frage ' + (idx + 1) + ' von ' + steps.length + ': ' + s.who, tabindex: '-1', id: 'fall-h' });
+      var fb = el('div', { 'aria-live': 'polite' });
+      var next = el('button', { type: 'button', text: idx + 1 === steps.length ? 'Gespräch beenden' : 'Weiter zur nächsten Frage' });
+      next.style.display = 'none';
+      next.addEventListener('click', function () { idx++; show(); });
+      root.appendChild(h);
+      root.appendChild(el('p', { text: '„' + s.q + '“' }));
+      var done = false;
+      s.o.forEach(function (o) {
+        var b = el('button', { type: 'button', 'class': 'option', text: o.t });
+        b.addEventListener('click', function () {
+          if (done) { return; }
+          fb.textContent = '';
+          if (o.ok) {
+            if (!tried) { firstTry++; }
+            done = true;
+            fb.appendChild(el('div', { 'class': 'fb ok', text: 'Passende Antwort. ' + o.f }));
+            next.style.display = '';
+            next.focus();
+          } else {
+            tried = true;
+            fb.appendChild(el('div', { 'class': 'fb bad', text: 'Diese Antwort passt noch nicht. ' + o.f + ' Wählen Sie eine andere Antwort.' }));
+          }
+        });
+        root.appendChild(b);
+      });
+      root.appendChild(fb);
+      root.appendChild(next);
+    }
+    show();
+  })();
+
+  /* ---------- Aufgabe 3.4: Adaptiver Prüfungstrainer ---------- */
+  var LV = ['leicht', 'mittel', 'anspruchsvoll'];
+  var pool = [
+    { l: 0, q: 'Wie lange beträgt die Widerrufsfrist bei einem Immobiliar-Verbraucherdarlehen?', o: ['7 Tage', '14 Tage', '30 Tage'], c: 1,
+      f: 'Die Widerrufsfrist beträgt 14 Tage (§§ 355, 495 BGB). Die Bank muss über das Widerrufsrecht belehren.' },
+    { l: 0, q: 'In welcher Abteilung des Grundbuchs stehen Grundpfandrechte wie die Grundschuld?', o: ['Abteilung I', 'Abteilung II', 'Abteilung III'], c: 2,
+      f: 'Abteilung I enthält die Eigentümer, Abteilung II die Lasten und Beschränkungen, Abteilung III die Grundpfandrechte.' },
+    { l: 0, q: 'Welche Reihenfolge der Phasen beschreibt das Bausparen richtig?', o: ['Zuteilung, Sparphase, Darlehensphase', 'Sparphase, Zuteilung, Darlehensphase', 'Darlehensphase, Sparphase, Zuteilung'], c: 1,
+      f: 'Zuerst wird das Mindestsparguthaben angespart, danach erfolgt bei erfüllten Voraussetzungen die Zuteilung, und zuletzt wird das Bauspardarlehen in der Darlehensphase zurückgezahlt.' },
+    { l: 0, q: 'Wofür steht die Abkürzung ESIS?', o: ['Europäisches standardisiertes Merkblatt', 'Einheitlicher Sicherungsnachweis für Immobilien', 'Erweiterte Schufa-Information für Sondertilgungen'], c: 0,
+      f: 'Das ESIS-Merkblatt ist das Europäische standardisierte Merkblatt, das dem Vertragsangebot beigefügt wird (Art. 247 § 1 EGBGB).' },
+    { l: 1, q: 'Ein Kunde hat ein Darlehen mit veränderlichem Zinssatz. Mit welcher Frist kann er ordentlich kündigen?', o: ['1 Monat', '3 Monate', '6 Monate'], c: 1,
+      f: 'Bei veränderlichem Zinssatz gilt nach § 489 Abs. 2 BGB eine Kündigungsfrist von drei Monaten. Die Frist von einem Monat gilt zum Ende einer Zinsbindung.' },
+    { l: 1, q: 'Welche Unterlage ist eine Objektunterlage, die man beim Amtsgericht erhält?', o: ['Gehaltsabrechnung', 'Flurkarte', 'Grundbuchauszug'], c: 2,
+      f: 'Den Grundbuchauszug führt das Amtsgericht. Die Flurkarte kommt vom Katasteramt, die Gehaltsabrechnung ist eine persönliche Unterlage.' },
+    { l: 1, q: 'Wie wird ein Festdarlehen zurückgezahlt?', o: ['In gleichbleibenden Raten aus Zins und Tilgung', 'Mit sinkenden Raten bei konstanter Tilgung', 'In einer Summe am Ende, zum Beispiel aus einem Bausparvertrag'], c: 2,
+      f: 'Beim Festdarlehen werden während der Laufzeit nur Zinsen gezahlt. Die Tilgung erfolgt am Ende in einer Summe, zum Beispiel durch eine Lebensversicherung oder einen Bausparvertrag.' },
+    { l: 1, q: 'Was bedeutet ein Disagio bei einem Darlehen?', o: ['Der Auszahlungsbetrag ist niedriger als der Nennbetrag, verzinst wird der volle Nennbetrag.', 'Der Auszahlungsbetrag ist höher als der Nennbetrag.', 'Die Bank verzichtet auf Zinsen im ersten Jahr.'], c: 0,
+      f: 'Das Disagio ist ein Abschlag vom Nennbetrag bei der Auszahlung. Zins und Tilgung werden vom vollen Nennbetrag berechnet, daher ist es eine vorab gezahlte Zinsleistung.' },
+    { l: 2, q: 'Annuität 15.680,00 EUR, Restschuld zu Jahresbeginn 274.400,00 EUR, Sollzins 3,6 % p. a. Wie hoch ist der Tilgungsanteil?', o: ['5.600,00 EUR', '5.801,60 EUR', '9.878,40 EUR'], c: 1,
+      f: 'Zins = 274.400,00 EUR × 3,6 % = 9.878,40 EUR. Tilgung = 15.680,00 EUR − 9.878,40 EUR = 5.801,60 EUR. Die 5.600,00 EUR sind der Tilgungsanteil des ersten Jahres, die 9.878,40 EUR der Zinsanteil.' },
+    { l: 2, q: 'Das Darlehen hat 15 Jahre Zinsbindung. Der Kunde möchte nach 11 Jahren kündigen. Welche Frist gilt?', o: ['1 Monat', '3 Monate', '6 Monate'], c: 2,
+      f: 'Nach Ablauf von zehn Jahren nach dem vollständigen Empfang des Darlehens kann der Darlehensnehmer immer mit einer Frist von sechs Monaten kündigen (§ 489 Abs. 1 Nr. 2 BGB).' },
+    { l: 2, q: 'Wann überweist die Bank bei einer Gebrauchtimmobilie den Kaufpreis?', o: ['Sobald der Kaufvertrag beurkundet ist', 'Wenn Auflassungsvormerkung und Grundschuld eingetragen sind und die Gemeinde auf ihr Vorkaufsrecht verzichtet hat', 'Erst wenn der Erwerber als Eigentümer im Grundbuch steht'], c: 1,
+      f: 'Die Bank wartet auf die Eintragung der Auflassungsvormerkung und der Grundschuld sowie auf den Verzicht der Gemeinde. Die Eintragung des Erwerbers als Eigentümer folgt erst danach.' },
+    { l: 2, q: 'Welche Forderung darf die Bank im Zusammenhang mit dem Immobiliardarlehen stellen?', o: ['Abschluss eines Fondssparplans für die Altersvorsorge ohne Bezug zum Darlehen', 'Nachweis einer Gebäudeversicherung', 'Eröffnung eines Wertpapierdepots mit Mindestanlage'], c: 1,
+      f: 'Das Kopplungsverbot (§§ 492a, 492b BGB) lässt einschlägige Versicherungen wie die Gebäudeversicherung zu, ebenso Produkte zur Kapitalansammlung für die Rückzahlung. Weitere Produkte darf die Bank nicht verlangen.' }
+  ];
+  (function () {
+    var root = document.getElementById('pt-3-4');
+    var TOTAL = 8, level, used, n, score, asked;
+    function start() { level = 1; used = {}; n = 0; score = 0; asked = []; nextQ(); }
+    function pick() {
+      var order = [level, level - 1, level + 1, level - 2, level + 2], i, j;
+      for (i = 0; i < order.length; i++) {
+        if (order[i] < 0 || order[i] > 2) { continue; }
+        for (j = 0; j < pool.length; j++) { if (pool[j].l === order[i] && !used[j]) { used[j] = true; return pool[j]; } }
+      }
+      return null;
+    }
+    function nextQ() {
+      root.textContent = '';
+      if (n >= TOTAL) { finish(); return; }
+      var q = pick();
+      if (!q) { finish(); return; }
+      n++;
+      var h = el('h3', { text: 'Frage ' + n + ' von ' + TOTAL + ', Stufe: ' + LV[q.l], tabindex: '-1', id: 'pt-h' });
+      var fs = el('fieldset', {}, [el('legend', { text: q.q })]);
+      var radios = [];
+      q.o.forEach(function (t, i) {
+        var id = 'pt' + n + '_' + i;
+        var r = el('input', { type: 'radio', name: 'pt' + n, id: id, value: String(i) });
+        radios.push(r);
+        fs.appendChild(el('div', {}, [el('label', { 'for': id }, [r, document.createTextNode(t)])]));
+      });
+      var fb = el('div', { 'aria-live': 'polite' });
+      var check = el('button', { type: 'button', text: 'Antwort prüfen' });
+      var next = el('button', { type: 'button', text: n === TOTAL ? 'Ergebnis anzeigen' : 'Nächste Frage' });
+      next.style.display = 'none';
+      check.addEventListener('click', function () {
+        var sel = -1;
+        radios.forEach(function (r, i) { if (r.checked) { sel = i; } });
+        fb.textContent = '';
+        if (sel < 0) { fb.appendChild(el('div', { 'class': 'fb', text: 'Bitte wählen Sie eine Antwort.' })); return; }
+        var good = sel === q.c;
+        if (good) { score++; }
+        asked.push({ l: q.l, ok: good });
+        radios.forEach(function (r) { r.disabled = true; });
+        check.style.display = 'none';
+        fb.appendChild(el('div', { 'class': 'fb ' + (good ? 'ok' : 'bad'), text: (good ? 'Richtig. ' : 'Das passt noch nicht. Richtig ist: ' + q.o[q.c] + '. ') + q.f }));
+        level = good ? Math.min(2, level + 1) : Math.max(0, level - 1);
+        fb.appendChild(el('p', { text: 'Die nächste Frage hat die Stufe ' + LV[level] + '.' }));
+        next.style.display = '';
+        next.focus();
+      });
+      next.addEventListener('click', nextQ);
+      root.appendChild(h); root.appendChild(fs); root.appendChild(check); root.appendChild(next); root.appendChild(fb);
+      document.getElementById('pt-h').focus();
+    }
+    function finish() {
+      root.textContent = '';
+      var byLevel = [0, 0, 0], okLevel = [0, 0, 0];
+      asked.forEach(function (a) { byLevel[a.l]++; if (a.ok) { okLevel[a.l]++; } });
+      root.appendChild(el('h3', { text: 'Ergebnis', tabindex: '-1', id: 'pt-end' }));
+      root.appendChild(el('p', { 'class': 'sum', text: 'Sie haben ' + score + ' von ' + asked.length + ' Fragen richtig beantwortet. Am Ende lag Ihr Trainer auf der Stufe ' + LV[level] + '.' }));
+      var ul = el('ul');
+      LV.forEach(function (name, i) {
+        if (byLevel[i]) { ul.appendChild(el('li', { text: 'Stufe ' + name + ': ' + okLevel[i] + ' von ' + byLevel[i] + ' richtig.' })); }
+      });
+      root.appendChild(ul);
+      var tip = score >= 7 ? 'Sehr gut. Sie beherrschen die Grundlagen der Baufinanzierung sicher.' :
+        (score >= 4 ? 'Solide Basis. Wiederholen Sie die Fragen, bei denen Sie einen Hinweis erhalten haben.' :
+        'Lesen Sie die Hinweise noch einmal durch und wiederholen Sie die Kapitel zu Grundbuch, Verbraucherschutz und Darlehensarten.');
+      root.appendChild(el('div', { 'class': 'fb', text: tip }));
+      var again = el('button', { type: 'button', text: 'Trainer neu starten' });
+      again.addEventListener('click', start);
+      root.appendChild(again);
+      document.getElementById('pt-end').focus();
+    }
+    var intro = el('button', { type: 'button', text: 'Trainer starten' });
+    intro.addEventListener('click', start);
+    root.appendChild(intro);
+  })();
+})();
+</script>
+</body>
+</html>
