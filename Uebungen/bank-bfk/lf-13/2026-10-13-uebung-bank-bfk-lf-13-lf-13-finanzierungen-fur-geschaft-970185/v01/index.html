@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LF 13 Finanzierungen für Geschäfts- und Firmenkunden abschließen: Interaktive Aufgaben</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--ink:#1d2733;--muted:#546072;--accent:#0b5cad;--ok:#17653a;--okbg:#e6f4ea;--bad:#9b1c1c;--badbg:#fdecec;--line:#cfd6df}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;font-size:1rem}
+header,main,footer{max-width:60rem;margin:0 auto;padding:1rem}
+h1{font-size:1.5rem;margin:.5rem 0}
+h2{font-size:1.25rem;margin:0 0 .5rem}
+h3{font-size:1.05rem;margin:1rem 0 .4rem}
+section{background:var(--card);border:1px solid var(--line);border-radius:.6rem;padding:1rem;margin:1rem 0}
+nav ul{list-style:none;padding:0;margin:.5rem 0;display:flex;flex-wrap:wrap;gap:.5rem}
+nav a{display:inline-block;padding:.4rem .8rem;border:1px solid var(--accent);border-radius:.4rem;color:var(--accent);text-decoration:none}
+nav a:focus,nav a:hover{background:var(--accent);color:#fff}
+button,select,input{font:inherit}
+button{background:var(--accent);color:#fff;border:0;border-radius:.4rem;padding:.5rem 1rem;cursor:pointer;margin:.2rem .2rem .2rem 0}
+button.secondary{background:#fff;color:var(--accent);border:1px solid var(--accent)}
+button:focus-visible,select:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #f5a623;outline-offset:2px}
+select,input[type=number]{padding:.4rem;border:1px solid var(--line);border-radius:.3rem;max-width:100%}
+input[type=range]{width:100%}
+.fb{margin:.4rem 0;padding:.5rem .7rem;border-radius:.4rem;border-left:5px solid var(--line)}
+.fb.ok{background:var(--okbg);border-color:var(--ok);color:#0f3d24}
+.fb.bad{background:var(--badbg);border-color:var(--bad);color:#5c1010}
+.fb.info{background:#eef3fa;border-color:var(--accent)}
+.item{border-bottom:1px solid var(--line);padding:.6rem 0}
+.row{display:flex;flex-wrap:wrap;gap:.6rem;align-items:center}
+.bar{position:relative;height:1.6rem;background:#e3e8ee;border-radius:.3rem;margin:.6rem 0;overflow:hidden}
+.bar span{display:block;height:100%;background:var(--ok)}
+.bar.low span{background:var(--bad)}
+.mark{position:absolute;top:0;bottom:0;width:2px;background:#000}
+.opt{display:block;width:100%;text-align:left;background:#fff;color:var(--ink);border:1px solid var(--line);margin:.3rem 0}
+.opt:hover{border-color:var(--accent)}
+ol.order{padding-left:0;list-style:none}
+ol.order li{display:flex;gap:.5rem;align-items:center;border:1px solid var(--line);border-radius:.4rem;padding:.4rem .6rem;margin:.3rem 0;background:#fff}
+ol.order li span.t{flex:1}
+.small{color:var(--muted);font-size:.9rem}
+.sr{position:absolute;left:-9999px}
+@media (max-width:600px){header,main,footer{padding:.6rem}section{padding:.7rem}}
+</style>
+</head>
+<body>
+<header>
+<h1>LF 13 Finanzierungen für Geschäfts- und Firmenkunden abschließen</h1>
+<p>Interaktive Aufgaben zur Übung mit der Brandt Möbelbau GmbH. Alle Zahlen und Sachverhalte sind angenommen. Die Seite funktioniert ohne Anmeldung und speichert keine Daten.</p>
+<nav aria-label="Aufgaben">
+<ul>
+<li><a href="#aufgabe-1-4">Aufgabe 1.4</a></li>
+<li><a href="#aufgabe-2-2">Aufgabe 2.2</a></li>
+<li><a href="#aufgabe-3-1">Aufgabe 3.1</a></li>
+<li><a href="#aufgabe-3-2">Aufgabe 3.2</a></li>
+<li><a href="#aufgabe-3-3">Aufgabe 3.3</a></li>
+</ul>
+</nav>
+</header>
+<main>
+
+<section id="aufgabe-1-4" aria-labelledby="h14">
+<h2 id="h14">Aufgabe 1.4: Simulation zur Anlagendeckung II</h2>
+<p>Bilanz 31.12.2024 in TEUR: Anlagevermögen 1.300, Eigenkapital 840, langfristiges Fremdkapital 620. Die Brandt Möbelbau GmbH kauft eine zusätzliche Maschine für 240 TEUR.</p>
+<h3>Teil A: Ihre Ergebnisse prüfen</h3>
+<div class="row">
+<label>a) Finanzierung durch Investitionsdarlehen, Anlagendeckung II in %: <input type="number" id="s-a" step="0.1" inputmode="decimal"></label>
+<label>b) Finanzierung durch Kontokorrentkredit, Anlagendeckung II in %: <input type="number" id="s-b" step="0.1" inputmode="decimal"></label>
+</div>
+<button type="button" id="s-check">Ergebnisse prüfen</button>
+<div id="s-fb" aria-live="polite"></div>
+<h3>Teil B: Werte verändern</h3>
+<label for="s-inv">Investitionssumme: <strong id="s-inv-v">240</strong> TEUR</label>
+<input type="range" id="s-inv" min="0" max="500" step="10" value="240">
+<label for="s-share">Davon langfristig finanziert (Investitionsdarlehen): <strong id="s-share-v">100</strong> %</label>
+<input type="range" id="s-share" min="0" max="100" step="10" value="100">
+<div class="bar" id="s-bar" aria-hidden="true"><span id="s-fill" style="width:0"></span><div class="mark" id="s-mark"></div></div>
+<p id="s-out" aria-live="polite"></p>
+<p class="small">Die schwarze Linie markiert 100 %. Der Rest der Investition wird kurzfristig über den Kontokorrentkredit finanziert.</p>
+</section>
+
+<section id="aufgabe-2-2" aria-labelledby="h22">
+<h2 id="h22">Aufgabe 2.2: Merkmale den Sicherheiten zuordnen</h2>
+<p>Wählen Sie bei jeder Aussage die Sicherheit, auf die sie zutrifft.</p>
+<div id="z-list"></div>
+<button type="button" id="z-check">Zuordnung prüfen</button>
+<button type="button" class="secondary" id="z-reset">Zurücksetzen</button>
+<div id="z-sum" aria-live="polite"></div>
+</section>
+
+<section id="aufgabe-3-1" aria-labelledby="h31">
+<h2 id="h31">Aufgabe 3.1: Beratungstrainer Factoring</h2>
+<p>Frau Brandt fragt nach Factoring. Wählen Sie in jedem Schritt die Antwort, die Sie ihr geben würden.</p>
+<div id="b-box"></div>
+</section>
+
+<section id="aufgabe-3-2" aria-labelledby="h32">
+<h2 id="h32">Aufgabe 3.2: Reihenfolgen herstellen</h2>
+<p>Verschieben Sie die Schritte mit den Schaltflächen „nach oben“ und „nach unten“.</p>
+<h3>Abwicklung eines notleidenden Kredits</h3>
+<ol class="order" id="o-1"></ol>
+<button type="button" id="o-1-check">Reihenfolge prüfen</button>
+<div id="o-1-fb" aria-live="polite"></div>
+<h3>Ablauf des Insolvenzverfahrens</h3>
+<ol class="order" id="o-2"></ol>
+<button type="button" id="o-2-check">Reihenfolge prüfen</button>
+<div id="o-2-fb" aria-live="polite"></div>
+</section>
+
+<section id="aufgabe-3-3" aria-labelledby="h33">
+<h2 id="h33">Aufgabe 3.3: Adaptiver Prüfungstrainer zu LF 13</h2>
+<p>Sie beantworten acht Fragen. Richtige Antworten führen zu schwereren, falsche zu leichteren Fragen.</p>
+<div id="p-box"></div>
+</section>
+
+</main>
+<footer><p class="small">Übung zu LF 13 für Bank BFK. Die Inhalte entsprechen den Aufgaben 1.4, 2.2, 3.1, 3.2 und 3.3 in der Übung.</p></footer>
+
+<script>
+(function(){
+"use strict";
+function $(id){return document.getElementById(id);}
+function fmt(n){return n.toFixed(1).replace(".",",");}
+function fb(el,cls,txt){var d=document.createElement("div");d.className="fb "+cls;d.textContent=txt;el.appendChild(d);}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+
+/* Aufgabe 1.4 */
+var AV=1300,CAP=840+620;
+function sim(){
+  var inv=+$("s-inv").value,sh=+$("s-share").value;
+  $("s-inv-v").textContent=inv;$("s-share-v").textContent=sh;
+  var av=AV+inv,cap=CAP+inv*sh/100,ad=cap/av*100;
+  $("s-fill").style.width=Math.min(100,ad/150*100)+"%";
+  $("s-mark").style.left=(100/150*100)+"%";
+  $("s-bar").className="bar"+(ad<100?" low":"");
+  $("s-out").textContent="Anlagevermögen "+av+" TEUR, langfristiges Kapital "+fmt(cap).replace(",0","")+" TEUR, Anlagendeckung II "+fmt(ad)+" %. "+
+    (ad>=100?"Die goldene Bilanzregel ist erfüllt: Das Anlagevermögen ist vollständig durch langfristiges Kapital gedeckt."
+    :"Die goldene Bilanzregel ist verletzt: Ein Teil des Anlagevermögens ist kurzfristig finanziert, und das Risiko einer fehlenden Anschlussfinanzierung steigt.");
+}
+$("s-inv").addEventListener("input",sim);$("s-share").addEventListener("input",sim);sim();
+$("s-check").addEventListener("click",function(){
+  var f=$("s-fb");f.innerHTML="";
+  var a=parseFloat($("s-a").value),b=parseFloat($("s-b").value);
+  if(isNaN(a)||isNaN(b)){fb(f,"info","Bitte tragen Sie beide Werte ein.");return;}
+  if(Math.abs(a-110.4)<=0.1)fb(f,"ok","a) ist richtig: (840 + 620 + 240) / (1.300 + 240) x 100 = 1.700 / 1.540 x 100 = 110,4 %. Das Darlehen erhöht das langfristige Kapital im gleichen Umfang wie das Anlagevermögen.");
+  else if(Math.abs(a-94.8)<=0.1)fb(f,"bad","a) ist falsch, der Wert gehört zu b). Ein Investitionsdarlehen ist langfristiges Kapital und muss daher im Zähler stehen: 1.700 / 1.540 x 100 = 110,4 %.");
+  else fb(f,"bad","a) ist nicht richtig. Das Investitionsdarlehen erhöht Anlagevermögen und langfristiges Kapital um jeweils 240 TEUR. Rechnen Sie (840 + 620 + 240) / (1.300 + 240) x 100.");
+  if(Math.abs(b-94.8)<=0.1)fb(f,"ok","b) ist richtig: 1.460 / 1.540 x 100 = 94,8 %. Der Kontokorrentkredit ist kurzfristiges Fremdkapital und erhöht nur das Anlagevermögen, deshalb fällt der Wert unter 100 %.");
+  else if(Math.abs(b-110.4)<=0.1)fb(f,"bad","b) ist falsch, der Wert gehört zu a). Der Kontokorrentkredit ist kurzfristig und zählt nicht zum langfristigen Kapital: 1.460 / 1.540 x 100 = 94,8 %.");
+  else fb(f,"bad","b) ist nicht richtig. Im Zähler stehen nur Eigenkapital und langfristiges Fremdkapital (1.460 TEUR), im Nenner das um 240 erhöhte Anlagevermögen (1.540 TEUR).");
+});
+
+/* Aufgabe 2.2 */
+var SI=["Bürgschaft","Sicherungsübereignung","Verpfändung von Wertpapieren","Globalzession","Grundschuld"];
+var ZA=[
+["Der Gesellschafter erklärt schriftlich, für die Schulden der GmbH einzustehen.",0,"Die Bürgschaftserklärung muss schriftlich erfolgen (§ 766 BGB). Der Bürge steht für die Schulden des Kreditnehmers ein."],
+["Die Bank wird Eigentümerin der Maschine, die GmbH bleibt Besitzerin und nutzt sie weiter.",1,"Das ist die Sicherungsübereignung. Eigentum und Besitz fallen auseinander, die Bank verwertet nur bei notleidendem Kredit."],
+["Die Aktien bleiben im Eigentum der GmbH, die Bank erhält ein Verwertungsrecht.",2,"Bei der Verpfändung bleibt das Eigentum beim Schuldner. Die Bank erhält ein Pfandrecht und darf bei Zahlungsausfall verkaufen."],
+["Alle bestehenden und künftigen Forderungen gegen die Kunden werden an die Bank abgetreten.",3,"Das ist die Globalzession. Sie erfasst auch künftige Forderungen aus dem Geschäftsverkehr."],
+["Die Sicherheit wird in Abteilung III des Grundbuchs eingetragen.",4,"Die Grundschuld entsteht durch Einigung und Eintragung im Grundbuch, Abteilung III."],
+["Der Sicherungsgeber verzichtet auf die Einrede der Vorausklage, die Bank kann ihn sofort in Anspruch nehmen.",0,"Das ist die selbstschuldnerische Bürgschaft, die bankübliche Form."],
+["Risiken sind Doppelübereignung und das Vermieterpfandrecht.",1,"Bei der Sicherungsübereignung bleibt die Sache beim Schuldner, daher drohen Doppelübereignung, Wertverlust und gesetzliche Pfandrechte."],
+["Die Bank muss die Verfügungsgewalt über die Sicherungsgegenstände erhalten, das Recht ist akzessorisch.",2,"Ein Pfandrecht verlangt Übergabe beziehungsweise Verfügungsgewalt und hängt vom Bestand der Forderung ab."],
+["Risiko: Die Forderungen bestehen nicht oder sind schon an andere abgetreten (Doppelabtretung).",3,"Qualität und Existenz der Forderungen sowie die Doppelabtretung sind die typischen Risiken der Globalzession."],
+["Die Sicherheit bleibt nach der Rückzahlung bestehen und kann für spätere Kredite wiederverwendet werden.",4,"Die Grundschuld ist abstrakt und muss nach der Tilgung nicht gelöscht werden, deshalb ist sie flexibel einsetzbar."],
+["Die Kunden der GmbH erfahren meist nichts davon (stille Zession).",3,"Bei der stillen Zession wird der Drittschuldner nicht informiert. Die offene Zession wäre dagegen anzuzeigen."]
+];
+function zbuild(){
+  var l=$("z-list");l.innerHTML="";
+  ZA.forEach(function(q,i){
+    var d=document.createElement("div");d.className="item";
+    var lab=document.createElement("label");lab.setAttribute("for","z"+i);lab.textContent=(i+1)+". "+q[0];
+    var sel=document.createElement("select");sel.id="z"+i;
+    var o=document.createElement("option");o.value="";o.textContent="Bitte wählen";sel.appendChild(o);
+    SI.forEach(function(s,k){var op=document.createElement("option");op.value=k;op.textContent=s;sel.appendChild(op);});
+    var r=document.createElement("div");r.id="zr"+i;r.setAttribute("aria-live","polite");
+    d.appendChild(lab);d.appendChild(document.createElement("br"));d.appendChild(sel);d.appendChild(r);l.appendChild(d);
+  });
+  $("z-sum").innerHTML="";
+}
+zbuild();
+$("z-check").addEventListener("click",function(){
+  var ok=0;
+  ZA.forEach(function(q,i){
+    var r=$("zr"+i);r.innerHTML="";var v=$("z"+i).value;
+    if(v===""){fb(r,"info","Noch keine Auswahl getroffen.");return;}
+    if(+v===q[1]){ok++;fb(r,"ok","Richtig. "+q[2]);}
+    else fb(r,"bad","Nicht ganz. "+q[2].replace(/^/,"Richtig wäre: "+SI[q[1]]+". "));
+  });
+  var s=$("z-sum");s.innerHTML="";fb(s,ok===ZA.length?"ok":"info",ok+" von "+ZA.length+" Aussagen richtig zugeordnet.");
+});
+$("z-reset").addEventListener("click",zbuild);
+
+/* Aufgabe 3.1 */
+var BS=[
+{k:"Frau Brandt: „Ich möchte meine Forderungen verkaufen, um schneller an Geld zu kommen. Ist das nicht dasselbe wie die Globalzession, die Sie als Sicherheit verlangen?“",
+ o:[["Nein. Beim Factoring kauft die Factoring-Gesellschaft die Forderungen und bezahlt sie. Bei der Globalzession bleiben Sie Kreditnehmerin, und die Forderungen sichern nur das Darlehen.",1,"Genau. Factoring ist ein laufender Ankauf von Forderungen, die Globalzession ist eine Kreditsicherheit."],
+    ["Ja, beides ist eine Abtretung, deshalb gibt es keinen Unterschied.",0,"Beide Verfahren nutzen zwar die Abtretung, verfolgen aber verschiedene Zwecke: Verkauf und Finanzierung beim Factoring, Sicherung eines Darlehens bei der Globalzession."],
+    ["Ja, beim Factoring bekommen Sie Geld erst, wenn Ihre Kunden gezahlt haben.",0,"Das trifft nicht zu. Die Finanzierungsfunktion des Factorings besteht gerade darin, dass Sie das Geld sofort erhalten."]]},
+{k:"Frau Brandt: „Was passiert, wenn ein Kunde die Rechnung nicht bezahlt?“",
+ o:[["Beim Factoring mit Delkrederefunktion übernimmt der Factor das Ausfallrisiko der angekauften Forderung.",1,"Richtig. Die Übernahme des Ausfallrisikos ist die Delkrederefunktion."],
+    ["Der Factor mahnt nur, das Ausfallrisiko bleibt immer bei Ihnen.",0,"Das Mahnwesen gehört zur Dienstleistungsfunktion. Die Übernahme des Ausfallrisikos ist die eigene Delkrederefunktion."],
+    ["Der Factor fordert den Betrag sofort von Ihnen zurück.",0,"Mit dieser Aussage wäre das Ausfallrisiko nicht übertragen. Die Delkrederefunktion bedeutet, dass der Factor das Risiko trägt."]]},
+{k:"Frau Brandt: „Muss ich dann überhaupt noch eine Debitorenbuchhaltung führen und selbst mahnen?“",
+ o:[["Der Factor kann Verwaltung, Mahnwesen, Inkasso und Verbuchung der Forderungen übernehmen. Das ist seine Dienstleistungsfunktion.",1,"Richtig. Das spart Ihnen Verwaltungsaufwand."],
+    ["Nein, die Verwaltung bleibt beim Factoring immer vollständig bei Ihnen.",0,"Gerade die Verwaltung der Forderungen übernimmt der Factor in der Dienstleistungsfunktion."],
+    ["Das ist nur bei Leasing möglich.",0,"Leasing ist eine Form der Nutzung von Wirtschaftsgütern gegen Raten und hat mit der Forderungsverwaltung nichts zu tun."]]},
+{k:"Frau Brandt: „Welche meiner Forderungen kann ich überhaupt einreichen?“",
+ o:[["Kurzfristige Forderungen aus Lieferungen und Leistungen gegenüber Ihren Kunden.",1,"Richtig. Factoring ist der laufende Ankauf kurzfristiger Forderungen aus Lieferungen und Leistungen."],
+    ["Alle Forderungen, auch ein Darlehen, das Sie einem Gesellschafter gegeben haben.",0,"Factoring betrifft Forderungen aus dem Waren- und Leistungsgeschäft, nicht beliebige Forderungen."],
+    ["Nur Forderungen, die länger als fünf Jahre laufen.",0,"Factoring bezieht sich auf kurzfristige Forderungen."]]}
+];
+var bi=0,bp=0;
+function bshow(){
+  var box=$("b-box");box.innerHTML="";
+  if(bi>=BS.length){fb(box,bp===BS.length?"ok":"info","Gespräch beendet: "+bp+" von "+BS.length+" Antworten waren treffend.");
+    var b=document.createElement("button");b.type="button";b.className="secondary";b.textContent="Gespräch neu starten";b.onclick=function(){bi=0;bp=0;bshow();};box.appendChild(b);return;}
+  var s=BS[bi];
+  var p=document.createElement("p");p.textContent="Schritt "+(bi+1)+" von "+BS.length+": "+s.k;box.appendChild(p);
+  var res=document.createElement("div");res.setAttribute("aria-live","polite");
+  shuffle(s.o).forEach(function(o){
+    var b=document.createElement("button");b.type="button";b.className="opt";b.textContent=o[0];
+    b.onclick=function(){
+      var all=box.querySelectorAll(".opt");for(var i=0;i<all.length;i++)all[i].disabled=true;
+      if(o[1])bp++;
+      fb(res,o[1]?"ok":"bad",(o[1]?"Treffende Antwort. ":"Das trifft nicht zu. ")+o[2]);
+      var n=document.createElement("button");n.type="button";n.textContent=bi+1<BS.length?"Weiter":"Auswertung";n.onclick=function(){bi++;bshow();};
+      res.appendChild(n);n.focus();
+    };
+    box.appendChild(b);
+  });
+  box.appendChild(res);
+}
+bshow();
+
+/* Aufgabe 3.2 */
+var OR=[
+ {id:"o-1",steps:["Fälligstellung des Darlehens (Kündigung)","Verwertung der Sicherheiten","Erlangung eines vollstreckbaren Titels","Zwangsvollstreckung","Vermögensauskunft"],
+  info:"Die Bank kündigt zuerst das Darlehen und stellt die Restschuld fällig. Danach verwertet sie die Sicherheiten, erwirkt einen vollstreckbaren Titel und geht in die Zwangsvollstreckung. Am Ende steht die Vermögensauskunft des Schuldners."},
+ {id:"o-2",steps:["Insolvenzantrag beim Insolvenzgericht","Prüfung der Insolvenzeröffnung (Insolvenzgrund, ausreichende Masse)","Eröffnung des Verfahrens, Bestellung des Insolvenzverwalters, Forderungsanmeldung","Berichtstermin vor der Gläubigerversammlung","Verteilung der Insolvenzmasse im Regelverfahren"],
+  info:"Das Gericht prüft nach dem Antrag, ob ein Insolvenzgrund vorliegt und die Masse für die Verfahrenskosten reicht. Nach der Eröffnung melden die Gläubiger ihre Forderungen an. Im Berichtstermin wird zwischen Insolvenzplan (Sanierung) und Regelverfahren (Liquidation) entschieden, im Regelverfahren folgt die Verteilung."}
+];
+OR.forEach(function(g){
+  g.cur=shuffle(g.steps.map(function(s,i){return i;}));
+  if(g.cur.every(function(v,i){return v===i;}))g.cur.reverse();
+  g.draw=function(){
+    var ol=$(g.id);ol.innerHTML="";
+    g.cur.forEach(function(v,pos){
+      var li=document.createElement("li");
+      var t=document.createElement("span");t.className="t";t.textContent=(pos+1)+". "+g.steps[v];
+      var up=document.createElement("button");up.type="button";up.className="secondary";up.textContent="nach oben";up.setAttribute("aria-label","Schritt "+(pos+1)+" nach oben");up.disabled=pos===0;
+      var dn=document.createElement("button");dn.type="button";dn.className="secondary";dn.textContent="nach unten";dn.setAttribute("aria-label","Schritt "+(pos+1)+" nach unten");dn.disabled=pos===g.cur.length-1;
+      up.onclick=function(){var x=g.cur[pos];g.cur[pos]=g.cur[pos-1];g.cur[pos-1]=x;g.draw();var b=ol.querySelectorAll("li")[pos-1].querySelector("button:not([disabled])");if(b)b.focus();};
+      dn.onclick=function(){var x=g.cur[pos];g.cur[pos]=g.cur[pos+1];g.cur[pos+1]=x;g.draw();var bs=ol.querySelectorAll("li")[pos+1].querySelectorAll("button");bs[bs.length-1].focus();};
+      li.appendChild(t);li.appendChild(up);li.appendChild(dn);ol.appendChild(li);
+    });
+  };
+  g.draw();
+  $(g.id+"-check").addEventListener("click",function(){
+    var f=$(g.id+"-fb");f.innerHTML="";
+    var wrong=[];g.cur.forEach(function(v,i){if(v!==i)wrong.push(i+1);});
+    if(!wrong.length)fb(f,"ok","Die Reihenfolge stimmt. "+g.info);
+    else fb(f,"bad","An den Positionen "+wrong.join(", ")+" steht noch nicht der richtige Schritt. Überlegen Sie, was jeweils vorher geschehen sein muss. "+g.info);
+  });
+});
+
+/* Aufgabe 3.3 */
+var Q=[
+[1,"Welche Kreditart finanziert den Einkauf von Waren und die Zahlungsziele an Kunden?",["Betriebsmittelkredit (Kontokorrentkredit)","Investitionskredit","Avalkredit"],0,"Waren und Zahlungsziele gehören zum Umlaufvermögen. Dafür dient der kurzfristige Betriebsmittelkredit.","Darlehensarten"],
+[1,"Was ist ein Avalkredit?",["Die Bank gibt eine Bürgschafts- oder Garantieerklärung gegenüber einem Dritten ab.","Die Bank zahlt dem Kunden ein Darlehen für Maschinen aus.","Die Bank kauft laufend Forderungen an."],0,"Beim Avalkredit stellt die Bank dem Kunden keine Geldmittel, sondern ihre Bürgschaft oder Garantie zur Verfügung.","Darlehensarten"],
+[1,"Wer ist bei der Sicherungsübereignung Eigentümer des Sicherungsguts?",["Die Bank","Der Kreditnehmer","Der Bürge"],0,"Das Eigentum geht auf die Bank über, der Kreditnehmer bleibt Besitzer.","Sicherheiten"],
+[1,"Welche Form ist für die Bürgschaftserklärung vorgeschrieben?",["Schriftform","Notarielle Beurkundung","Mündliche Erklärung"],0,"Die Bürgschaftserklärung bedarf der Schriftform (§ 766 BGB).","Sicherheiten"],
+[1,"Was gehört zur Dienstleistungsfunktion des Factorings?",["Verwaltung, Mahnwesen, Inkasso und Verbuchung der Forderungen","Übernahme des Ausfallrisikos","Sofortige Auszahlung der Forderung"],0,"Die Übernahme des Ausfallrisikos ist die Delkrederefunktion, die sofortige Auszahlung die Finanzierungsfunktion.","Factoring und Leasing"],
+[2,"Was bedeutet „akzessorisch“?",["Die Sicherheit ist vom Bestand der gesicherten Forderung abhängig.","Die Sicherheit besteht unabhängig von der Forderung.","Die Sicherheit wird nur mündlich vereinbart."],0,"Erlischt die Hauptforderung, erlischt auch die akzessorische Sicherheit, zum Beispiel die Bürgschaft.","Sicherheiten"],
+[2,"Welche dieser Sicherheiten ist abstrakt?",["Globalzession","Bürgschaft","Verpfändung von Wertpapieren"],0,"Bürgschaft und Pfandrecht sind akzessorisch. Sicherungsübereignung, Globalzession und Grundschuld sind abstrakt.","Sicherheiten"],
+[2,"Was kennzeichnet das Operate-Leasing?",["Es ist kurzfristig kündbar, das Investitionsrisiko liegt beim Leasinggeber.","Es ist langfristig und meist unkündbar.","Der Leasingnehmer wird zu Beginn Eigentümer."],0,"Beim Financial-Leasing ist der Vertrag langfristig und meist unkündbar, das Risiko trägt der Leasingnehmer.","Factoring und Leasing"],
+[2,"Was bedeutet stille Zession?",["Der Drittschuldner erfährt nichts von der Abtretung.","Der Drittschuldner zahlt direkt an die Bank.","Die Abtretung wird im Grundbuch eingetragen."],0,"Bei der offenen Zession wird der Drittschuldner informiert und zahlt an die Bank.","Sicherheiten"],
+[2,"Welcher Richtwert gilt nach der goldenen Bilanzregel für die Anlagendeckung II?",["Möglichst über 100 %","Höchstens 50 %","Genau 20 bis 40 %"],0,"Das Anlagevermögen soll vollständig durch langfristiges Kapital gedeckt sein.","Kreditprüfung"],
+[3,"Eigenkapital 600, langfristiges Fremdkapital 500, Anlagevermögen 1.000 (TEUR). Wie hoch ist die Anlagendeckung II?",["110 %","60 %","50 %"],0,"(600 + 500) / 1.000 x 100 = 110 %.","Kreditprüfung"],
+[3,"Verteilbare Masse 50.000 EUR, nicht gesicherte Forderungen insgesamt 400.000 EUR. Wie hoch ist die Insolvenzquote?",["12,5 %","8,0 %","80,0 %"],0,"50.000 / 400.000 x 100 = 12,5 %.","Insolvenz"],
+[3,"Eine Bank hat eine Forderung von 100.000 EUR, gesichert durch Sicherungsübereignung. Die Verwertung erbringt 70.000 EUR. Wie geht es weiter?",["Die Bank behält 70.000 EUR und meldet 30.000 EUR als nicht gesicherte Forderung an.","Die Bank verliert alle 100.000 EUR.","Die Bank meldet die gesamten 100.000 EUR an und behält zusätzlich die 70.000 EUR."],0,"Das Absonderungsrecht gilt für den Verwertungserlös. Nur der Ausfall nimmt an der Verteilung nach der Quote teil.","Insolvenz"],
+[3,"Ein Lieferant hat Ware unter Eigentumsvorbehalt geliefert und nicht bezahlt bekommen. Welches Recht hat er im Insolvenzverfahren?",["Aussonderungsrecht","Absonderungsrecht","Nur die Insolvenzquote"],0,"Die Ware gehört nicht zum Vermögen des Schuldners und kann ausgesondert werden.","Insolvenz"],
+[3,"Warum unterscheidet sich die Garantie von der Bürgschaft?",["Die Garantie ist abstrakt und nicht vom Bestand einer Hauptforderung abhängig.","Die Garantie ist akzessorisch, die Bürgschaft abstrakt.","Die Garantie ist im BGB als Bürgschaft geregelt."],0,"Die Bürgschaft ist akzessorisch und im BGB geregelt. Die Garantie steht für einen Erfolg oder Schaden ein und ist abstrakt.","Darlehensarten"],
+[3,"Debitoren 200 TEUR, Umsatz 2.400 TEUR. Wie hoch ist das Debitorenziel bei 360 Tagen?",["30 Tage","12 Tage","60 Tage"],0,"200 / 2.400 x 360 = 30 Tage.","Kreditprüfung"],
+[3,"Was ist bei einem Teilamortisationsvertrag im Leasing am Ende der Laufzeit nötig?",["Das Objekt muss verkauft, erneut verleast oder vom Leasingnehmer übernommen werden.","Der Leasinggeber trägt keine Restkosten.","Die Raten haben bereits alle Kosten gedeckt."],0,"Die Raten decken nur einen Teil der Kosten, deshalb bleibt der Restwert zu verwerten.","Factoring und Leasing"],
+[3,"Warum ist die Grundschuld als Sicherheit flexibel?",["Sie bleibt nach der Rückzahlung bestehen und kann für spätere Kredite wiederverwendet werden.","Sie erlischt automatisch mit der Tilgung.","Sie kann ohne Grundbucheintragung bestellt werden."],0,"Die Grundschuld ist abstrakt und muss nach der Tilgung nicht gelöscht werden.","Sicherheiten"]
+];
+var P;
+function pstart(){P={lvl:2,n:0,ok:0,used:{},wrong:{}};pnext();}
+function ppick(){
+  var order=[P.lvl,P.lvl-1,P.lvl+1,P.lvl-2,P.lvl+2];
+  for(var k=0;k<order.length;k++){
+    var c=[];Q.forEach(function(q,i){if(q[0]===order[k]&&!P.used[i])c.push(i);});
+    if(c.length)return c[Math.floor(Math.random()*c.length)];
+  }
+  return -1;
+}
+function pnext(){
+  var box=$("p-box");box.innerHTML="";
+  var idx=P.n<8?ppick():-1;
+  if(idx<0){
+    fb(box,"info","Auswertung: "+P.ok+" von "+P.n+" Fragen richtig. Zuletzt erreichte Stufe: "+P.lvl+" von 3.");
+    var t=Object.keys(P.wrong);
+    fb(box,t.length?"bad":"ok",t.length?"Wiederholen Sie diese Themen: "+t.join(", ")+".":"Sie haben alle Fragen richtig beantwortet.");
+    var b=document.createElement("button");b.type="button";b.textContent="Neu starten";b.onclick=pstart;box.appendChild(b);return;
+  }
+  P.used[idx]=true;var q=Q[idx];
+  var h=document.createElement("p");h.textContent="Frage "+(P.n+1)+" von 8, Stufe "+q[0]+": "+q[1];box.appendChild(h);
+  var res=document.createElement("div");res.setAttribute("aria-live","polite");
+  shuffle([0,1,2]).forEach(function(oi){
+    var b=document.createElement("button");b.type="button";b.className="opt";b.textContent=q[2][oi];
+    b.onclick=function(){
+      var all=box.querySelectorAll(".opt");for(var i=0;i<all.length;i++)all[i].disabled=true;
+      var good=oi===q[3];P.n++;
+      if(good){P.ok++;P.lvl=Math.min(3,P.lvl+1);}else{P.lvl=Math.max(1,P.lvl-1);P.wrong[q[5]]=1;}
+      fb(res,good?"ok":"bad",(good?"Richtig. ":"Leider falsch. Richtig ist: "+q[2][q[3]]+". ")+q[4]);
+      var n=document.createElement("button");n.type="button";n.textContent=P.n<8?"Nächste Frage":"Auswertung";n.onclick=pnext;
+      res.appendChild(n);n.focus();
+    };
+    box.appendChild(b);
+  });
+  box.appendChild(res);
+}
+pstart();
+})();
+</script>
+</body>
+</html>
