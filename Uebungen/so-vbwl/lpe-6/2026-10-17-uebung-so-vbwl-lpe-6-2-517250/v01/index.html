@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gleichgewichtspreis: Interaktive Aufgaben</title>
+<style>
+  body{font-family:Arial,Helvetica,sans-serif;line-height:1.5;margin:0;background:#f4f6f8;color:#1b1b1b}
+  main{max-width:50rem;margin:0 auto;padding:1rem}
+  section{background:#fff;border:1px solid #c8d0d8;border-radius:8px;padding:1rem;margin-bottom:1.5rem}
+  h1{font-size:1.5rem} h2{font-size:1.2rem;margin-top:0}
+  table{border-collapse:collapse;width:100%;margin:.5rem 0}
+  th,td{border:1px solid #888;padding:.4rem;text-align:left}
+  th{background:#e3eaf1}
+  select,input{font-size:1rem;padding:.35rem;max-width:100%;box-sizing:border-box}
+  button{font-size:1rem;padding:.5rem 1rem;margin:.5rem .5rem 0 0;background:#1d5a8c;color:#fff;border:0;border-radius:4px;cursor:pointer}
+  button.sec{background:#5a6670}
+  button:focus,select:focus,input:focus{outline:3px solid #f0a000;outline-offset:2px}
+  .fb{margin:.3rem 0;padding:.4rem .6rem;border-radius:4px;display:none}
+  .ok{background:#e1f4e1;border-left:4px solid #2a8a2a;display:block}
+  .no{background:#fde6e3;border-left:4px solid #b3261e;display:block}
+  .sum{font-weight:bold;margin-top:.6rem}
+  @media(max-width:36rem){th,td{font-size:.9rem;padding:.3rem}}
+</style>
+</head>
+<body>
+<main>
+<h1>Gleichgewichtspreis: Interaktive Aufgaben</h1>
+<p>Die Zahlen sind angenommen und gelten für den Markt für Fahrradschläuche einer Kreisstadt.</p>
+<table>
+  <caption>Anlage 1: Angebot und Nachfrage je Tag</caption>
+  <tr><th>Preis in €</th><th>Angebot in Stück</th><th>Nachfrage in Stück</th></tr>
+  <tr><td>2,00</td><td>100</td><td>700</td></tr>
+  <tr><td>2,50</td><td>200</td><td>600</td></tr>
+  <tr><td>3,00</td><td>300</td><td>500</td></tr>
+  <tr><td>3,50</td><td>400</td><td>400</td></tr>
+  <tr><td>4,00</td><td>500</td><td>300</td></tr>
+  <tr><td>4,50</td><td>600</td><td>200</td></tr>
+</table>
+
+<section id="aufgabe-1-3">
+  <h2>Aufgabe 1.3: Marktsituation bei verschiedenen Preisen</h2>
+  <p>Wählen Sie für jeden Preis die Marktsituation und tragen Sie die Größe des Überhangs in Stück ein (bei Gleichgewicht 0).</p>
+  <table id="t13">
+    <tr><th>Preis</th><th>Marktsituation</th><th>Überhang in Stück</th><th>Rückmeldung</th></tr>
+  </table>
+  <button type="button" id="check13">Prüfen</button>
+  <button type="button" class="sec" id="reset13">Zurücksetzen</button>
+  <p class="sum" id="sum13" aria-live="polite"></p>
+</section>
+
+<section id="aufgabe-2-3">
+  <h2>Aufgabe 2.3: Ereignisse den Kurvenverschiebungen zuordnen</h2>
+  <p>Der Markt ist im Gleichgewicht. Wählen Sie, wie sich die Kurve durch das Ereignis verschiebt.</p>
+  <table id="t23">
+    <tr><th>Ereignis</th><th>Verschiebung</th><th>Rückmeldung</th></tr>
+  </table>
+  <button type="button" id="check23">Prüfen</button>
+  <button type="button" class="sec" id="reset23">Zurücksetzen</button>
+  <p class="sum" id="sum23" aria-live="polite"></p>
+</section>
+</main>
+<script>
+(function(){
+  function el(t,a,x){var e=document.createElement(t);for(var k in a||{})e.setAttribute(k,a[k]);if(x)e.textContent=x;return e;}
+
+  var prices=[
+    {p:"2,00",a:100,n:700},{p:"2,50",a:200,n:600},{p:"3,00",a:300,n:500},
+    {p:"3,50",a:400,n:400},{p:"4,00",a:500,n:300},{p:"4,50",a:600,n:200}
+  ];
+  var sit=[["","Bitte wählen"],["AU","Angebotsüberhang (Nachfragelücke)"],["NU","Nachfrageüberhang (Angebotslücke)"],["GG","Gleichgewicht"]];
+  var t13=document.getElementById("t13");
+  prices.forEach(function(r,i){
+    var tr=el("tr");
+    tr.appendChild(el("td",{},r.p+" €"));
+    var s=el("select",{id:"s13-"+i,"aria-label":"Marktsituation bei "+r.p+" Euro"});
+    sit.forEach(function(o){s.appendChild(el("option",{value:o[0]},o[1]));});
+    var td=el("td");td.appendChild(s);tr.appendChild(td);
+    var inp=el("input",{id:"m13-"+i,type:"number",min:"0",step:"1",inputmode:"numeric","aria-label":"Überhang in Stück bei "+r.p+" Euro"});
+    var td2=el("td");td2.appendChild(inp);tr.appendChild(td2);
+    var td3=el("td");td3.appendChild(el("div",{id:"f13-"+i,"class":"fb","aria-live":"polite"}));tr.appendChild(td3);
+    t13.appendChild(tr);
+  });
+  function check13(){
+    var ok=0;
+    prices.forEach(function(r,i){
+      var s=document.getElementById("s13-"+i).value;
+      var m=document.getElementById("m13-"+i).value;
+      var f=document.getElementById("f13-"+i);
+      var right=r.a>r.n?"AU":(r.a<r.n?"NU":"GG");
+      var diff=Math.abs(r.a-r.n);
+      var msg,good=false;
+      if(s===""||m===""){msg="Bitte Marktsituation wählen und eine Zahl eintragen.";}
+      else if(s!==right){
+        if(right==="GG")msg="Bei "+r.p+" € sind Angebot und Nachfrage gleich groß ("+r.a+" Stück). Das ist der Gleichgewichtspreis, es gibt keinen Überhang.";
+        else if(right==="AU")msg="Falsch. Das Angebot ("+r.a+") ist größer als die Nachfrage ("+r.n+"). Liegt der Preis über dem Gleichgewichtspreis, entsteht ein Angebotsüberhang.";
+        else msg="Falsch. Die Nachfrage ("+r.n+") ist größer als das Angebot ("+r.a+"). Liegt der Preis unter dem Gleichgewichtspreis, entsteht ein Nachfrageüberhang.";
+      }
+      else if(Number(m)!==diff){
+        msg="Die Marktsituation stimmt. Die Größe des Überhangs ist aber der Unterschied zwischen Angebot ("+r.a+") und Nachfrage ("+r.n+"). Rechnen Sie noch einmal.";
+      } else {
+        good=true;
+        if(right==="GG")msg="Richtig. Angebot und Nachfrage stimmen mit je "+r.a+" Stück überein, es gibt keinen Überhang.";
+        else if(right==="AU")msg="Richtig. "+r.a+" − "+r.n+" = "+diff+" Stück Angebotsüberhang. Der Preis liegt über dem Gleichgewichtspreis, die Anbieter müssen den Preis senken.";
+        else msg="Richtig. "+r.n+" − "+r.a+" = "+diff+" Stück Nachfrageüberhang. Der Preis liegt unter dem Gleichgewichtspreis, er wird tendenziell steigen.";
+      }
+      if(good)ok++;
+      f.textContent=msg;f.className="fb "+(good?"ok":"no");
+    });
+    document.getElementById("sum13").textContent=ok+" von "+prices.length+" Zeilen richtig.";
+  }
+  function reset13(){
+    prices.forEach(function(r,i){
+      document.getElementById("s13-"+i).value="";
+      document.getElementById("m13-"+i).value="";
+      var f=document.getElementById("f13-"+i);f.textContent="";f.className="fb";
+    });
+    document.getElementById("sum13").textContent="";
+  }
+  document.getElementById("check13").addEventListener("click",check13);
+  document.getElementById("reset13").addEventListener("click",reset13);
+
+  var opts=[["","Bitte wählen"],["AL","Angebotskurve nach links"],["AR","Angebotskurve nach rechts"],["NL","Nachfragekurve nach links"],["NR","Nachfragekurve nach rechts"]];
+  var ev=[
+    {t:"Die Rohstoffpreise für Gummi steigen.",r:"AL",e:"Höhere Produktionskosten verringern das Angebot bei jedem Preis. Die Angebotskurve verschiebt sich nach links."},
+    {t:"Zwei weitere Händler eröffnen in der Stadt.",r:"AR",e:"Eine größere Anzahl Anbieter erhöht das Angebot. Die Angebotskurve verschiebt sich nach rechts."},
+    {t:"Ein Hersteller führt eine Maschine mit höherer Leistung ein (technischer Fortschritt).",r:"AR",e:"Technischer Fortschritt senkt die Kosten und erhöht das Angebot. Die Angebotskurve verschiebt sich nach rechts."},
+    {t:"Die Preise für Fahrradreifen steigen stark.",r:"NL",e:"Reifen und Schläuche sind Komplementärgüter. Wird das eine Gut teurer, sinkt die Nachfrage nach dem anderen. Die Nachfragekurve verschiebt sich nach links."},
+    {t:"Ein Mitbewerber erhöht den Preis seiner austauschbaren Ersatzschläuche.",r:"NR",e:"Es handelt sich um ein Substitutionsgut. Steigt dessen Preis, weichen Kunden aus, und die Nachfrage nach unseren Schläuchen steigt. Die Nachfragekurve verschiebt sich nach rechts."},
+    {t:"Radfahren wird zum Trend, die Bedürfnisstruktur der Bevölkerung ändert sich.",r:"NR",e:"Eine veränderte Bedürfnisstruktur erhöht die Nachfrage bei jedem Preis. Die Nachfragekurve verschiebt sich nach rechts."}
+  ];
+  var t23=document.getElementById("t23");
+  ev.forEach(function(r,i){
+    var tr=el("tr");
+    tr.appendChild(el("td",{},r.t));
+    var s=el("select",{id:"s23-"+i,"aria-label":"Verschiebung für Ereignis "+(i+1)});
+    opts.forEach(function(o){s.appendChild(el("option",{value:o[0]},o[1]));});
+    var td=el("td");td.appendChild(s);tr.appendChild(td);
+    var td3=el("td");td3.appendChild(el("div",{id:"f23-"+i,"class":"fb","aria-live":"polite"}));tr.appendChild(td3);
+    t23.appendChild(tr);
+  });
+  function label(v){for(var i=0;i<opts.length;i++)if(opts[i][0]===v)return opts[i][1];return "";}
+  function check23(){
+    var ok=0;
+    ev.forEach(function(r,i){
+      var v=document.getElementById("s23-"+i).value;
+      var f=document.getElementById("f23-"+i);
+      var good=v===r.r,msg;
+      if(v==="")msg="Bitte eine Verschiebung wählen.";
+      else if(good)msg="Richtig. "+r.e;
+      else{
+        var wrongCurve=v.charAt(0)!==r.r.charAt(0);
+        msg=(wrongCurve?"Falsche Kurve. Prüfen Sie, ob das Ereignis Anbieter (Angebot) oder Käufer (Nachfrage) betrifft. ":"Richtige Kurve, aber falsche Richtung. ")+"Lösung: "+label(r.r)+". "+r.e;
+      }
+      if(good)ok++;
+      f.textContent=msg;f.className="fb "+(good?"ok":"no");
+    });
+    document.getElementById("sum23").textContent=ok+" von "+ev.length+" Zuordnungen richtig.";
+  }
+  function reset23(){
+    ev.forEach(function(r,i){
+      document.getElementById("s23-"+i).value="";
+      var f=document.getElementById("f23-"+i);f.textContent="";f.className="fb";
+    });
+    document.getElementById("sum23").textContent="";
+  }
+  document.getElementById("check23").addEventListener("click",check23);
+  document.getElementById("reset23").addEventListener("click",reset23);
+})();
+</script>
+</body>
+</html>
