@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3.2.3 Kommanditgesellschaft, interaktive Aufgaben</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;line-height:1.5;margin:0;background:#f4f6f8;color:#1b2430}
+header,main{max-width:860px;margin:0 auto;padding:1rem}
+h1{font-size:1.5rem;margin:.5rem 0}
+h2{font-size:1.2rem;margin-top:0}
+section{background:#fff;border:1px solid #d5dbe2;border-radius:8px;padding:1rem;margin-bottom:1.5rem}
+fieldset{border:1px solid #d5dbe2;border-radius:6px;margin:0 0 1rem;padding:.75rem}
+legend{font-weight:600;padding:0 .3rem}
+label{display:block;padding:.35rem .25rem;cursor:pointer}
+select,button{font:inherit;padding:.5rem .75rem;border-radius:6px;border:1px solid #8795a6;background:#fff;min-height:44px}
+button{background:#1f5fa8;color:#fff;border-color:#1f5fa8;cursor:pointer;margin:.25rem .25rem .25rem 0}
+button:disabled{opacity:.5;cursor:default}
+button.sec{background:#fff;color:#1f5fa8}
+:focus-visible{outline:3px solid #f2a900;outline-offset:2px}
+.row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;padding:.5rem 0;border-bottom:1px solid #eef1f4}
+.row .t{flex:1 1 280px}
+.fb{margin:.35rem 0 0;padding:.5rem .75rem;border-radius:6px;display:none}
+.fb.ok{display:block;background:#e4f4e8;border-left:5px solid #2e8b4a}
+.fb.no{display:block;background:#fdeaea;border-left:5px solid #c0392b}
+.fb.info{display:block;background:#eaf1fb;border-left:5px solid #1f5fa8}
+.meta{color:#4b5a6b;font-size:.95rem}
+</style>
+</head>
+<body>
+<header>
+<h1>3.2.3 Kommanditgesellschaft</h1>
+<p class="meta">Interaktive Aufgaben zur Bergmann Küchenbau KG. Es werden keine Daten gespeichert und keine Anmeldung ist nötig. Alle Namen und Beträge sind angenommen.</p>
+</header>
+<main>
+
+<section id="aufgabe-1-3" aria-labelledby="h13">
+<h2 id="h13">Aufgabe 1.3: Zuordnen</h2>
+<p>Wählen Sie bei jeder Aussage, ob sie auf die Komplementärin (Anna Bergmann) oder auf die Kommanditisten (Keller, Sommer) zutrifft.</p>
+<div id="zu-list"></div>
+<button type="button" id="zu-check">Zuordnung prüfen</button>
+<button type="button" class="sec" id="zu-reset">Zurücksetzen</button>
+<div id="zu-result" class="fb" role="status" aria-live="polite"></div>
+</section>
+
+<section id="aufgabe-2-1" aria-labelledby="h21">
+<h2 id="h21">Aufgabe 2.1: Selbstprüfer zur Haftung von Jonas Keller</h2>
+<p>Haftsumme im Handelsregister: 80.000,00 EUR. Bisher eingezahlt: 50.000,00 EUR. Ein Lieferant der KG fordert 60.000,00 EUR direkt von Keller.</p>
+<div id="sp-box"></div>
+<button type="button" class="sec" id="sp-reset">Neu beginnen</button>
+</section>
+
+<section id="aufgabe-3-3" aria-labelledby="h33">
+<h2 id="h33">Aufgabe 3.3: Adaptiver Prüfungstrainer</h2>
+<p>Sie beantworten sechs Fragen. Nach einer richtigen Antwort wird die nächste Frage schwerer, nach einer falschen leichter.</p>
+<div id="tr-box"></div>
+</section>
+
+</main>
+<script>
+(function(){
+"use strict";
+
+function el(tag,attrs,text){
+  var e=document.createElement(tag);
+  if(attrs){for(var k in attrs){e.setAttribute(k,attrs[k]);}}
+  if(text){e.textContent=text;}
+  return e;
+}
+function setFb(node,cls,text){
+  node.className="fb "+cls;
+  node.textContent=text;
+}
+
+/* Aufgabe 1.3 Zuordnung */
+var ZU=[
+ {t:"Sie haftet unbeschränkt mit Geschäfts- und Privatvermögen.",a:"K",
+  ok:"Richtig: Die Komplementärin haftet wie ein OHG-Gesellschafter unbeschränkt, unmittelbar und gesamtschuldnerisch.",
+  no:"Die unbeschränkte Haftung mit Privat- und Geschäftsvermögen trifft die Komplementärin. Die Kommanditisten haften nur bis zur Haftsumme."},
+ {t:"Er haftet nur bis zur Höhe der im Handelsregister eingetragenen Haftsumme.",a:"M",
+  ok:"Richtig: Die Haftung der Kommanditisten ist auf die Haftsumme beschränkt (§ 171 HGB) und entfällt, soweit die Einlage geleistet ist.",
+  no:"Die Beschränkung auf die Haftsumme ist das Kennzeichen der Kommanditisten. Die Komplementärin haftet unbeschränkt."},
+ {t:"Sie ist zur Vertretung der KG gegenüber Dritten befugt.",a:"K",
+  ok:"Richtig: Die Komplementärin vertritt die KG nach OHG-Recht, grundsätzlich einzeln.",
+  no:"Kommanditisten sind als solche nicht zur Vertretung befugt (§ 170 HGB). Die Vertretung liegt bei der Komplementärin."},
+ {t:"Er kann Prokura erhalten, ohne dadurch Geschäftsführer zu werden.",a:"M",
+  ok:"Richtig: Kommanditisten sind von der Geschäftsführung ausgeschlossen, können aber Prokura erhalten und dann im Außenverhältnis handeln.",
+  no:"Die Komplementärin führt ohnehin die Geschäfte. Dass Prokura erteilt werden kann, ohne die Geschäftsführung zu übertragen, ist die Besonderheit der Kommanditisten."},
+ {t:"Er ist von der Geschäftsführung ausgeschlossen.",a:"M",
+  ok:"Richtig: Nach § 164 HGB sind die Kommanditisten von der Geschäftsführungsbefugnis ausgeschlossen.",
+  no:"Die Komplementärin führt die Geschäfte nach OHG-Recht. Ausgeschlossen sind die Kommanditisten."},
+ {t:"Für sie gilt das Wettbewerbsverbot nach OHG-Recht.",a:"K",
+  ok:"Richtig: Für die Komplementärin gilt das Wettbewerbsverbot wie bei der OHG. Für Kommanditisten gibt es dieses Verbot im Unterricht nicht.",
+  no:"Das Wettbewerbsverbot nach OHG-Recht trifft die Komplementärin. Kommanditisten unterliegen ihm nicht."}
+];
+var zuList=document.getElementById("zu-list");
+ZU.forEach(function(z,i){
+  var r=el("div",{"class":"row"});
+  var lab=el("label",{"for":"zu-s"+i,"class":"t"},(i+1)+". "+z.t);
+  var s=el("select",{id:"zu-s"+i});
+  [["","Bitte wählen"],["K","Komplementärin"],["M","Kommanditisten"]].forEach(function(o){
+    var op=el("option",{value:o[0]},o[1]);s.appendChild(op);
+  });
+  var f=el("div",{"class":"fb",id:"zu-f"+i,role:"status","aria-live":"polite"});
+  r.appendChild(lab);r.appendChild(s);r.appendChild(f);
+  zuList.appendChild(r);
+});
+document.getElementById("zu-check").addEventListener("click",function(){
+  var right=0,empty=0;
+  ZU.forEach(function(z,i){
+    var v=document.getElementById("zu-s"+i).value;
+    var f=document.getElementById("zu-f"+i);
+    if(!v){empty++;setFb(f,"info","Bitte wählen Sie eine Zuordnung.");return;}
+    if(v===z.a){right++;setFb(f,"ok",z.ok);}else{setFb(f,"no",z.no);}
+  });
+  var res=document.getElementById("zu-result");
+  if(empty>0){setFb(res,"info","Es fehlen noch "+empty+" Zuordnung(en). Bisher richtig: "+right+" von "+ZU.length+".");}
+  else{setFb(res,right===ZU.length?"ok":"no","Ergebnis: "+right+" von "+ZU.length+" richtig.");}
+});
+document.getElementById("zu-reset").addEventListener("click",function(){
+  ZU.forEach(function(z,i){
+    document.getElementById("zu-s"+i).value="";
+    var f=document.getElementById("zu-f"+i);f.className="fb";f.textContent="";
+  });
+  var res=document.getElementById("zu-result");res.className="fb";res.textContent="";
+});
+
+/* Gemeinsame Fragen-Darstellung */
+function renderQuestion(box,q,name,onAnswer){
+  var fs=el("fieldset");
+  fs.appendChild(el("legend",null,q.q));
+  var fb=el("div",{"class":"fb",role:"status","aria-live":"polite"});
+  var done=false;
+  q.o.forEach(function(o,i){
+    var lab=el("label");
+    var inp=el("input",{type:"radio",name:name,value:String(i)});
+    inp.addEventListener("change",function(){
+      if(done){return;}
+      done=true;
+      setFb(fb,o.c?"ok":"no",(o.c?"Richtig. ":"Nicht ganz. ")+o.f);
+      var all=fs.querySelectorAll("input");
+      for(var k=0;k<all.length;k++){all[k].disabled=true;}
+      onAnswer(o.c);
+    });
+    lab.appendChild(inp);
+    lab.appendChild(document.createTextNode(" "+o.t));
+    fs.appendChild(lab);
+  });
+  fs.appendChild(fb);
+  box.appendChild(fs);
+}
+
+/* Aufgabe 2.1 Selbstprüfer */
+var SP=[
+ {q:"Wie viel muss Jonas Keller dem Lieferanten höchstens zahlen?",o:[
+  {t:"60.000,00 EUR, weil der Lieferant so viel fordert",c:false,f:"Keller haftet nicht in Höhe der Forderung, sondern höchstens bis zur Haftsumme abzüglich der bereits geleisteten Einlage."},
+  {t:"30.000,00 EUR (80.000,00 EUR Haftsumme minus 50.000,00 EUR Einlage)",c:true,f:"Nach § 171 Abs. 1 HGB haftet er unmittelbar bis zur Haftsumme, soweit die Einlage nicht geleistet ist. Das sind 80.000,00 EUR minus 50.000,00 EUR gleich 30.000,00 EUR."},
+  {t:"50.000,00 EUR, weil er so viel schon eingezahlt hat",c:false,f:"Die eingezahlten 50.000,00 EUR sind bereits im Gesellschaftsvermögen und mindern die Haftung. Sie werden nicht ein zweites Mal fällig."},
+  {t:"0,00 EUR, weil Kommanditisten gar nicht haften",c:false,f:"Kommanditisten haften den Gläubigern unmittelbar, aber beschränkt auf die Haftsumme. Soweit die Einlage fehlt, besteht die Haftung."}]},
+ {q:"Wer muss die übrigen 30.000,00 EUR der Forderung begleichen?",o:[
+  {t:"Lea Sommer als weitere Kommanditistin",c:false,f:"Sommer haftet nur im Rahmen ihrer eigenen Haftsumme und nicht für den Anteil von Keller."},
+  {t:"Niemand, die Restforderung entfällt",c:false,f:"Die Forderung besteht gegen die KG weiter und entfällt nicht, nur weil Keller beschränkt haftet."},
+  {t:"Die KG, und zusätzlich haftet Anna Bergmann als Komplementärin persönlich und unbeschränkt",c:true,f:"Schuldnerin ist die KG. Die Komplementärin haftet für deren Verbindlichkeiten unbeschränkt, unmittelbar und gesamtschuldnerisch mit ihrem Geschäfts- und Privatvermögen."}]}
+];
+var spBox=document.getElementById("sp-box");
+function spStart(){
+  spBox.textContent="";
+  var idx=0;
+  function show(){
+    if(idx>=SP.length){
+      var d=el("div",{"class":"fb info",role:"status"},"Geschafft: Keller zahlt 30.000,00 EUR, den Rest schuldet die KG mit der Komplementärin als Vollhafterin.");
+      spBox.appendChild(d);return;
+    }
+    renderQuestion(spBox,SP[idx],"sp"+idx,function(){idx++;show();});
+  }
+  show();
+}
+document.getElementById("sp-reset").addEventListener("click",spStart);
+spStart();
+
+/* Aufgabe 3.3 Adaptiver Prüfungstrainer */
+var TR=[
+ {l:1,q:"Wie viele Gesellschafter braucht man mindestens, um eine KG zu gründen?",o:[
+  {t:"Einen",c:false,f:"Eine KG hat zwei Arten von Gesellschaftern, deshalb genügt eine Person nicht."},
+  {t:"Zwei, nämlich mindestens einen Komplementär und einen Kommanditisten",c:true,f:"Ohne beide Arten von Gesellschaftern ist es keine KG."},
+  {t:"Drei",c:false,f:"Drei sind nicht vorgeschrieben. Zwei Personen genügen."}]},
+ {l:1,q:"In welcher Abteilung des Handelsregisters wird eine KG eingetragen?",o:[
+  {t:"Abteilung A",c:true,f:"Abteilung A enthält Einzelunternehmen und Personenhandelsgesellschaften wie OHG und KG."},
+  {t:"Abteilung B",c:false,f:"Abteilung B ist für Kapitalgesellschaften wie GmbH und AG vorgesehen."},
+  {t:"Das Vereinsregister",c:false,f:"Das Vereinsregister ist für eingetragene Vereine da."}]},
+ {l:1,q:"Welchen Zusatz muss die Firma einer KG enthalten?",o:[
+  {t:"e. K.",c:false,f:"Der Zusatz e. K. steht für den eingetragenen Kaufmann, also das Einzelunternehmen."},
+  {t:"Kommanditgesellschaft oder KG",c:true,f:"Der Rechtsformzusatz ist nach § 19 HGB vorgeschrieben."},
+  {t:"Es ist kein Zusatz nötig",c:false,f:"Jede Firma braucht einen Zusatz, der die Rechtsform erkennen lässt."}]},
+ {l:2,q:"Welche Wirkung hat die Eintragung einer KG mit Handelsgewerbe im Handelsregister?",o:[
+  {t:"Deklaratorisch, sie bekundet einen schon bestehenden Zustand",c:true,f:"Nach dem Unterricht ist die Anmeldung der KG gemäß § 162 HGB deklaratorisch."},
+  {t:"Konstitutiv, die KG entsteht erst mit der Eintragung",c:false,f:"Konstitutiv ist zum Beispiel die Eintragung bei der AG oder GmbH. Bei der KG wird der bestehende Zustand bekundet."},
+  {t:"Gar keine",c:false,f:"Die Eintragung hat Bedeutung, etwa für die Haftung der Kommanditisten ab Eintragung und für die Publizität."}]},
+ {l:2,q:"Wer darf eine KG im Außenverhältnis grundsätzlich vertreten?",o:[
+  {t:"Alle Gesellschafter",c:false,f:"Kommanditisten sind als solche von der Vertretung ausgeschlossen (§ 170 HGB)."},
+  {t:"Nur die Komplementäre, Kommanditisten höchstens mit Prokura oder Vollmacht",c:true,f:"Die Komplementäre vertreten wie bei der OHG. Kommanditisten brauchen eine zusätzliche Vollmacht oder Prokura."},
+  {t:"Nur die Kommanditisten",c:false,f:"Es ist umgekehrt: Die Kommanditisten sind ausgeschlossen."}]},
+ {l:2,q:"Wer ist bei der GmbH & Co. KG Komplementär?",o:[
+  {t:"Ein Kommanditist als natürliche Person",c:false,f:"Kommanditisten sind Teilhafter. Die Rolle des Vollhafters übernimmt eine andere Person."},
+  {t:"Die GmbH",c:true,f:"Die GmbH ist Vollhafterin, haftet aber nur mit ihrem Gesellschaftsvermögen und führt die Geschäfte."},
+  {t:"Die Bank, die den Kredit gibt",c:false,f:"Eine Bank ist hier nur Gläubigerin und keine Gesellschafterin."}]},
+ {l:3,q:"Ein Kommanditist tritt am 1. Juni ein, die Eintragung erfolgt am 15. Juni. Am 10. Juni entsteht eine Schuld, der Gläubiger kannte die Stellung als Kommanditist nicht, der Gesellschafter hat dem Geschäftsbeginn zugestimmt. Wie haftet er?",o:[
+  {t:"Nur bis zur Haftsumme",c:false,f:"Die Beschränkung gilt erst ab der Eintragung. Davor gilt die strengere Regel."},
+  {t:"Unbeschränkt wie ein persönlich haftender Gesellschafter",c:true,f:"Nach § 176 HGB haftet er für Verbindlichkeiten bis zur Eintragung unbeschränkt, wenn er zugestimmt hat und der Gläubiger seine Stellung nicht kannte."},
+  {t:"Gar nicht, weil er noch nicht eingetragen war",c:false,f:"Gerade die fehlende Eintragung führt zur Haftung, weil sich Dritte auf das Register verlassen."}]},
+ {l:3,q:"Ein Kommanditist scheidet aus der KG aus. Wie lange kann er noch für Schulden haften, die vor seinem Ausscheiden begründet wurden?",o:[
+  {t:"Gar nicht mehr",c:false,f:"Mit dem Ausscheiden endet die Haftung für Altschulden nicht sofort."},
+  {t:"Noch fünf Jahre lang (Nachhaftung)",c:true,f:"Die Nachhaftung beträgt fünf Jahre. Erfasst werden Schulden, die innerhalb dieser Frist fällig werden."},
+  {t:"Unbegrenzt",c:false,f:"Die Nachhaftung ist zeitlich auf fünf Jahre begrenzt."}]},
+ {l:3,q:"Ein Kommanditist hat Prokura erhalten. Was gilt jetzt?",o:[
+  {t:"Er ist Komplementär geworden und haftet unbeschränkt",c:false,f:"Die Prokura ändert die Gesellschafterstellung nicht. Seine Haftung bleibt auf die Haftsumme beschränkt."},
+  {t:"Er kann die KG im Rahmen der Prokura vertreten, bleibt aber Kommanditist",c:true,f:"Prokura begründet eine Vertretungsmacht, ohne die Haftung oder die Stellung als Gesellschafter zu ändern."},
+  {t:"Nichts, Kommanditisten dürfen keine Prokura erhalten",c:false,f:"Kommanditisten können Prokura erhalten."}]}
+];
+var trBox=document.getElementById("tr-box");
+function trStart(){
+  trBox.textContent="";
+  var level=1,count=0,right=0,used={};
+  var TOTAL=6;
+  function pick(){
+    var order=[level,level+1,level-1,level+2,level-2];
+    for(var a=0;a<order.length;a++){
+      for(var i=0;i<TR.length;i++){
+        if(TR[i].l===order[a]&&!used[i]){used[i]=true;return TR[i];}
+      }
+    }
+    return null;
+  }
+  function next(){
+    if(count>=TOTAL){
+      var s=el("div",{"class":"fb info",role:"status"},"Auswertung: "+right+" von "+TOTAL+" Fragen richtig beantwortet. Wiederholen Sie die Themen der falschen Antworten anhand der Hinweise.");
+      trBox.appendChild(s);
+      var b=el("button",{type:"button"},"Trainer neu starten");
+      b.addEventListener("click",trStart);
+      trBox.appendChild(b);
+      return;
+    }
+    var q=pick();
+    if(!q){count=TOTAL;next();return;}
+    var h=el("p",{"class":"meta"},"Frage "+(count+1)+" von "+TOTAL+", Stufe "+q.l);
+    trBox.appendChild(h);
+    renderQuestion(trBox,q,"tr"+count,function(ok){
+      count++;
+      if(ok){right++;if(level<3){level++;}}else if(level>1){level--;}
+      var b=el("button",{type:"button"},count>=TOTAL?"Auswertung anzeigen":"Nächste Frage");
+      b.addEventListener("click",function(){b.disabled=true;next();});
+      trBox.appendChild(b);
+      b.focus();
+    });
+  }
+  next();
+}
+trStart();
+})();
+</script>
+</body>
+</html>
