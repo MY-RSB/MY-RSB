@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nachfrageorientierte Konjunkturpolitik: Interaktive Aufgaben</title>
+<style>
+  :root { --blau:#1f4e79; --hell:#eef4fa; --gruen:#1b6e3c; --gruenbg:#e6f4ea; --rot:#a12622; --rotbg:#fbeaea; --grau:#555; }
+  * { box-sizing: border-box; }
+  body { font-family: system-ui, "Segoe UI", Arial, sans-serif; line-height: 1.5; color:#1c1c1c; margin:0; background:#fafafa; }
+  header, main { max-width: 52rem; margin: 0 auto; padding: 1rem; }
+  header h1 { color: var(--blau); font-size: 1.5rem; margin-bottom:.25rem; }
+  section { background:#fff; border:1px solid #cfd8e3; border-radius:.5rem; padding:1rem; margin-bottom:1.5rem; }
+  h2 { color: var(--blau); font-size:1.2rem; margin-top:0; }
+  .angabe { background: var(--hell); border-left:4px solid var(--blau); padding:.6rem .8rem; margin:.75rem 0; }
+  label { display:block; margin:.6rem 0 .2rem; font-weight:600; }
+  input[type=text] { font-size:1rem; padding:.5rem; width:100%; max-width:14rem; border:1px solid #888; border-radius:.3rem; }
+  button { font-size:1rem; padding:.55rem .9rem; margin:.25rem .25rem .25rem 0; border:1px solid var(--blau); background:#fff; color:var(--blau); border-radius:.3rem; cursor:pointer; min-height:2.75rem; }
+  button.primary { background: var(--blau); color:#fff; }
+  button:hover { background: var(--hell); }
+  button.primary:hover { background:#163a5c; }
+  button:focus-visible, input:focus-visible { outline:3px solid #f2a900; outline-offset:2px; }
+  .feedback { margin-top:.6rem; padding:.6rem .8rem; border-radius:.3rem; }
+  .feedback:empty { display:none; }
+  .ok { background: var(--gruenbg); border-left:4px solid var(--gruen); }
+  .falsch { background: var(--rotbg); border-left:4px solid var(--rot); }
+  .info { background:#fff8e1; border-left:4px solid #f2a900; }
+  .spalten { display:grid; grid-template-columns: 1fr 1fr; gap:.75rem; }
+  .korb { border:2px dashed #9fb3c8; border-radius:.4rem; padding:.5rem; min-height:5rem; }
+  .korb h3 { margin:.1rem 0 .4rem; font-size:1rem; }
+  .korb ul { margin:0; padding-left:1.1rem; }
+  .karte { background: var(--hell); border:1px solid var(--blau); border-radius:.4rem; padding:.7rem; margin:.5rem 0; font-weight:600; }
+  .optionen button { display:block; width:100%; text-align:left; }
+  .stufe { color:var(--grau); font-size:.9rem; }
+  .sr { position:absolute; left:-9999px; }
+  @media (max-width:36rem) { .spalten { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Nachfrageorientierte Konjunkturpolitik</h1>
+  <p>Diese Seite gehört zur Übung WG VBWL, BPE 19. Alle Aufgaben laufen ohne Anmeldung, es werden keine Daten gespeichert. Die Zahlen sind angenommen.</p>
+</header>
+<main>
+
+<section id="aufgabe-2-1" aria-labelledby="h-2-1">
+  <h2 id="h-2-1">Aufgabe 2.1: Multiplikator berechnen</h2>
+  <div class="angabe">
+    Die Regierung von Nordia erhöht die Staatsnachfrage um ΔG = 20 Mrd. €. Die Konsumfunktion lautet C(Y) = 150 + 0,8 · Y, die marginale Konsumquote ist also c = 0,8. Außenhandel und Steuereffekte werden nicht berücksichtigt.
+  </div>
+  <form id="form-2-1" novalidate>
+    <label for="k">Einkommensmultiplikator k</label>
+    <input type="text" id="k" inputmode="decimal" autocomplete="off">
+    <label for="dy">Gesamte Einkommenssteigerung ΔY in Mrd. €</label>
+    <input type="text" id="dy" inputmode="decimal" autocomplete="off">
+    <p><button type="submit" class="primary">Prüfen</button><button type="reset" id="reset-2-1">Zurücksetzen</button></p>
+  </form>
+  <div id="fb-2-1" class="feedback" role="status" aria-live="polite"></div>
+</section>
+
+<section id="aufgabe-3-1" aria-labelledby="h-3-1">
+  <h2 id="h-3-1">Aufgabe 3.1: Maßnahmen zuordnen</h2>
+  <div class="angabe">Ordnen Sie jede Maßnahme der Konjunkturlage zu, in der eine antizyklische Fiskalpolitik sie einsetzt.</div>
+  <p class="stufe" id="z-stand"></p>
+  <div class="karte" id="z-karte" aria-live="polite"></div>
+  <div id="z-knoepfe">
+    <button type="button" id="z-rez">Rezession</button>
+    <button type="button" id="z-hoch">Hochkonjunktur</button>
+  </div>
+  <div id="fb-3-1" class="feedback" role="status" aria-live="polite"></div>
+  <div class="spalten">
+    <div class="korb"><h3>Rezession</h3><ul id="z-liste-rez"></ul></div>
+    <div class="korb"><h3>Hochkonjunktur</h3><ul id="z-liste-hoch"></ul></div>
+  </div>
+  <p><button type="button" id="z-neu">Neu starten</button></p>
+</section>
+
+<section id="aufgabe-4-1" aria-labelledby="h-4-1">
+  <h2 id="h-4-1">Aufgabe 4.1: Prüfungstrainer Konjunkturpaket</h2>
+  <div class="angabe">
+    Nordia befindet sich in einer Rezession mit sinkender Beschäftigung. Das Konjunkturpaket über 40 Mrd. € enthält eine befristete Senkung der Mehrwertsteuer, einen Bonus von 300 € je Kind und 10 Mrd. € für die Sanierung von Schulen. Die Finanzierung erfolgt über neue Staatsschulden.
+  </div>
+  <p class="stufe" id="t-stand"></p>
+  <p id="t-frage" style="font-weight:600" aria-live="polite"></p>
+  <div id="t-optionen" class="optionen"></div>
+  <div id="fb-4-1" class="feedback" role="status" aria-live="polite"></div>
+  <p><button type="button" id="t-weiter" class="primary" hidden>Weiter</button><button type="button" id="t-neu" hidden>Neu starten</button></p>
+</section>
+
+</main>
+<script>
+(function () {
+  "use strict";
+  function zahl(s) {
+    s = String(s).replace(/\s/g, "").replace(/\./g, function (m, i, all) { return /,/.test(all) ? "" : "."; }).replace(",", ".");
+    return s === "" ? NaN : parseFloat(s);
+  }
+  function nahe(a, b) { return Math.abs(a - b) < 0.005; }
+  function zeige(el, klasse, html) { el.className = "feedback " + klasse; el.innerHTML = html; }
+
+  /* Aufgabe 2.1 */
+  var f21 = document.getElementById("form-2-1"), fb21 = document.getElementById("fb-2-1");
+  f21.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var k = zahl(document.getElementById("k").value), dy = zahl(document.getElementById("dy").value);
+    var teile = [], ok = true;
+    if (isNaN(k)) { ok = false; teile.push("Bitte tragen Sie einen Wert für den Multiplikator ein."); }
+    else if (nahe(k, 5)) { teile.push("<b>Multiplikator richtig.</b> k = 1 : (1 − c) = 1 : 0,2 = 5. Von jedem zusätzlichen Euro Einkommen werden 80 Cent erneut ausgegeben, deshalb pflanzt sich die Nachfrage über viele Runden fort."); }
+    else {
+      ok = false;
+      if (nahe(k, 1.25)) teile.push("Sie haben 1 : c gerechnet. Die Formel lautet k = 1 : (1 − c), also mit der Sparquote 1 − c im Nenner.");
+      else if (nahe(k, 4)) teile.push("Sie haben c : (1 − c) gerechnet. Das ergibt 4. Der Zähler des Multiplikators ist aber 1, denn der erste Nachfrageimpuls zählt mit.");
+      else if (nahe(k, 0.2)) teile.push("0,2 ist die Sparquote 1 − c. Der Multiplikator ist der Kehrwert davon: k = 1 : 0,2.");
+      else if (nahe(k, 0.8)) teile.push("0,8 ist die marginale Konsumquote c selbst. Setzen Sie sie in k = 1 : (1 − c) ein.");
+      else if (k <= 1) teile.push("Der Multiplikator ist bei einer positiven Konsumquote immer größer als 1, weil der Konsum den Impuls verstärkt.");
+      else teile.push("Der Multiplikator stimmt noch nicht. Rechnen Sie k = 1 : (1 − c) mit c = 0,8.");
+    }
+    if (isNaN(dy)) { ok = false; teile.push("Bitte tragen Sie auch die Einkommenssteigerung ein."); }
+    else if (nahe(dy, 100)) { teile.push("<b>Einkommenssteigerung richtig.</b> ΔY = k · ΔG = 5 · 20 = 100 Mrd. €. Davon sind 20 Mrd. € der Staatsimpuls und 80 Mrd. € zusätzlicher Konsum."); }
+    else {
+      ok = false;
+      if (nahe(dy, 16)) teile.push("16 ist nur der Konsum der zweiten Runde (0,8 · 20). Der Multiplikatorprozess läuft über alle Runden weiter.");
+      else if (nahe(dy, 20)) teile.push("20 Mrd. € ist nur der Anfangsimpuls. Multiplizieren Sie ihn mit dem Multiplikator.");
+      else if (nahe(dy, 80)) teile.push("80 Mrd. € ist nur der zusätzliche Konsum. Der Staatsimpuls von 20 Mrd. € gehört zur Einkommenssteigerung dazu.");
+      else if (nahe(dy, 4)) teile.push("Sie haben ΔG durch k geteilt. Richtig ist die Multiplikation: ΔY = k · ΔG.");
+      else if (nahe(dy, 25)) teile.push("Sie haben ΔG durch c geteilt. Die Einkommenssteigerung ist das Produkt aus Multiplikator und ΔG.");
+      else teile.push("Die Einkommenssteigerung stimmt noch nicht. Rechnen Sie ΔY = k · ΔG mit ΔG = 20 Mrd. €.");
+    }
+    zeige(fb21, ok ? "ok" : "falsch", "<p>" + teile.join("</p><p>") + "</p>");
+  });
+  document.getElementById("reset-2-1").addEventListener("click", function () { fb21.className = "feedback"; fb21.innerHTML = ""; });
+
+  /* Aufgabe 3.1 */
+  var massnahmen = [
+    { t: "Staatsausgaben erhöhen", z: "rez", e: "Höhere Staatsausgaben erhöhen die Gesamtnachfrage und stützen in der Rezession Produktion und Beschäftigung." },
+    { t: "Steuern erhöhen", z: "hoch", e: "Höhere Steuern entziehen Kaufkraft und dämpfen die Nachfrage, wenn die Wirtschaft überhitzt." },
+    { t: "Steuern senken", z: "rez", e: "Steuersenkungen lassen den Haushalten und Unternehmen mehr Geld für Konsum und Investitionen." },
+    { t: "Staatsausgaben senken", z: "hoch", e: "Geringere Staatsausgaben nehmen Nachfrage aus dem Markt und verringern die Gefahr steigender Preise." },
+    { t: "Konjunkturausgleichsrücklage auflösen", z: "rez", e: "Die in guten Jahren angesparten Mittel finanzieren zusätzliche Ausgaben, ohne neue Schulden zu verursachen." },
+    { t: "Der Konjunkturausgleichsrücklage Mittel zuführen", z: "hoch", e: "Das Ansparen entzieht dem Kreislauf Geld und dämpft die Nachfrage. Zugleich entsteht ein Polster für die nächste Rezession." },
+    { t: "Kredite aufnehmen, um Mehrausgaben zu finanzieren (deficit spending)", z: "rez", e: "Staatsausgaben liegen über den Staatseinnahmen. Das Defizit wird über Kredite gedeckt und stützt die Nachfrage." },
+    { t: "Staatsschulden tilgen", z: "hoch", e: "Die Tilgung aus Mehreinnahmen entzieht Nachfrage und baut die in der Rezession aufgenommenen Schulden wieder ab." }
+  ];
+  var zi, zrichtig, zkarte = document.getElementById("z-karte"), zfb = document.getElementById("fb-3-1");
+  var zstand = document.getElementById("z-stand"), zknoepfe = document.getElementById("z-knoepfe");
+  function zStart() {
+    zi = 0; zrichtig = 0;
+    document.getElementById("z-liste-rez").innerHTML = "";
+    document.getElementById("z-liste-hoch").innerHTML = "";
+    zfb.className = "feedback"; zfb.innerHTML = "";
+    zknoepfe.hidden = false; zAnzeige();
+  }
+  function zAnzeige() {
+    if (zi >= massnahmen.length) {
+      zkarte.textContent = "Alle Maßnahmen sind zugeordnet.";
+      zstand.textContent = "Ergebnis: " + zrichtig + " von " + massnahmen.length + " richtig.";
+      zknoepfe.hidden = true; return;
+    }
+    zstand.textContent = "Maßnahme " + (zi + 1) + " von " + massnahmen.length;
+    zkarte.textContent = massnahmen[zi].t;
+  }
+  function zWahl(wahl) {
+    if (zi >= massnahmen.length) return;
+    var m = massnahmen[zi], richtig = m.z === wahl;
+    if (richtig) zrichtig++;
+    var li = document.createElement("li"); li.textContent = m.t + (richtig ? "" : " (falsch zugeordnet)");
+    document.getElementById("z-liste-" + wahl).appendChild(li);
+    zeige(zfb, richtig ? "ok" : "falsch",
+      (richtig ? "<b>Richtig.</b> " : "<b>Nicht ganz.</b> Diese Maßnahme gehört zur " + (m.z === "rez" ? "Rezession" : "Hochkonjunktur") + ". ") + m.e);
+    zi++; zAnzeige();
+  }
+  document.getElementById("z-rez").addEventListener("click", function () { zWahl("rez"); });
+  document.getElementById("z-hoch").addEventListener("click", function () { zWahl("hoch"); });
+  document.getElementById("z-neu").addEventListener("click", zStart);
+  zStart();
+
+  /* Aufgabe 4.1: adaptiver Trainer, Stufe 1 bis 3 */
+  var fragen = {
+    1: [
+      { q: "Welche Aussage beschreibt die Grundidee der nachfrageorientierten Wirtschaftspolitik (Keynes)?", o: ["Die Nachfrage bestimmt das Angebot und damit die Konjunktur, deshalb lenkt der Staat die Nachfrage.", "Märkte sind stabil, deshalb soll sich der Staat vollständig zurückhalten.", "Die Geldmenge ist die entscheidende Größe für die Konjunktur."], r: 0, e: "Nach Keynes sind Märkte instabil, die gesamtwirtschaftliche Nachfrage bestimmt die Konjunktur, und der Staat steuert sie mit Fiskalpolitik. Die beiden anderen Aussagen gehören zur angebots- und geldmengenorientierten Position." },
+      { q: "Wie wirkt die befristete Senkung der Mehrwertsteuer im Konjunkturpaket?", o: ["Der Staat verzichtet auf Einnahmen, die Kaufkraft steigt und die Konsumnachfrage wird gestützt.", "Der Staat erhöht seine Einnahmen und dämpft den Konsum.", "Sie verbessert die Angebotsbedingungen der Unternehmen auf lange Sicht."], r: 0, e: "Die Steuersenkung ist ein Einnahmeverzicht und stärkt kurzfristig die Konsumnachfrage. Das passt zu einer antizyklischen Politik in der Rezession." },
+      { q: "Wie nennt man es, wenn der Staat seine Ausgaben über Kredite finanziert und die Ausgaben die Einnahmen übersteigen?", o: ["Deficit spending", "Crowding out", "Schuldenbremse"], r: 0, e: "Deficit spending bedeutet Staatsausgaben über den Staatseinnahmen, finanziert durch Kredite oder durch die Auflösung einer Konjunkturausgleichsrücklage." }
+    ],
+    2: [
+      { q: "Warum entspricht der Kinderbonus einer nachfrageorientierten Politik?", o: ["Er erhöht die Staatsausgaben und stärkt die Konsumnachfrage der Haushalte.", "Er senkt die Lohnnebenkosten der Unternehmen.", "Er begrenzt die Geldmenge."], r: 0, e: "Ein Bonus an die Haushalte erhöht deren verfügbares Einkommen. Mit der marginalen Konsumquote fließt ein großer Teil in den Konsum, der über den Multiplikator weiterwirkt." },
+      { q: "Welche Folge für die Staatsverschuldung ist bei diesem Paket zu erwarten?", o: ["Das Paket wird über Kredite finanziert, und die Schulden steigen, wenn sie später nicht abgebaut werden.", "Die Staatsschulden sinken sofort, weil die Wirtschaft wächst.", "Es ergibt sich keine Wirkung, weil die Konjunkturausgleichsrücklage unbegrenzt ist."], r: 0, e: "Deficit spending erhöht den Schuldenstand. Steigende Steuereinnahmen können das Defizit mildern. Wird in der Hochkonjunktur aber nicht getilgt, bleibt die Verschuldung hoch." },
+      { q: "Warum kann das Konjunkturpaket die Preisniveaustabilität gefährden?", o: ["Die Nachfrage steigt, das Angebot wächst aber nicht im gleichen Maß, und die Preise können steigen.", "Die Zentralbank erhöht dadurch zwingend die Geldmenge.", "Die Steuersenkung verteuert direkt alle Waren."], r: 0, e: "Steigt die Gesamtnachfrage schneller als das Angebot, entsteht Preisdruck. Das ist der Zielkonflikt zwischen Beschäftigung und Preisniveaustabilität." }
+    ],
+    3: [
+      { q: "Das Paket wirkt erst nach zwei Jahren, wenn die Rezession schon vorbei ist. Welches Problem liegt vor?", o: ["Timelags zwischen Entscheidung und Wirkung können die Konjunktur sogar anheizen.", "Crowding out durch sinkende Zinsen.", "Eine zu niedrige Staatsquote."], r: 0, e: "Zwischen dem Erkennen der Lage, dem Beschluss und der Wirkung vergeht Zeit. Wirkt das Programm erst im Aufschwung, wirkt es prozyklisch." },
+      { q: "Wie entsteht crowding out durch die kreditfinanzierte Schulsanierung?", o: ["Hohe Staatsverschuldung treibt die Zinsen, und private Investitionen werden verdrängt.", "Der Staat verdrängt private Haushalte vom Konsum, weil die Steuern steigen.", "Die Unternehmen investieren mehr, weil Kredite billiger werden."], r: 0, e: "Der Staat fragt am Kapitalmarkt Kredit nach. Steigen dadurch die Zinsen, werden private Investitionen unattraktiver und verdrängt." },
+      { q: "Wovon hängt es ab, ob das Konzept auf Dauer zu höherer Verschuldung führt?", o: ["Ob der Staat in der Hochkonjunktur Rücklagen bildet und Schulden abbaut oder dies aus politischem Kalkül unterlässt.", "Allein von der Höhe der Mehrwertsteuer.", "Allein von der Höhe der Exporte."], r: 0, e: "Antizyklische Politik verlangt beides: Defizite in der Rezession und Überschüsse in der Hochkonjunktur. Wird nur der erste Teil umgesetzt, spricht man von einem halben Keynes." }
+    ]
+  };
+  var stufe, nr, verlauf, zuletzt, frageObj, gesamt, richtigT;
+  var elQ = document.getElementById("t-frage"), elO = document.getElementById("t-optionen"), elFb = document.getElementById("fb-4-1");
+  var elStand = document.getElementById("t-stand"), btnW = document.getElementById("t-weiter"), btnN = document.getElementById("t-neu");
+  var RUNDEN = 6;
+  function mischen(a) { var b = a.slice(), i, j, t; for (i = b.length - 1; i > 0; i--) { j = Math.floor(Math.random() * (i + 1)); t = b[i]; b[i] = b[j]; b[j] = t; } return b; }
+  function tStart() {
+    stufe = 1; gesamt = 0; richtigT = 0; verlauf = { 1: [], 2: [], 3: [] };
+    elFb.className = "feedback"; elFb.innerHTML = ""; btnN.hidden = true; btnW.hidden = true;
+    tFrage();
+  }
+  function tFrage() {
+    var pool = fragen[stufe].filter(function (f) { return verlauf[stufe].indexOf(f) < 0; });
+    if (!pool.length) { verlauf[stufe] = []; pool = fragen[stufe]; }
+    frageObj = pool[Math.floor(Math.random() * pool.length)];
+    verlauf[stufe].push(frageObj);
+    elStand.textContent = "Frage " + (gesamt + 1) + " von " + RUNDEN + ", Schwierigkeitsstufe " + stufe + " von 3";
+    elQ.textContent = frageObj.q;
+    elO.innerHTML = ""; elFb.className = "feedback"; elFb.innerHTML = ""; btnW.hidden = true;
+    var order = mischen(frageObj.o.map(function (t, i) { return i; }));
+    order.forEach(function (i) {
+      var b = document.createElement("button"); b.type = "button"; b.textContent = frageObj.o[i];
+      b.addEventListener("click", function () { tAntwort(i); });
+      elO.appendChild(b);
+    });
+  }
+  function tAntwort(i) {
+    var richtig = i === frageObj.r;
+    Array.prototype.forEach.call(elO.children, function (b) { b.disabled = true; });
+    gesamt++; if (richtig) richtigT++;
+    var neu = richtig ? Math.min(3, stufe + 1) : Math.max(1, stufe - 1);
+    var hinweis = richtig
+      ? (neu > stufe ? " Die nächste Frage ist schwieriger." : " Sie bleiben auf der höchsten Stufe.")
+      : (neu < stufe ? " Die nächste Frage ist etwas leichter, damit Sie den Stoff festigen." : " Sie bleiben auf der Grundstufe, bis die Grundlagen sitzen.");
+    zeige(elFb, richtig ? "ok" : "falsch", (richtig ? "<b>Richtig.</b> " : "<b>Nicht richtig.</b> Die richtige Antwort lautet: " + frageObj.o[frageObj.r] + " ") + frageObj.e + hinweis);
+    stufe = neu;
+    if (gesamt >= RUNDEN) {
+      elStand.textContent = "Training beendet";
+      elFb.innerHTML += "<p><b>Ergebnis: " + richtigT + " von " + RUNDEN + " Fragen richtig.</b> Formulieren Sie nun Ihre schriftliche Antwort zu Aufgabe 4.1 mit zwei Aspekten sowie je einer Auswirkung auf Staatsverschuldung und Preisniveau.</p>";
+      btnN.hidden = false; btnW.hidden = true;
+    } else { btnW.hidden = false; btnW.focus(); }
+  }
+  btnW.addEventListener("click", tFrage);
+  btnN.addEventListener("click", tStart);
+  tStart();
+})();
+</script>
+</body>
+</html>
