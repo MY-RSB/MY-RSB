@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WG VBWL | BPE 19 | Angebotsorientierte Wachstumspolitik (Say,</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;margin:0;background:#f4f6f9;color:#1d2733;line-height:1.5}
+main{max-width:860px;margin:0 auto;padding:16px}
+h1{font-size:1.5rem;margin:8px 0 16px}
+h2{font-size:1.2rem;margin:0 0 8px}
+section{background:#fff;border:1px solid #d5dbe3;border-radius:10px;padding:16px;margin-bottom:20px}
+button{font:inherit;padding:10px 16px;margin:4px 4px 4px 0;border:1px solid #1f5fa8;background:#1f5fa8;color:#fff;border-radius:6px;cursor:pointer;min-height:44px}
+button.sec{background:#fff;color:#1f5fa8}
+button:disabled{opacity:.5;cursor:default}
+:focus-visible{outline:3px solid #f2a900;outline-offset:2px}
+.opt{display:block;width:100%;text-align:left;background:#fff;color:#1d2733;border:1px solid #aab4c2}
+.opt.ok{background:#e1f4e5;border-color:#2e8b47}
+.opt.bad{background:#fbe4e4;border-color:#c0392b}
+.fb{margin-top:10px;padding:10px;border-radius:6px;background:#eef3fa}
+.fb.ok{background:#e1f4e5}.fb.bad{background:#fbe4e4}
+.zones{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+@media(max-width:560px){.zones{grid-template-columns:1fr}}
+.zone{min-height:120px;border:2px dashed #7f8da1;border-radius:8px;padding:8px;background:#fafbfd}
+.zone h3{font-size:1rem;margin:0 0 6px}
+.item{display:block;width:100%;text-align:left;margin:4px 0;padding:8px 10px;background:#fff;color:#1d2733;border:1px solid #7f8da1;border-radius:6px;cursor:grab;min-height:44px}
+.item.sel{outline:3px solid #f2a900}
+.item.ok{background:#e1f4e5;border-color:#2e8b47}
+.item.bad{background:#fbe4e4;border-color:#c0392b}
+.pool{min-height:60px;border:2px dashed #aab4c2;border-radius:8px;padding:8px}
+label{display:block;margin:12px 0 2px;font-weight:600}
+input[type=range]{width:100%}
+input[type=number]{width:6em;font:inherit;padding:6px}
+.res{font-size:1.3rem;font-weight:700;margin:12px 0}
+.small{font-size:.9rem;color:#455}
+</style>
+</head>
+<body>
+<main>
+<h1>WG VBWL | BPE 19 | Angebotsorientierte Wachstumspolitik (Say,</h1>
+<p class="small">Diese Seite gehört zur Übung. Sie funktioniert ohne Anmeldung und speichert keine Daten. Alle Zahlen sind angenommen.</p>
+
+<section id="aufgabe-1-3" aria-labelledby="h13">
+<h2 id="h13">Aufgabe 1.3: Selbstprüfer zu den Grundauffassungen</h2>
+<div id="q-area" aria-live="polite"></div>
+</section>
+
+<section id="aufgabe-1-4" aria-labelledby="h14">
+<h2 id="h14">Aufgabe 1.4: Maßnahmen zuordnen</h2>
+<p>Ziehen Sie jede Maßnahme in ein Feld oder tippen Sie zuerst die Maßnahme und dann das Feld an. Ein Antippen einer Maßnahme im Feld legt sie zurück.</p>
+<div id="pool" class="pool" data-zone="pool" aria-label="Noch nicht zugeordnete Maßnahmen"></div>
+<div class="zones">
+<div class="zone" data-zone="A" tabindex="0" role="button" aria-label="Feld angebotsorientiert"><h3>Angebotsorientiert</h3></div>
+<div class="zone" data-zone="N" tabindex="0" role="button" aria-label="Feld nachfrageorientiert"><h3>Nachfrageorientiert</h3></div>
+</div>
+<button id="z-check">Zuordnung prüfen</button>
+<button id="z-reset" class="sec">Zurücksetzen</button>
+<div id="z-fb" class="fb" aria-live="polite" hidden></div>
+</section>
+
+<section id="aufgabe-2-1" aria-labelledby="h21">
+<h2 id="h21">Aufgabe 2.1: Simulation Geldmenge und Preisniveau</h2>
+<p>Annahme: Die tatsächliche Produktion wächst wie das Produktionspotenzial.</p>
+<label for="m">Wachstum der Geldmenge in % (0 bis 10)</label>
+<input type="range" id="m-r" min="0" max="10" step="0.5" value="5" aria-label="Geldmengenwachstum Regler">
+<input type="number" id="m" min="0" max="10" step="0.5" value="5">
+<label for="y">Wachstum des Produktionspotenzials in % (0 bis 5)</label>
+<input type="range" id="y-r" min="0" max="5" step="0.5" value="2" aria-label="Potenzialwachstum Regler">
+<input type="number" id="y" min="0" max="5" step="0.5" value="2">
+<label for="v">Veränderung der Umlaufgeschwindigkeit in % (-2 bis 2)</label>
+<input type="range" id="v-r" min="-2" max="2" step="0.5" value="0" aria-label="Umlaufgeschwindigkeit Regler">
+<input type="number" id="v" min="-2" max="2" step="0.5" value="0">
+<div class="res" id="s-res" aria-live="polite"></div>
+<div class="fb" id="s-fb" aria-live="polite"></div>
+<button id="s-reset" class="sec">Zurücksetzen</button>
+</section>
+</main>
+<script>
+(function(){
+"use strict";
+/* ---------- 1.3 Selbstprüfer ---------- */
+var QS=[
+{q:"Wie beurteilt die Neoklassik die Stabilität von Märkten?",o:["Märkte sind von sich aus stabil, Instabilität entsteht erst durch Staatseingriffe oder fehlenden Wettbewerb.","Märkte sind instabil und führen regelmäßig zu dauerhafter Unterbeschäftigung.","Märkte sind nur stabil, wenn der Staat die Nachfrage lenkt."],r:0,e:"Die Stabilitätshypothese der Neoklassik besagt, dass Märkte stabil sind. Die zweite und dritte Antwort geben die keynesianische Sicht wieder."},
+{q:"Was gilt in der angebotsorientierten Sicht als Motor der Wirtschaft?",o:["Die staatliche Nachfrage","Das Angebot","Der Außenbeitrag allein"],r:1,e:"Angebotsorientierte Politik sieht im Angebot den Motor der Wirtschaft. Nach Say schafft sich das Angebot seine Nachfrage selbst."},
+{q:"Welche Größe ist nach Friedman (Monetarismus) für Preisniveau und Wirtschaftsentwicklung entscheidend?",o:["Die Staatsausgaben","Die Arbeitslosenquote","Die Geldmenge"],r:2,e:"Der Monetarismus stellt die Geldmenge in den Mittelpunkt. Wächst sie schneller als das Produktionspotenzial, entsteht Inflation."},
+{q:"Welche Rolle soll der Staat in der angebotsorientierten Wirtschaftspolitik übernehmen?",o:["Er sichert Rahmenbedingungen und Wettbewerb und greift nicht aktiv in das Wirtschaftsgeschehen ein.","Er steuert die Konjunktur durch deficit spending.","Er legt die Preise wichtiger Güter fest."],r:0,e:"Der Staat schafft den Rahmen und sichert funktionierende Märkte. Das deficit spending gehört zur nachfrageorientierten Politik."},
+{q:"Welche Ziele stehen in der angebotsorientierten Politik im Vordergrund?",o:["Sicherung der Beschäftigung durch höhere Staatsausgaben","Wirtschaftswachstum und Preisniveaustabilität","Umverteilung von Reich zu Arm"],r:1,e:"Angebotsorientierte Politik will vor allem Wirtschaftswachstum (kurzfristig gemessen am BIP, langfristig am Produktionspotenzial) und Preisniveaustabilität. Die Beschäftigungssicherung steht bei der nachfrageorientierten Politik im Vordergrund."}
+];
+var qi=0,score=0,qa=document.getElementById("q-area");
+function showQ(){
+ if(qi>=QS.length){
+  qa.innerHTML="";
+  var p=document.createElement("p");p.innerHTML="<strong>Ergebnis: "+score+" von "+QS.length+" Fragen richtig.</strong> "+(score===QS.length?"Sie beherrschen die Grundauffassungen sicher.":"Lesen Sie die Erklärungen noch einmal und starten Sie neu.");
+  var b=document.createElement("button");b.textContent="Neu starten";b.onclick=function(){qi=0;score=0;showQ();};
+  qa.appendChild(p);qa.appendChild(b);return;}
+ var Q=QS[qi];qa.innerHTML="";
+ var h=document.createElement("p");h.innerHTML="<strong>Frage "+(qi+1)+" von "+QS.length+":</strong> "+Q.q;qa.appendChild(h);
+ var btns=[];
+ Q.o.forEach(function(t,i){
+  var b=document.createElement("button");b.className="opt";b.textContent=t;
+  b.onclick=function(){
+   btns.forEach(function(x){x.disabled=true;});
+   var ok=i===Q.r;if(ok)score++;
+   b.classList.add(ok?"ok":"bad");if(!ok)btns[Q.r].classList.add("ok");
+   var f=document.createElement("div");f.className="fb "+(ok?"ok":"bad");
+   f.textContent=(ok?"Richtig. ":"Falsch. Richtig ist: \""+Q.o[Q.r]+"\" ")+Q.e;
+   qa.appendChild(f);
+   var n=document.createElement("button");n.textContent=qi===QS.length-1?"Ergebnis anzeigen":"Nächste Frage";
+   n.onclick=function(){qi++;showQ();};qa.appendChild(n);n.focus();
+  };
+  btns.push(b);qa.appendChild(b);
+ });
+}
+showQ();
+
+/* ---------- 1.4 Zuordnung ---------- */
+var IT=[
+{t:"Bürokratie abbauen",z:"A",e:"Bürokratieabbau verbessert die Angebotsbedingungen der Unternehmen."},
+{t:"Geldmengenwachstum am Produktionspotenzial ausrichten",z:"A",e:"Das ist die potentialorientierte Geldpolitik des Monetarismus."},
+{t:"Arbeitsmarkt flexibilisieren",z:"A",e:"Mehr Flexibilität senkt die Kosten der Unternehmen und stärkt das Angebot."},
+{t:"Wettbewerb durch Ordnungspolitik stärken",z:"A",e:"Der Staat sichert Wettbewerb und funktionierende Märkte."},
+{t:"Staatsausgaben in der Rezession erhöhen",z:"N",e:"Höhere Staatsausgaben steigern die Nachfrage und stützen die Beschäftigung."},
+{t:"Deficit spending zur Beschäftigungssicherung",z:"N",e:"Kreditfinanzierte Staatsausgaben sind ein Kernelement der keynesianischen Fiskalpolitik."},
+{t:"Staatseinnahmen in der Hochkonjunktur erhöhen",z:"N",e:"Das ist antizyklische Fiskalpolitik: Die Nachfrage wird im Boom gebremst."},
+{t:"Konjunkturausgleichsrücklage im Boom bilden",z:"N",e:"Der Staat dämpft im Boom die Nachfrage und schafft Spielraum für spätere Ausgaben."}
+];
+var pool=document.getElementById("pool"),sel=null,place={},els=[];
+function build(){
+ pool.innerHTML="";place={};sel=null;
+ document.querySelectorAll(".zone").forEach(function(z){Array.prototype.slice.call(z.querySelectorAll(".item")).forEach(function(i){i.remove();});});
+ els=IT.map(function(it,i){
+  var b=document.createElement("button");b.className="item";b.textContent=it.t;b.draggable=true;b.dataset.i=i;
+  b.addEventListener("dragstart",function(e){e.dataTransfer.setData("text/plain",String(i));});
+  b.addEventListener("click",function(ev){
+   ev.stopPropagation();
+   if(place[i]){move(i,"pool");return;}
+   if(sel!==null)els[sel].classList.remove("sel");
+   sel=(sel===i)?null:i;if(sel!==null)b.classList.add("sel");
+  });
+  pool.appendChild(b);return b;});
+ var fb=document.getElementById("z-fb");fb.hidden=true;fb.innerHTML="";
+}
+function move(i,zone){
+ var b=els[i];b.classList.remove("sel","ok","bad");
+ if(zone==="pool"){delete place[i];pool.appendChild(b);}
+ else{place[i]=zone;document.querySelector('.zone[data-zone="'+zone+'"]').appendChild(b);}
+ if(sel===i)sel=null;
+}
+document.querySelectorAll(".zone").forEach(function(z){
+ function drop(){if(sel!==null){move(sel,z.dataset.zone);}}
+ z.addEventListener("click",drop);
+ z.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();drop();}});
+ z.addEventListener("dragover",function(e){e.preventDefault();});
+ z.addEventListener("drop",function(e){e.preventDefault();var i=parseInt(e.dataTransfer.getData("text/plain"),10);if(!isNaN(i))move(i,z.dataset.zone);});
+});
+pool.addEventListener("dragover",function(e){e.preventDefault();});
+pool.addEventListener("drop",function(e){e.preventDefault();var i=parseInt(e.dataTransfer.getData("text/plain"),10);if(!isNaN(i))move(i,"pool");});
+document.getElementById("z-check").onclick=function(){
+ var fb=document.getElementById("z-fb"),html="",right=0,open=0;
+ IT.forEach(function(it,i){
+  var b=els[i];b.classList.remove("ok","bad");
+  if(!place[i]){open++;return;}
+  var ok=place[i]===it.z;if(ok)right++;
+  b.classList.add(ok?"ok":"bad");
+  html+="<li><strong>"+it.t+":</strong> "+(ok?"Richtig. ":"Falsch, richtig ist "+(it.z==="A"?"angebotsorientiert":"nachfrageorientiert")+". ")+it.e+"</li>";
+ });
+ fb.hidden=false;
+ fb.innerHTML=(open?"<p>Noch nicht zugeordnet: "+open+" Maßnahme(n).</p>":"")+"<p><strong>"+right+" von "+IT.length+" richtig zugeordnet.</strong></p><ul>"+html+"</ul>";
+};
+document.getElementById("z-reset").onclick=build;
+build();
+
+/* ---------- 2.1 Simulation ---------- */
+var ids=["m","y","v"];
+function num(id){var x=parseFloat(document.getElementById(id).value);return isNaN(x)?0:x;}
+function sim(){
+ var m=num("m"),y=num("y"),v=num("v");
+ var p=((1+m/100)*(1+v/100)/(1+y/100)-1)*100;
+ var r=Math.round(p*10)/10;
+ document.getElementById("s-res").textContent="Preisniveauänderung: "+r.toFixed(1).replace(".",",")+" %";
+ var t;
+ if(Math.abs(r)<0.05)t="Geldmenge und Gütermenge wachsen im Gleichklang, das Preisniveau bleibt stabil. Das ist das Ziel der potentialorientierten Geldpolitik.";
+ else if(r>0)t="Die Geldmenge (einschließlich Umlaufgeschwindigkeit) wächst schneller als das Produktionspotenzial. Dem zusätzlichen Geld steht zu wenig zusätzliches Güterangebot gegenüber, deshalb steigt das Preisniveau (Inflation). Zulässiges Geldmengenwachstum bei unveränderter Umlaufgeschwindigkeit: "+y.toFixed(1).replace(".",",")+" %.";
+ else t="Die Gütermenge wächst schneller als das Geld, das sie bezahlen soll. Das Preisniveau sinkt (Deflationsgefahr). Auch das widerspricht der Preisniveaustabilität.";
+ document.getElementById("s-fb").textContent=t;
+}
+ids.forEach(function(id){
+ var n=document.getElementById(id),r=document.getElementById(id+"-r");
+ r.addEventListener("input",function(){n.value=r.value;sim();});
+ n.addEventListener("input",function(){var x=parseFloat(n.value);if(!isNaN(x))r.value=x;sim();});
+});
+document.getElementById("s-reset").onclick=function(){
+ var d={m:5,y:2,v:0};
+ ids.forEach(function(id){document.getElementById(id).value=d[id];document.getElementById(id+"-r").value=d[id];});sim();
+};
+sim();
+})();
+</script>
+</body>
+</html>
