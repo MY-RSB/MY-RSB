@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bank BFK | LF 5 | LF 5 Allgemein-Verbraucherdarlehensverträge abschließen</title>
+<style>
+  :root { --blau:#1f4e79; --gruen:#1d7a3a; --rot:#b3261e; --grau:#f3f5f8; --rand:#c5ccd6; }
+  * { box-sizing: border-box; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", Arial, sans-serif; margin: 0; background: #fff; color: #1b1f24; line-height: 1.5; }
+  main { max-width: 960px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 1.5rem; color: var(--blau); margin: 8px 0 16px; }
+  h2 { font-size: 1.2rem; color: var(--blau); margin-top: 0; }
+  section.aufgabe { border: 1px solid var(--rand); border-radius: 10px; padding: 16px; margin-bottom: 24px; background: #fff; }
+  .hinweis { background: var(--grau); border-radius: 8px; padding: 10px 12px; }
+  button { font: inherit; cursor: pointer; border: 2px solid var(--blau); background: #fff; color: var(--blau); border-radius: 8px; padding: 8px 12px; min-height: 44px; text-align: left; }
+  button:hover { background: #e8f0f8; }
+  button:focus-visible { outline: 3px solid #f2a900; outline-offset: 2px; }
+  button.primary { background: var(--blau); color: #fff; text-align: center; }
+  button.primary:hover { background: #163a5a; }
+  .aktionen { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  .aktionen button { text-align: center; }
+  .pool, .ziel ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .pool { background: var(--grau); border-radius: 8px; padding: 8px; min-height: 56px; }
+  .ziele { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-top: 12px; }
+  .ziel { border: 2px dashed var(--rand); border-radius: 8px; padding: 8px; min-height: 120px; }
+  .ziel.over { border-color: var(--blau); background: #eef5fb; }
+  .ziel > button.zielknopf { width: 100%; font-weight: 700; margin-bottom: 8px; background: var(--grau); }
+  .item { width: 100%; }
+  .item[aria-pressed="true"] { background: #fff3cd; border-color: #f2a900; }
+  .item.richtig { border-color: var(--gruen); background: #e7f5ec; }
+  .item.falsch { border-color: var(--rot); background: #fdecea; }
+  .item .fb { display: block; font-size: .9rem; margin-top: 4px; color: #1b1f24; }
+  .status { min-height: 1.5em; font-weight: 600; }
+  .optionen { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+  .optionen button { width: 100%; }
+  .optionen button.richtig { border-color: var(--gruen); background: #e7f5ec; }
+  .optionen button.falsch { border-color: var(--rot); background: #fdecea; }
+  .erklaerung { background: var(--grau); border-left: 4px solid var(--blau); padding: 10px 12px; border-radius: 4px; margin: 12px 0; }
+  progress { width: 100%; height: 12px; }
+  @media (max-width: 600px) { main { padding: 10px; } h1 { font-size: 1.25rem; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Bank BFK | LF 5 | LF 5 Allgemein-Verbraucherdarlehensverträge abschließen</h1>
+  <p class="hinweis">Diese Seite funktioniert ohne Anmeldung und speichert keine Daten. Sie können alle Bedienelemente mit der Tastatur erreichen (Tab, Enter, Leertaste).</p>
+
+  <section class="aufgabe" id="aufgabe-1-3" aria-labelledby="t13">
+    <h2 id="t13">Aufgabe 1.3: Kreditsicherheiten zuordnen</h2>
+    <p>Ordnen Sie jede Aussage der passenden Kreditsicherheit zu. Ziehen Sie die Aussage auf das Ziel oder tippen Sie zuerst die Aussage und danach das Ziel an. Eine bereits zugeordnete Aussage können Sie erneut antippen und verschieben.</p>
+    <h3>Aussagen</h3>
+    <ul class="pool" id="z-pool" aria-label="Noch nicht zugeordnete Aussagen"></ul>
+    <div class="ziele" id="z-ziele"></div>
+    <div class="aktionen">
+      <button type="button" class="primary" id="z-pruef">Zuordnung prüfen</button>
+      <button type="button" id="z-reset">Zurücksetzen</button>
+    </div>
+    <p class="status" id="z-status" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="aufgabe" id="aufgabe-3-1" aria-labelledby="t31">
+    <h2 id="t31">Aufgabe 3.1: Notleidende Kredite abwickeln</h2>
+    <p>Fall: Mario Keller hat einen Ratenkredit über 18.000,00 EUR mit 60 Monaten Laufzeit und einer Rate von 372,00 EUR (angenommen). Er ist seit drei Monaten mit den Raten im Rückstand.</p>
+    <progress id="s-fortschritt" value="0" max="6" aria-label="Fortschritt"></progress>
+    <div id="s-bereich" aria-live="polite"></div>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Aufgabe 1.3: Zuordnung ---------- */
+  var ZIELE = [
+    { id: "buergschaft", name: "Bürgschaft" },
+    { id: "pfand", name: "Pfandrecht" },
+    { id: "zession", name: "Sicherungsabtretung" }
+  ];
+  var ITEMS = [
+    { id: "i1", ziel: "buergschaft", text: "Ein Dritter verpflichtet sich gegenüber der Bank, für die Verbindlichkeit des Kreditnehmers einzustehen.", hint: "Das ist die Definition der Bürgschaft nach § 765 BGB." },
+    { id: "i2", ziel: "buergschaft", text: "Die Erklärung muss schriftlich abgegeben werden.", hint: "Die Bürgschaftserklärung braucht nach § 766 BGB die Schriftform; die elektronische Form genügt nicht." },
+    { id: "i3", ziel: "buergschaft", text: "Bei der selbstschuldnerischen Form entfällt die Einrede der Vorausklage.", hint: "Der Bürge verzichtet darauf, dass die Bank zuerst gegen den Kreditnehmer vollstrecken muss. Das ist bankübliche Praxis." },
+    { id: "i4", ziel: "pfand", text: "Bei beweglichen Sachen entsteht es durch Einigung und Übergabe der Sache (Faustpfandprinzip).", hint: "So regelt es § 1205 BGB für das Pfandrecht an beweglichen Sachen." },
+    { id: "i5", ziel: "pfand", text: "Vor der Verwertung muss die Forderung fällig sein und die Verwertung angedroht werden.", hint: "Pfandreife und Androhung sind Voraussetzungen der Verwertung (§§ 1228, 1234 BGB)." },
+    { id: "i6", ziel: "pfand", text: "Das AGB-Pfandrecht der Bank erfasst zum Beispiel Wertpapiere und Guthaben des Kunden.", hint: "Die Bank weist in ihren AGB auf dieses Pfandrecht hin; es sichert Forderungen an Wertpapieren und Guthaben." },
+    { id: "i7", ziel: "zession", text: "Der Kreditnehmer (Zedent) überträgt eine Forderung gegen einen Dritten an die Bank (Zessionar).", hint: "Das ist der Kern der Sicherungsabtretung (Zession), zum Beispiel bei Lohn und Gehalt." },
+    { id: "i8", ziel: "zession", text: "Bei der stillen Form erfährt der Drittschuldner nichts von der Abtretung.", hint: "Zessionsarten: still (Drittschuldner erfährt nichts) und offen (Drittschuldner muss an die Bank zahlen)." },
+    { id: "i9", ziel: "zession", text: "Eine Sicherungszweckerklärung verbindet Forderung und Sicherheit nur vertraglich.", hint: "Die Sicherungsabtretung ist fiduziarisch (treuhänderisch). Forderung und Sicherheit sind nicht gesetzlich, sondern durch die Sicherungszweckerklärung verbunden." }
+  ];
+
+  var zPool = document.getElementById("z-pool");
+  var zZiele = document.getElementById("z-ziele");
+  var zStatus = document.getElementById("z-status");
+  var zustand = {};      /* itemId -> zielId oder null */
+  var ergebnis = {};     /* itemId -> true/false nach Prüfung */
+  var gewaehlt = null;   /* aktuell angetipptes Item */
+
+  function itemById(id) { for (var i = 0; i < ITEMS.length; i++) { if (ITEMS[i].id === id) { return ITEMS[i]; } } return null; }
+
+  function neuZeichnen() {
+    zPool.innerHTML = "";
+    var listen = {};
+    ZIELE.forEach(function (z) { listen[z.id] = document.getElementById("zl-" + z.id); listen[z.id].innerHTML = ""; });
+    ITEMS.forEach(function (it) {
+      var li = document.createElement("li");
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "item";
+      b.draggable = true;
+      b.setAttribute("data-id", it.id);
+      b.setAttribute("aria-pressed", gewaehlt === it.id ? "true" : "false");
+      var span = document.createElement("span");
+      span.textContent = it.text;
+      b.appendChild(span);
+      if (ergebnis[it.id] !== undefined && zustand[it.id]) {
+        b.className += ergebnis[it.id] ? " richtig" : " falsch";
+        var fb = document.createElement("span");
+        fb.className = "fb";
+        fb.textContent = (ergebnis[it.id] ? "Richtig. " : "Nicht richtig zugeordnet. ") + it.hint;
+        b.appendChild(fb);
+      }
+      b.addEventListener("click", function () { gewaehlt = (gewaehlt === it.id) ? null : it.id; neuZeichnen(); });
+      b.addEventListener("dragstart", function (e) { e.dataTransfer.setData("text/plain", it.id); gewaehlt = it.id; });
+      li.appendChild(b);
+      if (zustand[it.id]) { listen[zustand[it.id]].appendChild(li); } else { zPool.appendChild(li); }
+    });
+  }
+
+  function platzieren(itemId, zielId) {
+    zustand[itemId] = zielId;
+    ergebnis = {};
+    gewaehlt = null;
+    zStatus.textContent = "";
+    neuZeichnen();
+  }
+
+  ZIELE.forEach(function (z) {
+    var box = document.createElement("div");
+    box.className = "ziel";
+    var knopf = document.createElement("button");
+    knopf.type = "button";
+    knopf.className = "zielknopf";
+    knopf.textContent = z.name;
+    knopf.addEventListener("click", function () { if (gewaehlt) { platzieren(gewaehlt, z.id); } else { zStatus.textContent = "Wählen Sie zuerst eine Aussage aus."; } });
+    var ul = document.createElement("ul");
+    ul.id = "zl-" + z.id;
+    box.appendChild(knopf);
+    box.appendChild(ul);
+    box.addEventListener("dragover", function (e) { e.preventDefault(); box.className = "ziel over"; });
+    box.addEventListener("dragleave", function () { box.className = "ziel"; });
+    box.addEventListener("drop", function (e) {
+      e.preventDefault();
+      box.className = "ziel";
+      var id = e.dataTransfer.getData("text/plain");
+      if (itemById(id)) { platzieren(id, z.id); }
+    });
+    zZiele.appendChild(box);
+  });
+
+  zPool.addEventListener("dragover", function (e) { e.preventDefault(); });
+  zPool.addEventListener("drop", function (e) {
+    e.preventDefault();
+    var id = e.dataTransfer.getData("text/plain");
+    if (itemById(id)) { platzieren(id, null); }
+  });
+
+  document.getElementById("z-pruef").addEventListener("click", function () {
+    var offen = 0, richtig = 0;
+    ergebnis = {};
+    ITEMS.forEach(function (it) {
+      if (!zustand[it.id]) { offen++; return; }
+      ergebnis[it.id] = (zustand[it.id] === it.ziel);
+      if (ergebnis[it.id]) { richtig++; }
+    });
+    gewaehlt = null;
+    neuZeichnen();
+    var text = richtig + " von " + ITEMS.length + " Aussagen richtig zugeordnet.";
+    if (offen > 0) { text += " " + offen + " Aussage(n) sind noch nicht zugeordnet."; }
+    else if (richtig === ITEMS.length) { text += " Sehr gut, alle Zuordnungen stimmen."; }
+    else { text += " Verschieben Sie die markierten Aussagen und prüfen Sie erneut."; }
+    zStatus.textContent = text;
+  });
+
+  document.getElementById("z-reset").addEventListener("click", function () {
+    zustand = {}; ergebnis = {}; gewaehlt = null;
+    ITEMS.forEach(function (it) { zustand[it.id] = null; });
+    zStatus.textContent = "Die Aufgabe wurde zurückgesetzt.";
+    neuZeichnen();
+  });
+
+  ITEMS.forEach(function (it) { zustand[it.id] = null; });
+  neuZeichnen();
+
+  /* ---------- Aufgabe 3.1: Selbstprüfer ---------- */
+  var FRAGEN = [
+    {
+      frage: "Herr Keller zahlt seine Raten nicht. Was unternimmt die Bank zuerst?",
+      optionen: [
+        "Sie lässt sofort den Gerichtsvollzieher pfänden.",
+        "Sie mahnt schriftlich, setzt eine Frist, weist auf die Rechtsfolgen hin und bietet ein Gespräch an.",
+        "Sie meldet die Restschuld sofort dem Insolvenzgericht.",
+        "Sie wartet ab, bis die Laufzeit des Kredits endet."
+      ],
+      richtig: 1,
+      erklaerung: [
+        "Ohne Titel darf kein Gerichtsvollzieher pfänden. Zuerst folgen Mahnungen und weitere Schritte.",
+        "Richtig. Die erste und zweite Mahnung informieren über den Rückstand und enthalten eine Zahlungsfrist, den Hinweis auf die Folgen und ein Gesprächsangebot. Die dritte Mahnung droht Kündigung und Sicherheitenverwertung an.",
+        "Das Insolvenzverfahren beantragt in der Regel der Schuldner. Die Bank meldet nicht einfach die Restschuld an das Gericht.",
+        "Wegen des Rückstands handelt die Bank früher, denn Abwarten erhöht ihr Ausfallrisiko."
+      ]
+    },
+    {
+      frage: "Welcher Mindestrückstand ist bei Herrn Keller (Laufzeit 60 Monate) nach § 498 BGB für die Gesamtfälligstellung nötig?",
+      optionen: [
+        "5 % der Kreditsumme, hier 900,00 EUR",
+        "10 % der Kreditsumme, hier 1.800,00 EUR",
+        "Eine einzige unbezahlte Rate, hier 372,00 EUR",
+        "2,5 % der Kreditsumme, hier 450,00 EUR"
+      ],
+      richtig: 0,
+      erklaerung: [
+        "Richtig. Bei einer Laufzeit von mehr als drei Jahren genügen 5 % der Kreditsumme: 18.000,00 EUR · 5 % = 900,00 EUR. Der Rückstand von 3 · 372,00 EUR = 1.116,00 EUR reicht aus.",
+        "10 % gelten nur bei einer Laufzeit bis zu drei Jahren.",
+        "Es müssen mindestens zwei aufeinanderfolgende Raten ganz oder teilweise offen sein, und der Rückstand muss die Prozentgrenze erreichen.",
+        "2,5 % gilt nur bei Immobiliar-Verbraucherdarlehen, nicht bei einem Ratenkredit."
+      ]
+    },
+    {
+      frage: "Welche Frist muss die Bank vor der Gesamtfälligstellung setzen?",
+      optionen: [
+        "Eine Frist von zwei Tagen",
+        "Eine Frist von zwei Wochen mit der Erklärung, dass sie bei Nichtzahlung die gesamte Restschuld verlangt",
+        "Eine Frist von vier Monaten ohne weitere Erklärung",
+        "Es ist keine Frist nötig, wenn der Kunde arbeitslos ist"
+      ],
+      richtig: 1,
+      erklaerung: [
+        "Zwei Tage sind zu kurz und entsprechen nicht dem Gesetz.",
+        "Richtig. Nach § 498 BGB setzt die Bank zwei Wochen Frist für die rückständigen Raten und erklärt, dass sie bei Nichtzahlung die gesamte Restschuld fällig stellt. Spätestens dann soll sie auch ein Gespräch über eine einvernehmliche Lösung anbieten.",
+        "Vier Monate sind gesetzlich nicht vorgesehen, die Frist muss mit der Erklärung der Gesamtfälligstellung verbunden sein.",
+        "Auch bei Arbeitslosigkeit ist die Fristsetzung zwingende Voraussetzung. Der Verbraucher ist geschützt."
+      ]
+    },
+    {
+      frage: "Wie hoch sind die Verzugszinsen auf den rückständigen Betrag bei einem Verbraucherdarlehen, wenn kein anderer Schaden nachgewiesen wird?",
+      optionen: [
+        "1 Prozentpunkt über dem Basiszinssatz",
+        "5 Prozentpunkte über dem Basiszinssatz",
+        "9 Prozentpunkte über dem Basiszinssatz",
+        "Genau der vereinbarte Sollzinssatz"
+      ],
+      richtig: 1,
+      erklaerung: [
+        "Ein Prozentpunkt ist zu niedrig und im Gesetz nicht vorgesehen.",
+        "Richtig. Nach §§ 497, 288 BGB beträgt der Verzugszins fünf Prozentpunkte über dem Basiszinssatz. Der Basiszinssatz wird von der Bundesbank zum 1. Januar und 1. Juli festgelegt.",
+        "Neun Prozentpunkte gelten im Geschäftsverkehr zwischen Unternehmen, nicht gegenüber Verbrauchern.",
+        "Der vereinbarte Sollzins ist nicht der gesetzliche Verzugszins. Weist die Bank einen höheren Schaden nach, kann sie diesen geltend machen."
+      ]
+    },
+    {
+      frage: "Herr Keller zahlt auch nach der Fälligstellung nicht. Wie kommt die Bank zu einem vollstreckbaren Titel?",
+      optionen: [
+        "Durch das gerichtliche Mahnverfahren, bei dem ein Mahnbescheid und danach ein Vollstreckungsbescheid ergehen kann",
+        "Durch eine weitere Mahnung der Bank",
+        "Durch einen Anruf beim Arbeitgeber",
+        "Durch die Einstellung der SCHUFA-Meldung"
+      ],
+      richtig: 0,
+      erklaerung: [
+        "Richtig. Das gerichtliche Mahnverfahren ist ein einfacher Weg zum Titel. Mit dem Titel kann der Gerichtsvollzieher die Zwangsvollstreckung betreiben.",
+        "Eine Mahnung der Bank ist kein Titel und löst keine Zwangsvollstreckung aus.",
+        "Die Bank darf nur mit Titel und über das Gericht in das Einkommen vollstrecken, nicht durch eigenmächtige Anrufe.",
+        "Die Bank meldet die Fälligstellung vielmehr an die SCHUFA. Das schafft keinen Titel."
+      ]
+    },
+    {
+      frage: "Herr Keller kann seine Schulden dauerhaft nicht zahlen und möchte ein Verbraucherinsolvenzverfahren beginnen. Welcher Schritt kommt zuerst?",
+      optionen: [
+        "Die Restschuldbefreiung",
+        "Die Eröffnung des einfachen Insolvenzverfahrens",
+        "Der Versuch einer außergerichtlichen Einigung mit den Gläubigern",
+        "Der Antrag auf Annahme des Schuldbereinigungsplans durch das Gericht"
+      ],
+      richtig: 2,
+      erklaerung: [
+        "Die Restschuldbefreiung steht am Ende des Verfahrens.",
+        "Das einfache Insolvenzverfahren wird erst eröffnet, wenn der Schuldbereinigungsplan abgelehnt wurde.",
+        "Richtig. Der Ablauf lautet: 1. außergerichtlicher Einigungsversuch, 2. Antrag auf Eröffnung mit gerichtlichem Einigungsversuch (Annahme des Plans beendet das Verfahren), 3. bei Ablehnung Eröffnung des einfachen Insolvenzverfahrens, 4. Restschuldbefreiung.",
+        "Der gerichtliche Einigungsversuch folgt erst, nachdem die außergerichtliche Einigung gescheitert ist."
+      ]
+    }
+  ];
+
+  var sBereich = document.getElementById("s-bereich");
+  var sFortschritt = document.getElementById("s-fortschritt");
+  var index = 0, punkte = 0;
+
+  function el(tag, text, cls) {
+    var e = document.createElement(tag);
+    if (text) { e.textContent = text; }
+    if (cls) { e.className = cls; }
+    return e;
+  }
+
+  function frageZeigen() {
+    sBereich.innerHTML = "";
+    sFortschritt.value = index;
+    var f = FRAGEN[index];
+    sBereich.appendChild(el("p", "Frage " + (index + 1) + " von " + FRAGEN.length, "status"));
+    sBereich.appendChild(el("p", f.frage));
+    var box = el("div", null, "optionen");
+    var buttons = [];
+    var erkl = el("div", null, "erklaerung");
+    erkl.hidden = true;
+    var weiter = el("button", index === FRAGEN.length - 1 ? "Ergebnis anzeigen" : "Nächste Frage", "primary");
+    weiter.type = "button";
+    weiter.hidden = true;
+    weiter.addEventListener("click", function () { index++; if (index < FRAGEN.length) { frageZeigen(); } else { endeZeigen(); } });
+    f.optionen.forEach(function (text, i) {
+      var b = el("button", String.fromCharCode(97 + i) + ") " + text);
+      b.type = "button";
+      b.addEventListener("click", function () {
+        if (!erkl.hidden) { return; }
+        var ok = (i === f.richtig);
+        if (ok) { punkte++; }
+        buttons.forEach(function (bb, j) {
+          bb.disabled = true;
+          if (j === f.richtig) { bb.className = "richtig"; }
+          else if (j === i) { bb.className = "falsch"; }
+        });
+        erkl.textContent = (ok ? "Richtig. " : "Leider falsch. ") + f.erklaerung[i] + (ok ? "" : " Die richtige Antwort ist " + String.fromCharCode(97 + f.richtig) + "): " + f.erklaerung[f.richtig]);
+        erkl.hidden = false;
+        weiter.hidden = false;
+        weiter.focus();
+      });
+      buttons.push(b);
+      box.appendChild(b);
+    });
+    sBereich.appendChild(box);
+    sBereich.appendChild(erkl);
+    sBereich.appendChild(weiter);
+  }
+
+  function endeZeigen() {
+    sBereich.innerHTML = "";
+    sFortschritt.value = FRAGEN.length;
+    sBereich.appendChild(el("h3", "Ergebnis"));
+    sBereich.appendChild(el("p", "Sie haben " + punkte + " von " + FRAGEN.length + " Fragen richtig beantwortet.", "status"));
+    var rueck = punkte === FRAGEN.length ? "Sehr gut, Sie kennen den Ablauf bei notleidenden Krediten sicher." : "Wiederholen Sie die Abschnitte zu § 498 BGB, zum gerichtlichen Mahnverfahren und zur Verbraucherinsolvenz und starten Sie die Aufgabe neu.";
+    sBereich.appendChild(el("p", rueck));
+    var neu = el("button", "Neu starten", "primary");
+    neu.type = "button";
+    neu.addEventListener("click", function () { index = 0; punkte = 0; frageZeigen(); });
+    sBereich.appendChild(neu);
+    neu.focus();
+  }
+
+  frageZeigen();
+})();
+</script>
+</body>
+</html>
