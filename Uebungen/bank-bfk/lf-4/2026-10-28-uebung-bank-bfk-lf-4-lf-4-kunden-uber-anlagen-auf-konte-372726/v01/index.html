@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bank BFK | LF 4 | LF 4 Kunden über Anlagen auf Konten und staatlich gefördertes Sparen beraten</title>
+<style>
+  :root { --blau:#1f4e79; --hell:#eef4fa; --gruen:#e6f4ea; --gelb:#fff6dd; --rand:#b9c7d6; }
+  * { box-sizing: border-box; }
+  body { font-family: system-ui, "Segoe UI", Arial, sans-serif; line-height:1.55; margin:0; background:#f5f7fa; color:#1b1f24; }
+  header, main { max-width: 820px; margin: 0 auto; padding: 1rem; }
+  h1 { font-size: 1.5rem; color: var(--blau); margin-bottom:.4rem; }
+  h2 { font-size: 1.25rem; color: var(--blau); margin-top:0; }
+  section { background:#fff; border:1px solid var(--rand); border-radius:10px; padding:1rem 1.2rem; margin-bottom:1.5rem; }
+  .fall { background: var(--hell); border-radius:8px; padding:.7rem .9rem; margin:.8rem 0; }
+  button { font: inherit; cursor: pointer; border-radius:8px; border:1px solid var(--blau); background:#fff; color:var(--blau); padding:.6rem .9rem; margin:.25rem 0; text-align:left; }
+  button:hover:not(:disabled) { background: var(--hell); }
+  button:focus-visible, input:focus-visible { outline: 3px solid #f2a900; outline-offset: 2px; }
+  button.primary { background: var(--blau); color:#fff; text-align:center; }
+  button.primary:hover { background:#173b5c; }
+  .opts { display:flex; flex-direction:column; gap:.4rem; }
+  .opts button { width:100%; }
+  .opts button.gewaehlt { border-width:3px; }
+  .opts button:disabled { cursor: default; opacity:1; color:#1b1f24; }
+  .opts button.beste { background: var(--gruen); }
+  .feedback { border-left:5px solid var(--blau); background: var(--gelb); padding:.6rem .9rem; margin:.8rem 0; border-radius:4px; }
+  .feedback.ok { background: var(--gruen); border-color:#2e7d32; }
+  .fortschritt { font-size:.9rem; color:#455; margin-bottom:.5rem; }
+  table { border-collapse: collapse; width:100%; font-size:.95rem; }
+  th, td { border:1px solid var(--rand); padding:.4rem .5rem; text-align:left; vertical-align:top; }
+  .hinweis { font-size:.9rem; color:#455; }
+  [hidden] { display:none !important; }
+  @media (max-width:520px) { section { padding:.8rem; } h1 { font-size:1.25rem; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>Bank BFK | LF 4 | LF 4 Kunden über Anlagen auf Konten und staatlich gefördertes Sparen beraten</h1>
+  <p>Diese Seite gehört zur Übung mit den Aufgaben 1.2 und 2.2. Sie arbeiten allein an Ihrem eigenen Gerät. Die Seite funktioniert ohne Anmeldung, und es werden keine personenbezogenen Daten gespeichert. Alle Namen und Zahlen sind angenommen.</p>
+  <noscript><p><strong>Für diese Seite muss JavaScript aktiviert sein.</strong></p></noscript>
+</header>
+<main>
+
+<section id="aufgabe-1-2" aria-labelledby="h-1-2">
+  <h2 id="h-1-2">Aufgabe 1.2: Beratungsfall Lena Berger</h2>
+  <p>Sie beraten Lena Berger (28 Jahre, ledig, Angestellte), die 20.000,00 EUR geerbt hat. Sie möchte kein Verlustrisiko eingehen. 5.000,00 EUR sollen als Notfallreserve jederzeit verfügbar sein, 8.000,00 EUR braucht sie in etwa vier Jahren für ein Auto, 7.000,00 EUR möchte sie langfristig zurücklegen. Treffen Sie in sechs Schritten Ihre Entscheidungen.</p>
+  <div id="ft-bereich" aria-live="polite"></div>
+</section>
+
+<section id="aufgabe-2-2" aria-labelledby="h-2-2">
+  <h2 id="h-2-2">Aufgabe 2.2: Selbstprüfer zu Spareinlagen, Sparbriefen und Sondersparformen</h2>
+  <p>Beantworten Sie acht Fragen nacheinander. Nach jeder Antwort sehen Sie eine fachliche Erklärung.</p>
+  <div id="sp-bereich" aria-live="polite"></div>
+</section>
+
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  function el(tag, attrs, text) {
+    var e = document.createElement(tag);
+    if (attrs) { for (var k in attrs) { if (attrs.hasOwnProperty(k)) { e.setAttribute(k, attrs[k]); } } }
+    if (text) { e.textContent = text; }
+    return e;
+  }
+
+  /* ---------- Falltrainer Aufgabe 1.2 ---------- */
+  var schritte = [
+    {
+      titel: "Schritt 1: Gesprächseinstieg",
+      text: "Frau Berger sagt: „Ich habe geerbt und möchte das Geld gut anlegen.“ Wie gehen Sie vor?",
+      optionen: [
+        { t: "Ich erfrage zuerst Kenntnisse und Erfahrungen, finanzielle Verhältnisse, Anlageziele und Risikobereitschaft.", p: 2,
+          f: "Das ist die fachlich beste Vorgehensweise. Nur auf der Basis dieser Kundeninformationen lässt sich ein Produkt finden, das für Frau Berger geeignet ist. Außerdem informieren Sie später über alle wesentlichen Umstände wie Kosten und Konditionen." },
+        { t: "Ich nenne zuerst die aktuellen Zinssätze unserer Sparprodukte.", p: 1,
+          f: "Zinsen interessieren die meisten Kunden. Ohne Wissen über Zweck, Dauer und Risikobereitschaft lässt sich aber noch nicht beurteilen, ob ein Produkt zu Frau Berger passt. Die Informationen sollten Sie daher im nächsten Schritt einholen." },
+        { t: "Ich empfehle das Produkt, das Kundinnen in ihrem Alter am häufigsten wählen.", p: 0,
+          f: "Eine Empfehlung muss auf die persönliche Situation der Kundin zugeschnitten sein. Allgemeine Erfahrungswerte ersetzen die Kundenanalyse nicht, und die Empfehlung wäre auch nicht nachvollziehbar zu begründen." }
+      ]
+    },
+    {
+      titel: "Schritt 2: Geld für das Auto",
+      text: "Frau Berger möchte in etwa vier Jahren ein Auto kaufen und dafür 8.000,00 EUR zurücklegen. Verluste möchte sie vermeiden. Welches Produkt schlagen Sie vor?",
+      optionen: [
+        { t: "Einen Sparbrief mit vier Jahren Laufzeit.", p: 2,
+          f: "Der Sparbrief hat eine feste Laufzeit und einen festen Zins. Frau Berger weiß heute, welchen Betrag sie in vier Jahren zur Verfügung hat. Die fehlende vorzeitige Rückgabemöglichkeit stört hier nicht, weil der Zeitpunkt der Verwendung feststeht." },
+        { t: "Ein Tagesgeldkonto.", p: 1,
+          f: "Das Geld wäre jederzeit verfügbar und sicher angelegt. Der Zins ist aber variabel und kann sinken, sodass der Betrag in vier Jahren nicht genau planbar ist. Für einen fest geplanten Zeitpunkt passt ein Produkt mit festem Zins besser." },
+        { t: "Einen Aktienfonds.", p: 0,
+          f: "Ein Aktienfonds unterliegt Kursschwankungen und kann zum Kaufzeitpunkt im Wert gesunken sein. Das widerspricht der Risikotoleranz von Frau Berger. Einlagen bei Kreditinstituten bieten dagegen keine Kursrisiken." }
+      ]
+    },
+    {
+      titel: "Schritt 3: Die Notfallreserve",
+      text: "Für 5.000,00 EUR wünscht sich Frau Berger eine Reserve, die jederzeit verfügbar ist. Was empfehlen Sie?",
+      optionen: [
+        { t: "Ein Tagesgeldkonto.", p: 2,
+          f: "Beim Tagesgeldkonto ist das Guthaben täglich verfügbar und wird verzinst. Es eignet sich für Rücklagen, auf die man kurzfristig zugreifen will. Für den Zahlungsverkehr ist es allerdings nicht gedacht." },
+        { t: "Ein Festgeld mit zwölf Monaten Laufzeit.", p: 1,
+          f: "Festgeld bietet einen festen Zins, aber eine vorzeitige Verfügung ist in der Regel nur auf Kulanz möglich, meist verbunden mit Vorschusszinsen. Für eine Notfallreserve ist die jederzeitige Verfügbarkeit wichtiger." },
+        { t: "Einen Sparbrief mit fünf Jahren Laufzeit.", p: 0,
+          f: "Beim Sparbrief ist keine vorzeitige Rückgabe vorgesehen. Im Notfall stünde Frau Berger das Geld also nicht zur Verfügung. Für die Reserve sollten Sie ein Produkt mit täglicher Verfügbarkeit wählen." }
+      ]
+    },
+    {
+      titel: "Schritt 4: Steuern auf die Zinsen",
+      text: "Frau Berger rechnet mit etwa 500,00 EUR Zinsen im Jahr. Sie hat bisher keinen Freistellungsauftrag erteilt. Wie reagieren Sie?",
+      optionen: [
+        { t: "Ich erkläre die Abgeltungsteuer und rege einen Freistellungsauftrag bis 1.000,00 EUR an.", p: 2,
+          f: "Mit einem Freistellungsauftrag bleiben Zinsen bis zum Sparerfreibetrag von 1.000,00 EUR für Alleinstehende steuerfrei. Die Bank führt dafür keine Abgeltungsteuer und keinen Solidaritätszuschlag ab. Frau Berger spart so die Steuern auf ihre erwarteten Zinsen." },
+        { t: "Ich weise auf die Abgeltungsteuer hin, spreche den Freistellungsauftrag aber nicht an.", p: 1,
+          f: "Die Information über die Steuer ist richtig. Ohne Freistellungsauftrag würde die Bank aber 25 % Abgeltungsteuer zuzüglich Solidaritätszuschlag von den Zinsen abziehen, obwohl Frau Berger den Freibetrag noch nicht ausgenutzt hat." },
+        { t: "Ich schlage vor, das Geld auf mehrere Banken zu verteilen, damit weniger Steuern anfallen.", p: 0,
+          f: "Der Sparerfreibetrag gilt je Person nur einmal insgesamt. Die Verteilung auf mehrere Banken verringert die Steuer nicht. Freistellungsaufträge bei mehreren Banken dürfen zusammen 1.000,00 EUR nicht übersteigen." }
+      ]
+    },
+    {
+      titel: "Schritt 5: Bedarfssignal erkennen",
+      text: "Frau Berger erzählt, dass sie neben der gesetzlichen Rente noch nichts für das Alter zurückgelegt hat und sich deswegen Sorgen macht. Wie gehen Sie damit um?",
+      optionen: [
+        { t: "Ich greife das Bedarfssignal auf, spreche Altersvorsorge und Berufsunfähigkeitsschutz an und biete einen Folgetermin an.", p: 2,
+          f: "Das ist Cross-Selling: Sie nutzen die Informationen aus dem Gespräch, um weitere passende Finanzprodukte anzubieten. Für Angestellte kommen Altersvorsorgeprodukte und eine Berufsunfähigkeitsversicherung in Betracht." },
+        { t: "Ich verweise auf das Sparkonto über 7.000,00 EUR als Altersvorsorge und lasse es dabei.", p: 1,
+          f: "Das Sparkonto passt zum langfristigen Vermögensaufbau. Frau Berger äußert aber eine Sorge, die über diesen Betrag hinausgeht. Ein Folgegespräch zu weiteren Vorsorgeprodukten würde ihren Bedarf besser abdecken." },
+        { t: "Ich gehe darauf nicht ein, weil das Gespräch nur um Anlagen auf Konten geht.", p: 0,
+          f: "Damit gehen ein Bedarfssignal und eine Chance für die Kundenbindung verloren. Beratungsgespräche liefern viele Informationen über Lebensumstände und Ziele, die Sie für weitere Angebote nutzen sollten." }
+      ]
+    },
+    {
+      titel: "Schritt 6: Gesprächsabschluss",
+      text: "Frau Berger ist mit Ihren Empfehlungen einverstanden. Wie schließen Sie das Gespräch ab?",
+      optionen: [
+        { t: "Ich fasse die Empfehlungen zusammen, dokumentiere das Gespräch und vereinbare einen Nachfasstermin.", p: 2,
+          f: "Die Dokumentation der Empfehlung gehört zum Beratungsgespräch. Zusammenfassung und Nachfasstermin geben Frau Berger Sicherheit und stärken die Kundenbindung, zum Beispiel vor dem Ende der Laufzeit des Sparbriefs." },
+        { t: "Ich bedanke mich, verabschiede mich und reiche die Unterlagen später nach.", p: 1,
+          f: "Der freundliche Abschluss ist gut. Ohne Zusammenfassung und Dokumentation fehlt aber ein Nachweis der Empfehlung, und Frau Berger weiß nicht, wie es weitergeht." },
+        { t: "Ich verzichte auf eine Dokumentation, weil die Kundin einverstanden ist.", p: 0,
+          f: "Die Einwilligung der Kundin ersetzt die Dokumentation nicht. Die Empfehlung und ihre Grundlage müssen festgehalten werden, damit sie später nachvollziehbar ist." }
+      ]
+    }
+  ];
+
+  var ft = { index: 0, punkte: 0, wahl: [] };
+  var ftBereich = document.getElementById("ft-bereich");
+
+  function ftStart() { ft = { index: 0, punkte: 0, wahl: [] }; ftZeigeSchritt(); }
+
+  function ftZeigeSchritt() {
+    var s = schritte[ft.index];
+    ftBereich.innerHTML = "";
+    ftBereich.appendChild(el("p", { "class": "fortschritt" }, "Schritt " + (ft.index + 1) + " von " + schritte.length));
+    ftBereich.appendChild(el("h3", null, s.titel));
+    ftBereich.appendChild(el("div", { "class": "fall" }, s.text));
+    var opts = el("div", { "class": "opts", role: "group", "aria-label": "Entscheidungsmöglichkeiten" });
+    var fb = el("div", { "class": "feedback", hidden: "hidden", tabindex: "-1" });
+    var weiter = el("button", { type: "button", "class": "primary", hidden: "hidden" },
+      ft.index === schritte.length - 1 ? "Zur Auswertung" : "Weiter zum nächsten Schritt");
+    var buttons = [];
+    s.optionen.forEach(function (o, i) {
+      var b = el("button", { type: "button" }, String.fromCharCode(97 + i) + ") " + o.t);
+      b.addEventListener("click", function () {
+        buttons.forEach(function (x, j) {
+          x.disabled = true;
+          if (s.optionen[j].p === 2) { x.classList.add("beste"); }
+        });
+        b.classList.add("gewaehlt");
+        ft.punkte += o.p;
+        ft.wahl.push(i);
+        var kopf = o.p === 2 ? "Fachlich am besten geeignet. " : (o.p === 1 ? "Das ist vertretbar, hat aber Folgen. " : "Diese Entscheidung hat eine fachliche Folge. ");
+        fb.className = "feedback" + (o.p === 2 ? " ok" : "");
+        fb.textContent = kopf + o.f;
+        if (o.p !== 2) {
+          var best = s.optionen.filter(function (x) { return x.p === 2; })[0];
+          fb.appendChild(el("p", null, "Fachlich am besten geeignet wäre hier gewesen: " + best.t));
+        }
+        fb.hidden = false;
+        weiter.hidden = false;
+        fb.focus();
+      });
+      buttons.push(b);
+      opts.appendChild(b);
+    });
+    weiter.addEventListener("click", function () {
+      ft.index += 1;
+      if (ft.index < schritte.length) { ftZeigeSchritt(); } else { ftAuswertung(); }
+    });
+    ftBereich.appendChild(opts);
+    ftBereich.appendChild(fb);
+    ftBereich.appendChild(weiter);
+  }
+
+  function ftAuswertung() {
+    var max = schritte.length * 2;
+    ftBereich.innerHTML = "";
+    ftBereich.appendChild(el("h3", null, "Auswertung"));
+    ftBereich.appendChild(el("div", { "class": "fall" }, "Sie haben " + ft.punkte + " von " + max + " möglichen Punkten erreicht."));
+    var urteil;
+    if (ft.punkte >= 10) {
+      urteil = "Sie haben das Beratungsgespräch fachlich sehr überzeugend geführt: Erst Kundeninformationen einholen, dann passende Produkte zuordnen, Steuern ansprechen, Bedarfssignale aufgreifen und das Gespräch dokumentieren.";
+    } else if (ft.punkte >= 7) {
+      urteil = "Ihr Vorgehen ist insgesamt tragfähig. Schauen Sie sich die Schritte an, bei denen eine andere Entscheidung noch besser gepasst hätte, vor allem bei Verfügbarkeit, Freistellungsauftrag und Cross-Selling.";
+    } else {
+      urteil = "Hier lohnt sich eine Wiederholung. Achten Sie besonders darauf, dass Zweck, Dauer und Risikotoleranz der Kundin das Produkt bestimmen, und üben Sie den Fall mit einem Neustart noch einmal.";
+    }
+    ftBereich.appendChild(el("p", null, urteil));
+    var tab = el("table");
+    var kopf = el("tr");
+    ["Schritt", "Ihre Entscheidung", "Punkte"].forEach(function (h) { kopf.appendChild(el("th", { scope: "col" }, h)); });
+    tab.appendChild(kopf);
+    schritte.forEach(function (s, i) {
+      var o = s.optionen[ft.wahl[i]];
+      var z = el("tr");
+      z.appendChild(el("td", null, s.titel));
+      z.appendChild(el("td", null, o.t));
+      z.appendChild(el("td", null, o.p + " von 2"));
+      tab.appendChild(z);
+    });
+    ftBereich.appendChild(tab);
+    var neu = el("button", { type: "button", "class": "primary" }, "Fall vollständig neu starten");
+    neu.addEventListener("click", ftStart);
+    ftBereich.appendChild(el("p"));
+    ftBereich.appendChild(neu);
+  }
+
+  /* ---------- Selbstprüfer Aufgabe 2.2 ---------- */
+  var fragen = [
+    {
+      q: "Welches Merkmal gehört nicht zu einer Spareinlage nach § 21 Abs. 4 RechKredV?",
+      o: [
+        { t: "Die Einlage wird durch eine Urkunde, zum Beispiel ein Sparbuch, gekennzeichnet.", w: "Die Ausfertigung einer Urkunde ist ein Merkmal der Spareinlage." },
+        { t: "Die Einlage ist für den Zahlungsverkehr bestimmt.", w: "" },
+        { t: "Die Einlage hat eine Kündigungsfrist von mindestens drei Monaten.", w: "Die Kündigungsfrist von mindestens drei Monaten ist ein Merkmal der Spareinlage." },
+        { t: "Die Einlage ist unbefristet.", w: "Spareinlagen sind unbefristete Einlagen, es gilt ein Befristungsverbot." }
+      ],
+      r: 1,
+      e: "Spareinlagen dürfen nicht für den Zahlungsverkehr bestimmt sein (Zahlungsverkehrsverbot). Sie dienen der Vermögensbildung. Für den Zahlungsverkehr gibt es Girokonten."
+    },
+    {
+      q: "Eine Immobilien GmbH möchte ein Sparkonto eröffnen. In welchem Fall kann die Bank das annehmen?",
+      o: [
+        { t: "Nie, weil Kapitalgesellschaften keine Spareinlagen unterhalten dürfen.", w: "Es gibt Ausnahmen von diesem Grundsatz." },
+        { t: "Zur Anlage der Mietkautionen ihrer Mieterinnen und Mieter.", w: "" },
+        { t: "Wenn sie einen Freistellungsauftrag erteilt.", w: "Ein Freistellungsauftrag betrifft nur die Steuer und ändert nichts am zulässigen Anlegerkreis." },
+        { t: "Wenn das Guthaben unter 2.000,00 EUR bleibt.", w: "Die Höhe des Guthabens entscheidet nicht über den Anlegerkreis." }
+      ],
+      r: 1,
+      e: "Kapitalgesellschaften, Genossenschaften, wirtschaftliche Vereine und Personenhandelsgesellschaften können grundsätzlich keine Spareinlagen halten. Ausnahmen gelten unter anderem für Mietkautionskonten nach § 551 Abs. 3 BGB und für gemeinnützige, mildtätige oder kirchliche Zwecke."
+    },
+    {
+      q: "Ein Sparbuch ist ein „hinkendes“ Inhaberpapier. Was bedeutet das?",
+      o: [
+        { t: "Wer das Sparbuch besitzt, hat automatisch einen Anspruch auf Auszahlung.", w: "Der Besitz allein begründet keinen Anspruch auf die Leistung." },
+        { t: "Nur der Kontoinhaber persönlich darf das Sparbuch vorlegen.", w: "Die Bank darf auch an andere Vorleger zahlen." },
+        { t: "Die Bank darf an jeden Vorleger schuldbefreiend zahlen, ist dazu aber nicht verpflichtet.", w: "" },
+        { t: "Die Bank muss bei jeder Auszahlung die Legitimation prüfen.", w: "Eine Prüfung ist zulässig und bei Missbrauchsverdacht geboten, aber nicht immer vorgeschrieben." }
+      ],
+      r: 2,
+      e: "Nach § 808 BGB wird die Bank durch Zahlung an den Inhaber der Urkunde frei, sie kann aber zur Zahlung nicht gezwungen werden. Aufgrund ihrer Sorgfaltspflicht kann sie eine Legitimationsprüfung vornehmen."
+    },
+    {
+      q: "Eine Kundin verliert ihr Sparbuch. Was ist zuerst zu tun?",
+      o: [
+        { t: "Den Verlust sofort der kontoführenden Stelle anzeigen, damit das Guthaben gesperrt wird.", w: "" },
+        { t: "Warten, bis ein gerichtliches Aufgebotsverfahren eingeleitet wird.", w: "Das Aufgebotsverfahren folgt erst später und setzt die Verlustanzeige voraus." },
+        { t: "Ein neues Sparbuch bei einer anderen Bank beantragen.", w: "Dadurch bleibt das Guthaben beim bisherigen Institut ungesichert." },
+        { t: "Nichts unternehmen, weil nur der Kontoinhaber das Geld abheben kann.", w: "Wegen der Inhaberklausel könnte die Bank an eine vorlegende Person zahlen." }
+      ],
+      r: 0,
+      e: "Der Verlust ist sofort anzuzeigen, danach wird das Sparguthaben zunächst gesperrt. Später kann eine neue Sparurkunde ausgestellt werden, zum Beispiel nach einer Kraftloserklärung im Aufgebotsverfahren."
+    },
+    {
+      q: "Wie viele Zinstage ergeben sich nach der 30/360-Methode vom 15.03. bis zum 20.07.?",
+      o: [
+        { t: "115 Tage", w: "Es fehlt ein voller Monat. Von März bis Juli sind es vier Monate." },
+        { t: "120 Tage", w: "Die vier Monate ergeben 120 Tage, aber die Tage 15. bis 20. kommen noch hinzu." },
+        { t: "125 Tage", w: "" },
+        { t: "127 Tage", w: "Das wäre die kalendergenaue Zählung, bei der 30/360-Methode zählt jeder Monat mit 30 Tagen." }
+      ],
+      r: 2,
+      e: "Vom 15.03. bis 15.07. sind es 4 · 30 = 120 Tage, vom 15.07. bis 20.07. kommen 5 Tage hinzu. Das ergibt 125 Zinstage."
+    },
+    {
+      q: "Bei welcher Sondersparform wird an einem bestimmten Termin der Bodensatz vom Kontokorrentkonto auf das Sparkonto überwiesen?",
+      o: [
+        { t: "Sprintsparen", w: "Beim Sprintsparen werden nach Laufzeitende die gezahlten Zinsen verdoppelt." },
+        { t: "Festzinssparen", w: "Beim Festzinssparen gelten feste Zinsen für 6 bis 36 Monate ohne Verfügung." },
+        { t: "Entnahmeplan", w: "Beim Entnahmeplan werden regelmäßig Beträge aus dem angelegten Kapital entnommen." },
+        { t: "Ultimo-Sparen", w: "" }
+      ],
+      r: 3,
+      e: "Beim Ultimo-Sparen wird der bestehende Bodensatz zu einem festen Termin auf das Sparkonto überwiesen. Die Sparform eignet sich für Kundinnen und Kunden mit regelmäßigem Einkommen."
+    },
+    {
+      q: "Bei einem Sparvertrag zugunsten Dritter mit späterem Gläubigerwechsel fallen Zinsen an. Wer trägt bis zum Eintritt der Bedingung die Abgeltungsteuer?",
+      o: [
+        { t: "Der Antragsteller, weil er bis dahin Kontoinhaber bleibt.", w: "" },
+        { t: "Die begünstigte Person, weil ihr das Geld später gehört.", w: "Die begünstigte Person ist bis zum Eintritt der Bedingung noch nicht Kontoinhaberin." },
+        { t: "Die Bank, weil sie die Steuer abführt.", w: "Die Bank führt die Steuer nur ab, trägt sie aber wirtschaftlich nicht." },
+        { t: "Niemand, weil bei Verträgen zugunsten Dritter keine Steuer anfällt.", w: "Zinsen sind steuerpflichtig, ein Freistellungsauftrag ist möglich." }
+      ],
+      r: 0,
+      e: "Der Antragsteller bleibt bis zum Eintritt der Bedingung unabhängig von der Schenkungsannahme Kontoinhaber und trägt daher die anfallende Abgeltungsteuer."
+    },
+    {
+      q: "Wie hoch ist die Abgeltungsteuer einschließlich der Kirchensteuer bei einem Kirchensteuersatz von 8 %?",
+      o: [
+        { t: "25,00 %", w: "Das ist der Satz ohne Kirchensteuer." },
+        { t: "24,51 %", w: "" },
+        { t: "26,38 %", w: "Das ist der Satz mit Solidaritätszuschlag, aber ohne Kirchensteuer." },
+        { t: "33,00 %", w: "Die Kirchensteuer wird nur auf die Abgeltungsteuer berechnet und mindert diese zugleich." }
+      ],
+      r: 1,
+      e: "Die Kirchensteuer ist als Sonderausgabe abzugsfähig und senkt deshalb die Abgeltungsteuer: 25 % : (1 + 0,25 · 0,08) = 25 % : 1,02 = 24,51 %. Bei 9 % Kirchensteuer ergeben sich 24,45 %."
+    }
+  ];
+
+  var sp = { index: 0, richtig: 0 };
+  var spBereich = document.getElementById("sp-bereich");
+
+  function spStart() { sp = { index: 0, richtig: 0 }; spZeigeFrage(); }
+
+  function spZeigeFrage() {
+    var f = fragen[sp.index];
+    spBereich.innerHTML = "";
+    spBereich.appendChild(el("p", { "class": "fortschritt" }, "Frage " + (sp.index + 1) + " von " + fragen.length));
+    spBereich.appendChild(el("div", { "class": "fall" }, f.q));
+    var opts = el("div", { "class": "opts", role: "group", "aria-label": "Antwortmöglichkeiten" });
+    var fb = el("div", { "class": "feedback", hidden: "hidden", tabindex: "-1" });
+    var weiter = el("button", { type: "button", "class": "primary", hidden: "hidden" },
+      sp.index === fragen.length - 1 ? "Zum Ergebnis" : "Nächste Frage");
+    var buttons = [];
+    f.o.forEach(function (o, i) {
+      var b = el("button", { type: "button" }, String.fromCharCode(97 + i) + ") " + o.t);
+      b.addEventListener("click", function () {
+        buttons.forEach(function (x, j) { x.disabled = true; if (j === f.r) { x.classList.add("beste"); } });
+        b.classList.add("gewaehlt");
+        var ok = i === f.r;
+        if (ok) { sp.richtig += 1; }
+        fb.className = "feedback" + (ok ? " ok" : "");
+        fb.textContent = "";
+        fb.appendChild(el("strong", null, ok ? "Richtig. " : "Noch nicht richtig. "));
+        if (!ok && o.w) { fb.appendChild(document.createTextNode(o.w + " ")); }
+        fb.appendChild(document.createTextNode(f.e));
+        if (!ok) {
+          fb.appendChild(el("p", null, "Richtig ist Antwort " + String.fromCharCode(97 + f.r) + ")."));
+        }
+        fb.hidden = false;
+        weiter.hidden = false;
+        fb.focus();
+      });
+      buttons.push(b);
+      opts.appendChild(b);
+    });
+    weiter.addEventListener("click", function () {
+      sp.index += 1;
+      if (sp.index < fragen.length) { spZeigeFrage(); } else { spErgebnis(); }
+    });
+    spBereich.appendChild(opts);
+    spBereich.appendChild(fb);
+    spBereich.appendChild(weiter);
+  }
+
+  function spErgebnis() {
+    spBereich.innerHTML = "";
+    spBereich.appendChild(el("h3", null, "Ergebnis"));
+    spBereich.appendChild(el("div", { "class": "fall" }, "Sie haben " + sp.richtig + " von " + fragen.length + " Fragen richtig beantwortet."));
+    var t;
+    if (sp.richtig >= 7) { t = "Sie beherrschen die Grundlagen zu Spareinlagen, Sparbriefen, Sondersparformen und Besteuerung sehr sicher."; }
+    else if (sp.richtig >= 5) { t = "Sie haben die wichtigsten Zusammenhänge verstanden. Wiederholen Sie die Fragen, bei denen Sie unsicher waren."; }
+    else { t = "Lesen Sie die Erklärungen noch einmal durch und wiederholen Sie die Themen Spareinlage, Sparurkunde, Sparbrief und Steuern. Mit einem Neustart können Sie es direkt erneut versuchen."; }
+    spBereich.appendChild(el("p", null, t));
+    var neu = el("button", { type: "button", "class": "primary" }, "Selbstprüfer vollständig neu starten");
+    neu.addEventListener("click", spStart);
+    spBereich.appendChild(neu);
+  }
+
+  ftStart();
+  spStart();
+})();
+</script>
+</body>
+</html>
