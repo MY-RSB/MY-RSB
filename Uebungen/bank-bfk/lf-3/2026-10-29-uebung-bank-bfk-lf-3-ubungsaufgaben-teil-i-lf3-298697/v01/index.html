@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bank BFK | LF 3 | Übungsaufgaben Teil I LF3</title>
+<style>
+  :root { --ink: #1d2433; --muted: #5a6275; --line: #c9ced9; --accent: #1f5fa8; --ok: #1d7a3a; --okbg: #e6f4ea; --bad: #a32020; --badbg: #fbe9e9; --paper: #ffffff; --bg: #f3f5f9; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 17px; line-height: 1.55; color: var(--ink); background: var(--bg); }
+  main { max-width: 760px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 1.5rem; margin: 8px 0 12px; }
+  h2 { font-size: 1.25rem; margin: 0 0 8px; color: var(--accent); }
+  h3 { font-size: 1.05rem; margin: 0 0 8px; }
+  section.task { background: var(--paper); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin: 16px 0; }
+  .intro, .task-text, .instructions { margin: 6px 0 10px; }
+  .instructions { color: var(--muted); font-size: 0.95rem; }
+  .task-text { white-space: pre-line; }
+  .card { border: 1px solid var(--line); border-radius: 8px; padding: 14px; background: #fbfcfe; }
+  .progress { font-size: 0.9rem; color: var(--muted); margin-bottom: 6px; }
+  .question { font-weight: 600; margin: 0 0 10px; }
+  .options { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  button { font: inherit; cursor: pointer; border-radius: 8px; border: 1px solid var(--accent); background: var(--paper); color: var(--accent); padding: 10px 14px; min-height: 44px; text-align: left; }
+  button:hover { background: #eef4fb; }
+  button:focus-visible, .target:focus-visible { outline: 3px solid #ffb703; outline-offset: 2px; }
+  button:disabled { cursor: default; opacity: 0.9; }
+  button.option.chosen-ok { background: var(--okbg); border-color: var(--ok); color: var(--ok); }
+  button.option.chosen-bad { background: var(--badbg); border-color: var(--bad); color: var(--bad); }
+  .feedback { margin: 12px 0 0; padding: 10px 12px; border-radius: 8px; background: #eef4fb; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .actions button.secondary { border-color: var(--muted); color: var(--ink); }
+  .result { margin-top: 12px; }
+  .result li { margin-bottom: 4px; }
+  .sort { display: grid; gap: 14px; }
+  .pool, .target { border: 2px dashed var(--line); border-radius: 10px; padding: 10px; background: #fbfcfe; }
+  .target { min-height: 64px; }
+  .target.active { border-color: var(--accent); background: #eef4fb; }
+  .pool { display: grid; gap: 8px; }
+  .item { touch-action: none; user-select: none; }
+  .item.selected { background: #fff4d6; border-color: #b07d00; color: var(--ink); }
+  .placed-wrap { margin-top: 6px; }
+  .placed-wrap .item.placed { background: #fff; }
+  .placed-wrap .item.ok { background: var(--okbg); border-color: var(--ok); color: var(--ok); }
+  .placed-wrap .item.wrong { background: var(--badbg); border-color: var(--bad); color: var(--bad); }
+  .note { margin: 4px 0 0 4px; font-size: 0.95rem; }
+  .score { font-weight: 600; margin-top: 10px; }
+  .hint { color: var(--muted); font-size: 0.95rem; margin: 0 0 10px; }
+  @media (max-width: 480px) { body { font-size: 16px; } main { padding: 10px; } section.task { padding: 12px; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Bank BFK | LF 3 | Übungsaufgaben Teil I LF3</h1>
+  <p class="intro">Diese Seite gehört zu den Aufgaben 1.2, 1.3, 2.3, 3.3 und 4.2. Arbeiten Sie allein an Ihrem Gerät. Die Seite speichert keine Daten und benötigt keine Anmeldung. Die Anlagen zu den Aufgaben finden Sie im Arbeitsblatt.</p>
+
+  <section id="aufgabe-1-2" class="task" aria-labelledby="titel-1-2">
+    <h2 id="titel-1-2">Aufgabe 1.2</h2>
+    <p class="task-text">Prüfen Sie anhand des Handelsregisterauszugs (Anlage 1), wer die Lindner Feinmechanik GmbH gegenüber der Bank allein vertreten kann. Beurteilen Sie außerdem, ob Klaus Brandt am 25.10.2026 eine Barauszahlung vom Geschäftskonto veranlassen durfte. Begründen Sie beide Antworten in jeweils zwei bis drei Sätzen.</p>
+    <p class="instructions">Auf der Seite beantworten Sie vier Fragen nacheinander. Nach jeder Antwort erhalten Sie eine fachliche Erklärung, am Ende sehen Sie das Gesamtergebnis.</p>
+    <div class="card" data-kind="selbstpruefer" data-anchor="aufgabe-1-2"></div>
+  </section>
+
+  <section id="aufgabe-1-3" class="task" aria-labelledby="titel-1-3">
+    <h2 id="titel-1-3">Aufgabe 1.3</h2>
+    <p class="task-text">Ordnen Sie jeden der folgenden Fälle der Berechtigung zu, die sich daraus ergibt. Die drei Berechtigungen lauten: darf allein verfügen, darf nur gemeinsam verfügen und darf nicht verfügen.</p>
+    <p class="instructions">Ziehen Sie jeden Fall auf die passende Berechtigung oder tippen Sie zuerst auf den Fall und danach auf die Berechtigung. Mit Prüfen erhalten Sie einen Hinweis zu jeder Zuordnung, mit Zurücksetzen beginnen Sie von vorn.</p>
+    <div class="card" data-kind="zuordnung" data-anchor="aufgabe-1-3"></div>
+  </section>
+
+  <section id="aufgabe-2-3" class="task" aria-labelledby="titel-2-3">
+    <h2 id="titel-2-3">Aufgabe 2.3</h2>
+    <p class="task-text">Ein Verbraucher hat der Hahn Bauservice GmbH ein SEPA-Basis-Lastschriftmandat erteilt. Welche Aussage ist richtig? Wählen Sie die zutreffende Antwort aus.</p>
+    <p class="instructions">Auf der Seite sehen Sie nur eine Frage. Wählen Sie eine Antwort, danach erhalten Sie die fachliche Erklärung. Am Ende sehen Sie Ihr Ergebnis und können neu starten.</p>
+    <div class="card" data-kind="selbstpruefer" data-anchor="aufgabe-2-3"></div>
+  </section>
+
+  <section id="aufgabe-3-3" class="task" aria-labelledby="titel-3-3">
+    <h2 id="titel-3-3">Aufgabe 3.3</h2>
+    <p class="task-text">Die Werkzeug Dorn GmbH soll 6.500,00 CHF an einen Lieferanten in der Schweiz überweisen. Führen Sie den Fall in der interaktiven Aufgabe Schritt für Schritt durch. Sie treffen vier Entscheidungen zu Formular, Kostenregelung, Widerruf und Belastung des Kontos.</p>
+    <p class="instructions">Auf der Seite treffen Sie vier Entscheidungen. Nach jeder Entscheidung erklärt die Seite die fachliche Folge. Am Ende erhalten Sie eine Auswertung und können den Fall neu starten.</p>
+    <div class="card" data-kind="falltrainer" data-anchor="aufgabe-3-3"></div>
+  </section>
+
+  <section id="aufgabe-4-2" class="task" aria-labelledby="titel-4-2">
+    <h2 id="titel-4-2">Aufgabe 4.2</h2>
+    <p class="task-text">Die Brenner Präzisionsteile GmbH verkauft Maschinenteile an einen Importeur in Shanghai. Die Ware wird im Hafen Hamburg an Bord eines Seeschiffs verladen. Die Parteien wählen zwischen FOB Hamburg und CIF Shanghai (Incoterms 2020). Stellen Sie die Pflichten der GmbH bei beiden Klauseln gegenüber und empfehlen Sie eine der beiden Klauseln mit Begründung. Ordnen Sie anschließend in der interaktiven Aufgabe jede der folgenden Aussagen der passenden Klausel zu.</p>
+    <p class="instructions">Ziehen Sie jede Aussage auf die passende Gruppe oder tippen Sie zuerst auf die Aussage und danach auf die Gruppe. Mit Prüfen erhalten Sie einen Hinweis zu jeder Zuordnung, mit Zurücksetzen beginnen Sie von vorn.</p>
+    <div class="card" data-kind="zuordnung" data-anchor="aufgabe-4-2"></div>
+  </section>
+</main>
+
+<script>
+"use strict";
+
+const SETUP = {
+  "aufgabe-1-2": {
+    kind: "selbstpruefer",
+    steps: [
+      { q: "Kann Jan Lindner die Lindner Feinmechanik GmbH gegenüber der Bank allein vertreten?",
+        options: [
+          { t: "Ja", ok: true, note: "Richtig. Die Eintragung weist für Jan Lindner Einzelvertretung aus, allein kann diese Person die GmbH also vertreten." },
+          { t: "Nein", ok: false, note: "Nicht ganz. Die Eintragung weist für Jan Lindner Einzelvertretung aus. Allein kann diese Person die GmbH daher vertreten." } ] },
+      { q: "Kann Mara Weiß die GmbH gegenüber der Bank allein vertreten?",
+        options: [
+          { t: "Ja", ok: false, note: "Nicht ganz. Die Eintragung sieht für Mara Weiß Gesamtvertretung zusammen mit einem weiteren Geschäftsführer vor. Allein reicht das nicht aus." },
+          { t: "Nein", ok: true, note: "Richtig. Die Eintragung sieht Gesamtvertretung zusammen mit einem weiteren Geschäftsführer vor." } ] },
+      { q: "Kann Tobias Krämer als Einzelprokurist allein über das Geschäftskonto verfügen?",
+        options: [
+          { t: "Ja", ok: true, note: "Richtig. Die Prokura berechtigt zu allen Arten gerichtlicher und außergerichtlicher Geschäfte, also auch zu Kontoverfügungen (§ 49 Abs. 1 HGB)." },
+          { t: "Nein", ok: false, note: "Nicht ganz. Die Einzelprokura berechtigt zu allen Geschäften, die der Betrieb eines Handelsgewerbes mit sich bringt. Dazu gehören Kontoverfügungen." } ] },
+      { q: "Durfte Klaus Brandt am 25.10.2026 eine Barauszahlung vom Geschäftskonto veranlassen?",
+        options: [
+          { t: "Ja", ok: false, note: "Nicht ganz. Die Prokura wurde am 15.10.2026 widerrufen, und die Löschung wurde am 21.10.2026 eingetragen und bekannt gemacht. Die Bank muss sie gegen sich gelten lassen (§ 15 HGB)." },
+          { t: "Nein", ok: true, note: "Richtig. Die Prokura war erloschen, und die Bank darf die Auszahlung nicht ausführen." } ] }
+    ]
+  },
+  "aufgabe-2-3": {
+    kind: "selbstpruefer",
+    steps: [
+      { q: "Ein Verbraucher hat der Hahn Bauservice GmbH ein SEPA-Basis-Lastschriftmandat erteilt. Welche Aussage ist richtig?",
+        options: [
+          { t: "a) Der Verbraucher kann eine autorisierte Lastschrift innerhalb von acht Wochen ab Belastung ohne Angabe von Gründen zurückholen.", ok: true, note: "Richtig. Bei einer autorisierten SEPA-Basis-Lastschrift besteht ein Erstattungsanspruch von acht Wochen ab Belastung ohne Begründung." },
+          { t: "b) Das Mandat bleibt unbegrenzt gültig, solange der Verbraucher es nicht ausdrücklich widerruft.", ok: false, note: "Nicht ganz. Ein Mandat erlischt, wenn es 36 Monate lang nicht genutzt wird." },
+          { t: "c) Die Gläubiger-ID ist für den Einzug nicht erforderlich.", ok: false, note: "Nicht ganz. Für den Einzug braucht der Zahlungsempfänger die Gläubiger-ID." },
+          { t: "d) Die Erstattungsfrist beträgt für Verbraucher nur 14 Kalendertage.", ok: false, note: "Nicht ganz. Die 14 Kalendertage sind die Frist für die Vorabankündigung vor der Fälligkeit, nicht die Erstattungsfrist." } ] }
+    ]
+  },
+  "aufgabe-3-3": {
+    kind: "falltrainer",
+    steps: [
+      { q: "Welches Formular nutzt die GmbH für die Überweisung in Schweizer Franken?",
+        options: [
+          { t: "SEPA-Überweisung", ok: false, note: "Eine SEPA-Überweisung gilt nur für Euro-Zahlungen innerhalb des EWR. Die Schweiz gehört nicht dazu, und die Zahlung erfolgt in Franken." },
+          { t: "Zahlungsauftrag im Außenwirtschaftsverkehr", ok: true, note: "Richtig. Eine Zahlung in Fremdwährung an ein Land außerhalb des EWR verlangt diesen Auftrag. Er enthält auch den Hinweis zur Kostenverteilung." },
+          { t: "Lastschrift-Mandat", ok: false, note: "Ein Mandat erteilt der Zahlungspflichtige dem Empfänger, der Geld einzieht. Hier zahlt die GmbH selbst und erteilt einen Überweisungsauftrag." } ] },
+      { q: "Der Lieferant verlangt, dass ihm der volle Betrag ohne Abzug gutgeschrieben wird. Welche Kostenregelung wählen Sie?",
+        options: [
+          { t: "Die GmbH trägt alle Entgelte, und der Lieferant erhält den vollen Betrag.", ok: true, note: "Richtig. Die GmbH zahlt die Entgelte zusätzlich, und der Lieferant erhält den Betrag ohne Abzug." },
+          { t: "Der Lieferant trägt alle Entgelte, die im Ausland anfallen.", ok: false, note: "Dann würden dem Lieferanten Gebühren vom Betrag abgezogen. Das passt nicht zu seiner Forderung." },
+          { t: "Die Kosten werden im Auftrag nicht angegeben.", ok: false, note: "Der Zahlungsauftrag muss einen Hinweis zur Kostenverteilung enthalten. Ohne Angabe bleibt die Abwicklung unklar." } ] },
+      { q: "Der Auftrag ist bei der Bank eingegangen. Die GmbH möchte ihn nun widerrufen. Was ist möglich?",
+        options: [
+          { t: "Ein Widerruf ist jederzeit möglich.", ok: false, note: "Nach dem Zugang beim Kreditinstitut lässt sich ein Auftrag grundsätzlich nicht mehr widerrufen." },
+          { t: "Ein Widerruf ist nach dem Zugang grundsätzlich nicht mehr möglich.", ok: true, note: "Richtig. Die GmbH müsste den Lieferanten um eine Rücküberweisung bitten." },
+          { t: "Ein Widerruf ist nur am selben Tag möglich.", ok: false, note: "Eine solche Frist gibt es nicht. Nach dem Zugang ist ein Widerruf grundsätzlich ausgeschlossen." } ] },
+      { q: "Wie wird das Konto belastet, wenn die Bank 6.500,00 CHF zum Geldkurs von 0,9410 CHF je EUR abrechnet?",
+        options: [
+          { t: "Das Euro-Konto wird mit 6.907,55 EUR belastet, zuzüglich der Entgelte.", ok: true, note: "Richtig. 6.500,00 CHF : 0,9410 CHF/EUR = 6.907,55 EUR. Die Belastung erfolgt mit der Ausführung des Auftrags." },
+          { t: "Das Euro-Konto wird mit 6.500,00 EUR belastet.", ok: false, note: "Der Betrag liegt in Franken vor und muss umgerechnet werden. Eine Belastung eins zu eins gibt es hier nicht." },
+          { t: "Das Konto wird erst belastet, wenn der Lieferant die Ware bestätigt.", ok: false, note: "Die Belastung erfolgt mit der Ausführung des Auftrags, nicht erst nach einer Bestätigung der Ware." } ] }
+    ]
+  },
+  "aufgabe-1-3": {
+    kind: "zuordnung",
+    targets: ["Darf allein verfügen", "Darf nur gemeinsam verfügen", "Darf nicht verfügen"],
+    items: [
+      { t: "Ein Geschäftsführer ist laut Satzung einzeln vertretungsberechtigt.", k: 0, why: "Einzelvertretung erlaubt Verfügungen allein." },
+      { t: "Ein Prokurist ist mit Gesamtprokura bestellt.", k: 1, why: "Gesamtprokura gilt nur gemeinsam mit einem anderen Berechtigten." },
+      { t: "Zwei Vorstandsmitglieder eines e.V. vertreten den Verein laut Satzung nur gemeinsam.", k: 1, why: "Gesamtvertretung bedeutet, dass beide gemeinsam handeln müssen." },
+      { t: "Ein Kontobevollmächtigter ist für das Geschäftskonto mit Einzelverfügung ausgestattet.", k: 0, why: "Eine Einzelverfügung erlaubt Verfügungen über das Konto allein." },
+      { t: "Ein Prokurist ist ausgeschieden, weil die Prokura widerrufen und die Löschung eingetragen wurde.", k: 2, why: "Mit dem Erlöschen der Vollmacht fehlt jede Verfügungsbefugnis." }
+    ]
+  },
+  "aufgabe-4-2": {
+    kind: "zuordnung",
+    targets: ["Pflicht bei FOB und CIF", "Pflicht nur bei CIF", "Bei FOB und CIF keine Pflicht"],
+    items: [
+      { t: "a) Die GmbH liefert die Ware und verlädt sie an Bord in Hamburg.", k: 0, why: "Die Verladung an Bord gehört bei beiden Klauseln zu den Pflichten des Verkäufers." },
+      { t: "b) Die GmbH trägt die Kosten bis zur Verladung an Bord in Hamburg.", k: 0, why: "Die Kosten bis zur Verladung trägt der Verkäufer bei beiden Klauseln." },
+      { t: "c) Die GmbH bezahlt die Seefracht bis zum Hafen Shanghai.", k: 1, why: "Die Seefracht bis zum Bestimmungshafen trägt der Verkäufer nur bei CIF." },
+      { t: "d) Die GmbH schließt eine Transportversicherung für den Seeweg ab.", k: 1, why: "Die Transportversicherung schließt der Verkäufer nur bei CIF ab." },
+      { t: "e) Die GmbH übernimmt das Risiko für Schäden, die nach dem Verladen an Bord entstehen.", k: 2, why: "Der Gefahrenübergang liegt bei beiden Klauseln beim Verladen an Bord. Danach trägt der Importeur das Risiko." }
+    ]
+  }
+};
+
+function el(tag, cls, text) {
+  const node = document.createElement(tag);
+  if (cls) node.className = cls;
+  if (text !== undefined) node.textContent = text;
+  return node;
+}
+
+function mountSteps(root, cfg) {
+  const isFall = cfg.kind === "falltrainer";
+  const log = [];
+  let idx = 0;
+
+  function render() {
+    root.textContent = "";
+    if (idx >= cfg.steps.length) return renderResult();
+    const step = cfg.steps[idx];
+    root.append(el("p", "progress", (isFall ? "Schritt " : "Frage ") + (idx + 1) + " von " + cfg.steps.length));
+    root.append(el("p", "question", step.q));
+    const list = el("ul", "options");
+    let answered = false;
+    step.options.forEach((opt) => {
+      const li = el("li");
+      const btn = el("button", "option", opt.t);
+      btn.type = "button";
+      btn.addEventListener("click", () => {
+        if (answered) return;
+        answered = true;
+        log[idx] = opt.ok;
+        list.querySelectorAll("button").forEach((b) => { b.disabled = true; });
+        btn.classList.add(opt.ok ? "chosen-ok" : "chosen-bad");
+        const fb = el("p", "feedback", opt.note);
+        fb.setAttribute("role", "status");
+        root.append(fb);
+        const next = el("button", "", idx + 1 < cfg.steps.length ? "Weiter" : "Auswertung anzeigen");
+        next.type = "button";
+        next.style.marginTop = "12px";
+        next.addEventListener("click", () => { idx += 1; render(); });
+        root.append(next);
+        next.focus();
+      });
+      li.append(btn);
+      list.append(li);
+    });
+    root.append(list);
+  }
+
+  function renderResult() {
+    const right = log.filter(Boolean).length;
+    root.append(el("h3", "", "Auswertung"));
+    const summary = isFall
+      ? "Sie haben " + right + " von " + cfg.steps.length + " Entscheidungen auf Anhieb richtig getroffen."
+      : "Sie haben " + right + " von " + cfg.steps.length + " Fragen auf Anhieb richtig beantwortet.";
+    root.append(el("p", "", summary));
+    const ul = el("ul", "result");
+    cfg.steps.forEach((step, i) => {
+      ul.append(el("li", "", (i + 1) + ". " + step.q + " " + (log[i] ? "Richtig beantwortet." : "Beim ersten Versuch nicht richtig, die Erklärung zeigt den Weg.")));
+    });
+    root.append(ul);
+    const again = el("button", "", "Neustart");
+    again.type = "button";
+    again.addEventListener("click", () => { log.length = 0; idx = 0; render(); });
+    const actions = el("div", "actions");
+    actions.append(again);
+    root.append(actions);
+  }
+
+  render();
+}
+
+function mountSort(root, cfg) {
+  const placed = {};
+  let selected = null;
+  let checked = false;
+  let drag = null;
+  let justDragged = false;
+
+  const pool = el("div", "pool");
+  const targets = el("div", "sort");
+  const score = el("p", "score");
+  const checkBtn = el("button", "", "Prüfen");
+  const resetBtn = el("button", "secondary", "Zurücksetzen");
+  checkBtn.type = "button";
+  resetBtn.type = "button";
+  const actions = el("div", "actions");
+  actions.append(checkBtn, resetBtn);
+
+  checkBtn.addEventListener("click", () => { checked = true; draw(); });
+  resetBtn.addEventListener("click", () => {
+    Object.keys(placed).forEach((k) => delete placed[k]);
+    selected = null;
+    checked = false;
+    draw();
+  });
+
+  root.append(pool, targets, actions, score);
+
+  function place(i, t) {
+    placed[i] = t;
+    selected = null;
+    checked = false;
+    draw();
+  }
+
+  function bindPoolItem(btn, i) {
+    btn.addEventListener("click", () => {
+      if (justDragged) return;
+      selected = selected === i ? null : i;
+      draw();
+    });
+    btn.addEventListener("pointerdown", (e) => {
+      drag = { i: i, x: e.clientX, y: e.clientY, moved: false };
+      btn.setPointerCapture(e.pointerId);
+    });
+    btn.addEventListener("pointermove", (e) => {
+      if (!drag || drag.i !== i) return;
+      const dx = e.clientX - drag.x;
+      const dy = e.clientY - drag.y;
+      if (!drag.moved && Math.hypot(dx, dy) > 8) drag.moved = true;
+      if (drag.moved) btn.style.transform = "translate(" + dx + "px, " + dy + "px)";
+    });
+    const endDrag = (e) => {
+      if (!drag || drag.i !== i) return;
+      const moved = drag.moved;
+      drag = null;
+      btn.style.transform = "";
+      if (!moved) return;
+      justDragged = true;
+      setTimeout(() => { justDragged = false; }, 0);
+      const under = document.elementFromPoint(e.clientX, e.clientY);
+      const box = under && under.closest(".target");
+      if (box) place(i, Number(box.dataset.t));
+      else draw();
+    };
+    btn.addEventListener("pointerup", endDrag);
+    btn.addEventListener("pointercancel", () => { drag = null; btn.style.transform = ""; });
+  }
+
+  function draw() {
+    pool.textContent = "";
+    targets.textContent = "";
+    pool.append(el("h3", "", "Fälle"));
+    cfg.items.forEach((item, i) => {
+      if (placed[i] !== undefined) return;
+      const btn = el("button", "item" + (selected === i ? " selected" : ""), item.t);
+      btn.type = "button";
+      btn.setAttribute("aria-pressed", String(selected === i));
+      bindPoolItem(btn, i);
+      pool.append(btn);
+    });
+    cfg.targets.forEach((name, t) => {
+      const box = el("div", "target");
+      box.dataset.t = String(t);
+      box.tabIndex = 0;
+      box.setAttribute("role", "group");
+      box.setAttribute("aria-label", name);
+      box.append(el("h3", "", name));
+      const act = () => { if (selected !== null) place(selected, t); };
+      box.addEventListener("click", act);
+      box.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); act(); }
+      });
+      box.addEventListener("pointerenter", () => { if (drag && drag.moved) box.classList.add("active"); });
+      box.addEventListener("pointerleave", () => box.classList.remove("active"));
+      cfg.items.forEach((item, i) => {
+        if (placed[i] !== t) return;
+        const wrap = el("div", "placed-wrap");
+        const btn = el("button", "item placed", item.t);
+        btn.type = "button";
+        if (checked) btn.classList.add(item.k === t ? "ok" : "wrong");
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          delete placed[i];
+          checked = false;
+          draw();
+        });
+        wrap.append(btn);
+        if (checked) {
+          const ok = item.k === t;
+          wrap.append(el("p", "note", (ok ? "Richtig. " : "Nicht ganz. ") + item.why));
+        }
+        box.append(wrap);
+      });
+      targets.append(box);
+    });
+    if (checked) {
+      const right = Object.keys(placed).filter((i) => placed[i] === cfg.items[i].k).length;
+      const open = cfg.items.length - Object.keys(placed).length;
+      score.textContent = right + " von " + cfg.items.length + " Zuordnungen sind richtig."
+        + (open > 0 ? " Noch " + open + (open === 1 ? " Fall ist" : " Fälle sind") + " nicht zugeordnet." : "");
+    } else {
+      score.textContent = "";
+    }
+  }
+
+  draw();
+}
+
+document.querySelectorAll("[data-anchor]").forEach((root) => {
+  const cfg = SETUP[root.dataset.anchor];
+  if (!cfg) return;
+  if (cfg.kind === "zuordnung") mountSort(root, cfg);
+  else mountSteps(root, cfg);
+});
+</script>
+</body>
+</html>
