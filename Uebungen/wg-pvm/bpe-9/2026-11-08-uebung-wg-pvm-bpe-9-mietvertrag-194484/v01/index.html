@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WG PVM | BPE 9 | Mietvertrag</title>
+<style>
+  body {
+    font-family: system-ui, "Segoe UI", Arial, sans-serif;
+    line-height: 1.5;
+    margin: 0;
+    color: #1d1d1f;
+    background: #f5f5f2;
+  }
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+  h1 {
+    font-size: 1.6rem;
+    margin: 0.5rem 0 1rem;
+  }
+  h2 {
+    font-size: 1.25rem;
+    margin: 0 0 0.25rem;
+  }
+  nav ul {
+    padding-left: 20px;
+  }
+  section {
+    background: #ffffff;
+    border: 1px solid #d6d6cf;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+  }
+  .type {
+    font-size: 0.9rem;
+    color: #4a4a4a;
+    margin: 0 0 8px;
+  }
+  .progress {
+    font-size: 0.9rem;
+    color: #4a4a4a;
+    margin: 0 0 6px;
+  }
+  .question {
+    font-weight: 600;
+    margin: 0 0 12px;
+  }
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  button {
+    font: inherit;
+    min-height: 44px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid #6b6b66;
+    background: #ffffff;
+    color: #1d1d1f;
+    cursor: pointer;
+    text-align: left;
+  }
+  button:focus-visible,
+  a:focus-visible {
+    outline: 3px solid #1f5fbf;
+    outline-offset: 2px;
+  }
+  button:disabled {
+    cursor: default;
+  }
+  button.correct {
+    background: #e3f4e6;
+    border-color: #2e7d32;
+  }
+  button.wrong {
+    background: #fdeaea;
+    border-color: #b3261e;
+  }
+  .next,
+  .restart {
+    background: #1f5fbf;
+    border-color: #1f5fbf;
+    color: #ffffff;
+    margin-top: 12px;
+  }
+  .feedback {
+    margin-top: 12px;
+    min-height: 1.5em;
+  }
+  .feedback.ok {
+    border-left: 4px solid #2e7d32;
+    padding-left: 10px;
+  }
+  .feedback.bad {
+    border-left: 4px solid #b3261e;
+    padding-left: 10px;
+  }
+  .result {
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>WG PVM | BPE 9 | Mietvertrag</h1>
+  <p>Auf dieser Seite bearbeiten Sie vier interaktive Aufgaben zum Mietvertrag sowie zu Kündigung und Betriebskostenabrechnung. Jede Aufgabe hat einen eigenen Abschnitt. Die Seite speichert keine Ergebnisse und verlangt keine Anmeldung.</p>
+  <nav aria-label="Übersicht der Aufgaben">
+    <ul>
+      <li><a href="#aufgabe-1-2">Aufgabe 1.2: Pflichten zuordnen</a></li>
+      <li><a href="#aufgabe-1-3">Aufgabe 1.3: Angaben im Mietvertrag</a></li>
+      <li><a href="#aufgabe-2-3">Aufgabe 2.3: Kündigung vorbereiten</a></li>
+      <li><a href="#aufgabe-2-6">Aufgabe 2.6: Saldo der Betriebskostenabrechnung</a></li>
+    </ul>
+  </nav>
+
+  <section id="aufgabe-1-2">
+    <h2>Aufgabe 1.2: Pflichten zuordnen</h2>
+    <p class="type">Selbstprüfer mit fachlichen Hinweisen</p>
+    <p>Ordnen Sie die Pflichten aus § 535 BGB dem Vermieter oder der Mieterin zu. Sie sehen immer nur eine Frage.</p>
+    <div id="trainer-1-2"></div>
+  </section>
+
+  <section id="aufgabe-1-3">
+    <h2>Aufgabe 1.3: Angaben im Mietvertrag</h2>
+    <p class="type">Adaptiver Prüfungstrainer</p>
+    <p>Beantworten Sie die Fragen zu Vertragsparteien, Mietobjekt, Miete und Schriftform. Ihr Niveau passt sich an Ihre bisherigen Antworten an.</p>
+    <div id="trainer-1-3"></div>
+  </section>
+
+  <section id="aufgabe-2-3">
+    <h2>Aufgabe 2.3: Kündigung vorbereiten</h2>
+    <p class="type">Fall- oder Beratungstrainer</p>
+    <p>Sie beraten Ludwig Hartmann. Herr Hartmann vermietet eine Dreizimmerwohnung an Jonas Berg, der dort seit dem 1. Juli 2019 wohnt. Herr Hartmann möchte die Wohnung im Januar 2027 für seine Tochter nutzen. Treffen Sie in vier Schritten die passende Entscheidung.</p>
+    <div id="trainer-2-3"></div>
+  </section>
+
+  <section id="aufgabe-2-6">
+    <h2>Aufgabe 2.6: Saldo der Betriebskostenabrechnung</h2>
+    <p class="type">Selbstprüfer mit fachlichen Hinweisen</p>
+    <p>Die Zahlen für diese Aufgabe stehen in Anlage 1 des Aufgabenblatts. Beantworten Sie die drei Fragen nacheinander.</p>
+    <div id="trainer-2-6"></div>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  var CONFIGS = {
+    "trainer-1-2": {
+      adaptive: false,
+      count: 3,
+      questions: [
+        {
+          text: "Die vereinbarte Miete pünktlich zahlen. Wer trägt diese Pflicht?",
+          options: ["Der Vermieter", "Die Mieterin"],
+          correct: 1,
+          explain: "Die Mieterin ist verpflichtet, die vereinbarte Miete zu zahlen (§ 535 Abs. 2 BGB). Der Vermieter erhält die Miete als Gegenleistung für die Überlassung der Wohnung."
+        },
+        {
+          text: "Eine defekte Heizung instand setzen lassen, damit die Wohnung vertragsgemäß bleibt. Wer trägt diese Pflicht?",
+          options: ["Der Vermieter", "Die Mieterin"],
+          correct: 0,
+          explain: "Der Vermieter muss die Wohnung während der Mietzeit in vertragsgemäßem Zustand erhalten. Dazu gehört die Instandhaltung der Heizung (§ 535 Abs. 1 Satz 2 BGB)."
+        },
+        {
+          text: "Die Wohnung zu Beginn des Mietverhältnisses in einem zum vertragsgemäßen Gebrauch geeigneten Zustand übergeben. Wer trägt diese Pflicht?",
+          options: ["Der Vermieter", "Die Mieterin"],
+          correct: 0,
+          explain: "Der Vermieter muss die Mietsache dem Mieter in einem zum vertragsgemäßen Gebrauch geeigneten Zustand überlassen (§ 535 Abs. 1 Satz 2 BGB)."
+        }
+      ],
+      prefixOk: "Richtig. ",
+      prefixBad: "Nicht richtig. ",
+      result: function (score, total) {
+        if (score === total) {
+          return "Sie haben alle " + total + " Pflichten richtig zugeordnet.";
+        }
+        return "Sie haben " + score + " von " + total + " Pflichten richtig zugeordnet. Lesen Sie die Erklärungen zu den falschen Antworten noch einmal.";
+      }
+    },
+
+    "trainer-1-3": {
+      adaptive: true,
+      count: 4,
+      questions: [
+        {
+          level: 1,
+          text: "Welche Angabe bestimmt das Mietobjekt genau?",
+          options: ["Die Anschrift und die Lage der Wohnung", "Der Name der Hausverwaltung", "Die Telefonnummer der Mieterin", "Die Anzahl der Nachbarn im Haus"],
+          correct: 0,
+          explain: "Anschrift und Lage kennzeichnen die Wohnung, die überlassen wird. Die übrigen Angaben betreffen die Wohnung nicht."
+        },
+        {
+          level: 1,
+          text: "Wer sind die Vertragsparteien eines Mietvertrags?",
+          options: ["Vermieter und Mieter", "Vermieter und Hausmeister", "Mieter und Makler", "Eigentümer und Bank"],
+          correct: 0,
+          explain: "Der Mietvertrag wird zwischen Vermieter und Mieter geschlossen. Diese beiden Parteien tragen die Pflichten aus dem Mietverhältnis."
+        },
+        {
+          level: 2,
+          text: "Welche Angabe konkretisiert die Miete?",
+          options: ["Die Höhe der Kaltmiete und die Fälligkeit der Zahlung", "Die Farbe der Küchenschränke", "Das Baujahr des Nachbarhauses", "Der Name der Bank des Vermieters"],
+          correct: 0,
+          explain: "Die Höhe der Kaltmiete und der Zahlungstermin legen fest, was die Mieterin zu zahlen hat (§ 535 Abs. 2 BGB)."
+        },
+        {
+          level: 2,
+          text: "Ein Mietverhältnis soll länger als ein Jahr dauern, wird aber nicht schriftlich geschlossen. Was gilt?",
+          options: ["Der Vertrag gilt als auf unbestimmte Zeit geschlossen.", "Der Vertrag ist nichtig.", "Der Vertrag gilt nur für ein Jahr.", "Der Vertrag wird automatisch schriftlich."],
+          correct: 0,
+          explain: "Nach § 550 Satz 1 BGB gilt der Vertrag dann als auf unbestimmte Zeit geschlossen. Eine ordentliche Kündigung ist frühestens zum Ablauf eines Jahres nach der Überlassung zulässig (§ 550 Satz 2 BGB)."
+        },
+        {
+          level: 3,
+          text: "Warum ist die Schriftform bei einem längeren Mietvertrag wichtig?",
+          options: ["Sie dient als Beweis und schafft Klarheit über den Inhalt.", "Sie ersetzt die Miete.", "Sie macht jede Kündigung überflüssig.", "Sie verlängert die Mietzeit automatisch."],
+          correct: 0,
+          explain: "Ein schriftlicher Vertrag belegt, was vereinbart wurde. Außerdem sind die Pflichten beider Seiten klarer geregelt."
+        },
+        {
+          level: 3,
+          text: "Ein Mietvertrag nennt die Parteien und die Miete, aber nicht das Mietobjekt. Was folgt daraus?",
+          options: ["Der Vertrag ist unbestimmt, weil nicht feststeht, welche Wohnung überlassen wird.", "Der Vertrag ist vollständig, weil die Miete genügt.", "Die Wohnung gilt als vermietet, sobald die Mieterin einzieht.", "Die Miete wird automatisch am Mietspiegel ausgerichtet."],
+          correct: 0,
+          explain: "Ohne Angabe des Mietobjekts bleibt offen, welche Wohnung überlassen wird. Deshalb sollte der Vertrag die Wohnung genau bezeichnen."
+        }
+      ],
+      prefixOk: "Richtig. ",
+      prefixBad: "Nicht richtig. ",
+      result: function (score, total, maxLevel) {
+        var text = "Sie haben " + score + " von " + total + " Fragen richtig beantwortet. Das höchste erreichte Niveau war Stufe " + maxLevel + " von 3.";
+        if (score >= 3) {
+          return text + " Die Grundlagen des Mietvertrags sitzen sicher.";
+        }
+        return text + " Wiederholen Sie die Angaben im Mietvertrag und die Schriftform nach § 550 BGB.";
+      }
+    },
+
+    "trainer-2-3": {
+      adaptive: false,
+      stepLabel: true,
+      count: 4,
+      questions: [
+        {
+          text: "Herr Hartmann braucht die Wohnung für seine Tochter. Welche Kündigung ist fachlich passend?",
+          options: ["Eine ordentliche Kündigung wegen Eigenbedarf", "Eine fristlose Kündigung wegen Eigenbedarf", "Eine Kündigung ohne Grund, weil die Tochter die Wohnung ohnehin beziehen darf"],
+          correct: 0,
+          explain: "Eigenbedarf rechtfertigt eine ordentliche Kündigung (§ 573 Abs. 2 Nr. 2 BGB). Eine fristlose Kündigung kommt wegen Eigenbedarfs nicht in Betracht, weil der Eigenbedarf ein Grund für die ordentliche Kündigung ist."
+        },
+        {
+          text: "Welche Frist muss Herr Hartmann bei einer Kündigung im Januar 2027 einhalten?",
+          options: ["3 Monate", "6 Monate", "9 Monate", "Keine Frist, weil Eigenbedarf vorliegt"],
+          correct: 1,
+          explain: "Das Mietverhältnis besteht seit mehr als fünf Jahren. Die Frist des Vermieters verlängert sich deshalb auf sechs Monate (§ 573c Abs. 1 BGB). Neun Monate gelten erst nach acht Jahren."
+        },
+        {
+          text: "Was gehört in das Kündigungsschreiben?",
+          options: ["Der Eigenbedarf mit der konkreten Begründung, zum Beispiel die Tochter als künftige Nutzerin", "Nur die Kündigungsfrist und das Datum", "Die Kontonummer des Mieters", "Nichts, weil die Begründung erst im Gerichtsverfahren erfolgt"],
+          correct: 0,
+          explain: "Die Gründe für das berechtigte Interesse sind im Kündigungsschreiben anzugeben (§ 573 Abs. 3 Satz 1 BGB). Eine Begründung erst im Gerichtsverfahren reicht dafür nicht aus."
+        },
+        {
+          text: "Herr Berg bittet um Aufschub, weil er gesundheitlich eingeschränkt ist und einen Umzug derzeit nicht bewältigen kann. Wie reagiert Herr Hartmann?",
+          options: ["Er prüft das Vorbringen, weil Herr Berg der Kündigung widersprechen kann (§ 574 Abs. 1 BGB).", "Er ignoriert den Einwand, weil Eigenbedarf immer vorgeht.", "Er kündigt sofort fristlos, weil Herr Berg widerspricht.", "Er verlangt eine höhere Kaution."],
+          correct: 0,
+          explain: "Der Mieter kann der Kündigung widersprechen, wenn die Beendigung für ihn eine nicht zu rechtfertigende Härte bedeuten würde (§ 574 Abs. 1 BGB). Der Vermieter muss den Einwand deshalb prüfen. Eigenbedarf setzt sich nicht automatisch durch."
+        }
+      ],
+      prefixOk: "Diese Entscheidung passt. ",
+      prefixBad: "Für diesen Schritt ist eine andere Entscheidung fachlich passender. ",
+      result: function (score, total) {
+        var text = "Sie haben " + score + " von " + total + " Entscheidungen fachlich richtig getroffen.";
+        if (score === total) {
+          return text + " Die Beratung ist vollständig richtig: Die ordentliche Kündigung ist zulässig, die Frist beträgt sechs Monate, die Begründung gehört ins Schreiben, und Herr Berg kann widersprechen.";
+        }
+        return text + " Lesen Sie die Erklärungen zu den Schritten noch einmal, die Sie anders entschieden haben.";
+      }
+    },
+
+    "trainer-2-6": {
+      adaptive: false,
+      count: 3,
+      questions: [
+        {
+          text: "Wie hoch sind die umlagefähigen Kosten für Herrn Berg, wenn die Verwaltungskosten unberücksichtigt bleiben?",
+          options: ["2.060 €", "2.260 €", "2.160 €", "2.100 €"],
+          correct: 0,
+          explain: "Die Anteile von Herrn Berg betragen bei Grundsteuer 640 €, bei Wasser und Abwasser 480 €, bei der Müllabfuhr 240 €, beim Hausmeister 400 € und bei der Gebäudeversicherung 300 €. Die Summe ist 2.060 €. Die Verwaltungskosten bleiben außen vor."
+        },
+        {
+          text: "Wie hoch sind die Vorauszahlungen von Herrn Berg im Jahr 2025?",
+          options: ["2.160 €", "2.060 €", "1.800 €", "2.260 €"],
+          correct: 0,
+          explain: "Die Vorauszahlung beträgt 180 € im Monat. Multipliziert mit zwölf Monaten ergibt das 2.160 €."
+        },
+        {
+          text: "Wie lautet der Saldo ohne die Verwaltungskosten?",
+          options: ["Guthaben von 100 € für Herrn Berg", "Nachzahlung von 100 € durch Herrn Berg", "Guthaben von 200 € für Herrn Berg", "Nachzahlung von 200 € durch Herrn Berg"],
+          correct: 0,
+          explain: "Die Vorauszahlungen von 2.160 € übersteigen die umlagefähigen Kosten von 2.060 € um 100 €. Herr Berg erhält daher ein Guthaben von 100 €. Mit den Verwaltungskosten ergäbe sich eine Nachzahlung von 100 €, weil dann 2.260 € zu zahlen wären."
+        }
+      ],
+      prefixOk: "Richtig. ",
+      prefixBad: "Nicht richtig. ",
+      result: function (score, total) {
+        if (score === total) {
+          return "Sie haben alle " + total + " Schritte richtig berechnet. Der Saldo beträgt ein Guthaben von 100 € für Herrn Berg.";
+        }
+        return "Sie haben " + score + " von " + total + " Fragen richtig beantwortet. Vollziehen Sie die Rechnung in den Erklärungen zu den falschen Schritten noch einmal nach.";
+      }
+    }
+  };
+
+  function make(tag, cls, text) {
+    var node = document.createElement(tag);
+    if (cls) {
+      node.className = cls;
+    }
+    if (text !== undefined && text !== null) {
+      node.textContent = text;
+    }
+    return node;
+  }
+
+  function createTrainer(root, cfg) {
+    var st;
+
+    function freshState() {
+      return { used: [], score: 0, level: 1, maxLevel: 1, asked: 0, current: null, answered: false, buttons: [], feedback: null, nextBtn: null };
+    }
+
+    function pickIndex() {
+      var remaining = [];
+      cfg.questions.forEach(function (q, i) {
+        if (st.used.indexOf(i) === -1) {
+          remaining.push(i);
+        }
+      });
+      if (remaining.length === 0) {
+        return -1;
+      }
+      if (!cfg.adaptive) {
+        return remaining[0];
+      }
+      var sameLevel = remaining.filter(function (i) {
+        return cfg.questions[i].level === st.level;
+      });
+      return sameLevel.length > 0 ? sameLevel[0] : remaining[0];
+    }
+
+    function finish() {
+      root.textContent = "";
+      var box = make("p", "result", cfg.result(st.score, cfg.count, st.maxLevel));
+      var restart = make("button", "restart", "Neu starten");
+      restart.type = "button";
+      restart.addEventListener("click", reset);
+      root.appendChild(box);
+      root.appendChild(restart);
+      restart.focus();
+    }
+
+    function answer(choice) {
+      if (st.answered) {
+        return;
+      }
+      st.answered = true;
+      var q = st.current;
+      var ok = choice === q.correct;
+      if (ok) {
+        st.score += 1;
+      }
+      if (cfg.adaptive) {
+        st.level = ok ? Math.min(3, q.level + 1) : Math.max(1, q.level - 1);
+      }
+      st.buttons.forEach(function (btn, j) {
+        btn.disabled = true;
+        if (j === q.correct) {
+          btn.classList.add("correct");
+        } else if (j === choice) {
+          btn.classList.add("wrong");
+        }
+      });
+      st.feedback.className = "feedback " + (ok ? "ok" : "bad");
+      st.feedback.textContent = (ok ? cfg.prefixOk : cfg.prefixBad) + q.explain;
+      st.nextBtn.hidden = false;
+      st.nextBtn.textContent = st.asked >= cfg.count ? "Ergebnis anzeigen" : "Weiter";
+      st.nextBtn.focus();
+    }
+
+    function step() {
+      if (st.asked >= cfg.count) {
+        finish();
+        return;
+      }
+      var idx = pickIndex();
+      if (idx === -1) {
+        finish();
+        return;
+      }
+      st.used.push(idx);
+      st.asked += 1;
+      st.answered = false;
+      st.current = cfg.questions[idx];
+      st.maxLevel = Math.max(st.maxLevel, st.current.level || 1);
+      render();
+    }
+
+    function render() {
+      root.textContent = "";
+      var label = cfg.stepLabel ? "Schritt " : "Frage ";
+      root.appendChild(make("p", "progress", label + st.asked + " von " + cfg.count));
+      root.appendChild(make("p", "question", st.current.text));
+
+      var group = make("div", "options");
+      group.setAttribute("role", "group");
+      group.setAttribute("aria-label", "Antwortmöglichkeiten");
+      st.buttons = [];
+      st.current.options.forEach(function (text, i) {
+        var btn = make("button", "option", text);
+        btn.type = "button";
+        btn.addEventListener("click", function () {
+          answer(i);
+        });
+        st.buttons.push(btn);
+        group.appendChild(btn);
+      });
+      root.appendChild(group);
+
+      st.feedback = make("div", "feedback");
+      st.feedback.setAttribute("aria-live", "polite");
+      root.appendChild(st.feedback);
+
+      st.nextBtn = make("button", "next", "Weiter");
+      st.nextBtn.type = "button";
+      st.nextBtn.hidden = true;
+      st.nextBtn.addEventListener("click", step);
+      root.appendChild(st.nextBtn);
+    }
+
+    function reset() {
+      st = freshState();
+      root.textContent = "";
+      step();
+    }
+
+    reset();
+  }
+
+  Object.keys(CONFIGS).forEach(function (id) {
+    var root = document.getElementById(id);
+    if (root) {
+      createTrainer(root, CONFIGS[id]);
+    }
+  });
+})();
+</script>
+</body>
+</html>
