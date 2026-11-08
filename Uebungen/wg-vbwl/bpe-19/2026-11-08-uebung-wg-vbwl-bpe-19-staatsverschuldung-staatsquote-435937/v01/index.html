@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WG VBWL | BPE 19 | Staatsverschuldung, Staatsquote</title>
+<style>
+  :root {
+    --text: #1d2330;
+    --muted: #5a6474;
+    --linie: #c9d1dc;
+    --akzent: #1f4e8c;
+    --richtig: #1e7b3a;
+    --richtig-bg: #e6f4ea;
+    --falsch: #a12a2a;
+    --falsch-bg: #fbe9e9;
+    --flaeche: #f4f6f9;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--text);
+    background: #ffffff;
+  }
+  main { max-width: 860px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 1.5rem; margin: 0.5rem 0 0.25rem; }
+  h2 { font-size: 1.25rem; margin: 0 0 0.5rem; color: var(--akzent); }
+  .einleitung { color: var(--muted); margin-bottom: 1.5rem; }
+  section.aufgabe {
+    border: 1px solid var(--linie);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+  .hinweis-box {
+    background: var(--flaeche);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin: 8px 0 12px;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  button {
+    font: inherit;
+    border: 1px solid var(--akzent);
+    background: #ffffff;
+    color: var(--akzent);
+    border-radius: 8px;
+    padding: 8px 14px;
+    cursor: pointer;
+    min-height: 44px;
+  }
+  button:hover { background: #eaf1fa; }
+  button:focus-visible, .karte:focus-visible, .ziel:focus-visible {
+    outline: 3px solid #f0a500;
+    outline-offset: 2px;
+  }
+  button.primaer { background: var(--akzent); color: #ffffff; }
+  button.primaer:hover { background: #173b68; }
+  button:disabled { opacity: 0.5; cursor: default; }
+
+  /* Zuordnung */
+  .pool {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    min-height: 56px;
+    padding: 10px;
+    border: 2px dashed var(--linie);
+    border-radius: 8px;
+    margin-bottom: 14px;
+  }
+  .karte {
+    background: #ffffff;
+    border: 1px solid var(--akzent);
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    text-align: left;
+    width: 100%;
+    color: var(--text);
+  }
+  .karte.gewaehlt { background: #eaf1fa; box-shadow: 0 0 0 2px var(--akzent); }
+  .karte.zieht { opacity: 0.85; cursor: grabbing; }
+  .karte .rueckmeldung { display: block; margin-top: 6px; font-size: 0.95rem; }
+  .karte.ok { border-color: var(--richtig); background: var(--richtig-bg); }
+  .karte.nok { border-color: var(--falsch); background: var(--falsch-bg); }
+  .zielbereich {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  @media (max-width: 600px) { .zielbereich { grid-template-columns: 1fr; } }
+  .ziel {
+    border: 2px solid var(--linie);
+    border-radius: 8px;
+    padding: 10px;
+    min-height: 120px;
+    background: var(--flaeche);
+  }
+  .ziel h3 { font-size: 1rem; margin: 0 0 8px; }
+  .ziel .inhalt { display: flex; flex-direction: column; gap: 8px; }
+  .zeile { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+  .ergebnis { font-weight: 600; margin: 8px 0; }
+
+  /* Selbstprüfer */
+  .frage { font-weight: 600; margin: 0 0 12px; }
+  .antwort-liste { display: flex; flex-direction: column; gap: 8px; }
+  .antwort-liste button { text-align: left; width: 100%; }
+  .antwort-liste button.richtig { border-color: var(--richtig); background: var(--richtig-bg); color: var(--richtig); }
+  .antwort-liste button.falsch { border-color: var(--falsch); background: var(--falsch-bg); color: var(--falsch); }
+  .erklaerung { margin: 12px 0; padding: 10px 12px; border-radius: 8px; }
+  .erklaerung.richtig { background: var(--richtig-bg); }
+  .erklaerung.falsch { background: var(--falsch-bg); }
+  .fortschritt { color: var(--muted); font-size: 0.95rem; margin-bottom: 6px; }
+  .schluss { font-size: 1.1rem; margin: 8px 0 12px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>WG VBWL | BPE 19 | Staatsverschuldung, Staatsquote</h1>
+  <p class="einleitung">Diese Seite gehört zur Übung. Sie bearbeiten jede Aufgabe allein an Ihrem Gerät. Die Seite speichert keine Daten und benötigt keine Anmeldung.</p>
+
+  <!-- Aufgabe 3.1: Zuordnung -->
+  <section class="aufgabe" id="aufgabe-3-1" aria-labelledby="titel-3-1">
+    <h2 id="titel-3-1">Aufgabe 3.1: Haushaltslagen der Schuldenbremse zuordnen</h2>
+    <p>Ordnen Sie die vier Haushaltslagen der Schuldenbremse zu: zulässig oder nicht zulässig.</p>
+    <div class="hinweis-box">
+      Ziehen Sie eine Haushaltslage in das passende Feld. Sie können auch zuerst auf die Lage tippen und danach auf das Feld. Mit der Tastatur wählen Sie eine Lage mit Enter und danach ein Feld mit Enter aus. Wählen Sie anschließend Prüfen.
+    </div>
+
+    <div class="pool" id="z-pool" aria-label="Nicht zugeordnete Haushaltslagen"></div>
+
+    <div class="zielbereich">
+      <div class="ziel" data-ziel="zulaessig" tabindex="0" role="group" aria-labelledby="z-h-zulaessig">
+        <h3 id="z-h-zulaessig">Zulässig</h3>
+        <div class="inhalt"></div>
+      </div>
+      <div class="ziel" data-ziel="nicht" tabindex="0" role="group" aria-labelledby="z-h-nicht">
+        <h3 id="z-h-nicht">Nicht zulässig</h3>
+        <div class="inhalt"></div>
+      </div>
+    </div>
+
+    <div class="zeile">
+      <button type="button" class="primaer" id="z-pruefen">Prüfen</button>
+      <button type="button" id="z-zuruecksetzen">Zurücksetzen</button>
+    </div>
+    <p class="ergebnis" id="z-ergebnis" aria-live="polite"></p>
+  </section>
+
+  <!-- Aufgabe 4.1: Selbstprüfer -->
+  <section class="aufgabe" id="aufgabe-4-1" aria-labelledby="titel-4-1">
+    <h2 id="titel-4-1">Aufgabe 4.1: Zinsen bei hoher Staatsverschuldung begründen</h2>
+    <p>Prüfen Sie Ihre schriftliche Begründung mit den drei Fragen. Nach jeder Antwort erhalten Sie eine fachliche Erklärung.</p>
+
+    <div id="s-box" aria-live="polite"></div>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Aufgabe 3.1: Zuordnung ---------- */
+
+  var lagen = [
+    {
+      id: "l1",
+      text: "Der Bund nimmt 0,2 % des BIP an strukturellen Krediten auf.",
+      loesung: "zulaessig",
+      richtig: "Richtig. 0,2 % des BIP liegen unter der Obergrenze von 0,35 % für den Bund.",
+      falsch: "Falsch. Der Bund darf strukturell bis zu 0,35 % des BIP neu verschulden. Ein Wert von 0,2 % liegt darunter und ist daher zulässig."
+    },
+    {
+      id: "l2",
+      text: "Der Bund nimmt 0,5 % des BIP an strukturellen Krediten auf, ohne dass eine Notlage vorliegt.",
+      loesung: "nicht",
+      richtig: "Richtig. 0,5 % überschreiten die Obergrenze von 0,35 %, und eine Ausnahme liegt nicht vor.",
+      falsch: "Falsch. Über 0,35 % hinaus ist eine Kreditaufnahme nur bei einer Ausnahme zulässig. Hier liegt keine Notlage vor."
+    },
+    {
+      id: "l3",
+      text: "Nach einer Naturkatastrophe nimmt der Bund 1 % des BIP auf und legt einen Tilgungsplan vor.",
+      loesung: "zulaessig",
+      richtig: "Richtig. Bei Naturkatastrophen oder Notlagen darf die Grenze überschritten werden, wenn der Bundestag das beschließt und ein Tilgungsplan vorliegt.",
+      falsch: "Falsch. Bei einer Naturkatastrophe darf der Bund die Grenze überschreiten, sofern der Bundestag das beschließt und ein Tilgungsplan vorliegt. Diese Bedingungen sind hier erfüllt."
+    },
+    {
+      id: "l4",
+      text: "Die Länder nehmen Kredite auf, um ein strukturelles Defizit zu decken.",
+      loesung: "nicht",
+      richtig: "Richtig. Für die Länder gilt ein Verbot struktureller Neuverschuldung. Der Haushalt muss ohne Kredite ausgeglichen sein.",
+      falsch: "Falsch. Die Länder dürfen strukturell keine Kredite aufnehmen. Dieses Verbot gilt auch dann, wenn ein Defizit entsteht."
+    }
+  ];
+
+  var pool = document.getElementById("z-pool");
+  var zonen = document.querySelectorAll(".ziel");
+  var auswahl = null;
+  var zieht = null;
+  var nachZiehen = false;
+
+  function kartenErzeugen() {
+    lagen.forEach(function (lage) {
+      var karte = document.createElement("button");
+      karte.type = "button";
+      karte.className = "karte";
+      karte.id = lage.id;
+      karte.textContent = lage.text;
+      karte.addEventListener("pointerdown", function (e) {
+        zieht = { karte: karte, x: e.clientX, y: e.clientY, bewegt: false };
+      });
+      karte.addEventListener("click", function () {
+        if (nachZiehen) return;
+        auswaehlen(karte);
+      });
+      pool.appendChild(karte);
+    });
+  }
+
+  function auswaehlen(karte) {
+    if (auswahl) auswahl.classList.remove("gewaehlt");
+    if (auswahl === karte) { auswahl = null; return; }
+    auswahl = karte;
+    karte.classList.add("gewaehlt");
+  }
+
+  function loescheRueckmeldung(karte) {
+    karte.classList.remove("ok", "nok", "gewaehlt");
+    var alt = karte.querySelector(".rueckmeldung");
+    if (alt) alt.remove();
+  }
+
+  function zuordnen(karte, zone) {
+    zone.querySelector(".inhalt").appendChild(karte);
+    karte.dataset.zuweisung = zone.dataset.ziel;
+    loescheRueckmeldung(karte);
+    if (auswahl === karte) auswahl = null;
+    document.getElementById("z-ergebnis").textContent = "";
+  }
+
+  function zurueck(karte) {
+    delete karte.dataset.zuweisung;
+    loescheRueckmeldung(karte);
+    pool.appendChild(karte);
+    if (auswahl === karte) auswahl = null;
+    document.getElementById("z-ergebnis").textContent = "";
+  }
+
+  document.addEventListener("pointermove", function (e) {
+    if (!zieht) return;
+    var dx = e.clientX - zieht.x;
+    var dy = e.clientY - zieht.y;
+    if (!zieht.bewegt && Math.hypot(dx, dy) > 8) {
+      zieht.bewegt = true;
+      zieht.karte.classList.add("zieht");
+      zieht.karte.style.pointerEvents = "none";
+    }
+    if (zieht.bewegt) {
+      zieht.karte.style.transform = "translate(" + dx + "px, " + dy + "px)";
+    }
+  });
+
+  document.addEventListener("pointerup", function (e) {
+    if (!zieht) return;
+    var z = zieht;
+    zieht = null;
+    if (!z.bewegt) return;
+    // Der folgende Klick-Ereignis nach einem Ziehen soll keine Auswahl auslösen.
+    nachZiehen = true;
+    setTimeout(function () { nachZiehen = false; }, 0);
+    z.karte.style.transform = "";
+    z.karte.style.pointerEvents = "";
+    z.karte.classList.remove("zieht");
+    var unter = document.elementFromPoint(e.clientX, e.clientY);
+    var zone = unter && unter.closest ? unter.closest(".ziel") : null;
+    if (zone) {
+      zuordnen(z.karte, zone);
+    } else if (unter && unter.closest && unter.closest("#z-pool")) {
+      zurueck(z.karte);
+    }
+  });
+
+  zonen.forEach(function (zone) {
+    zone.addEventListener("click", function () {
+      if (nachZiehen) return;
+      if (auswahl) zuordnen(auswahl, zone);
+    });
+    zone.addEventListener("keydown", function (e) {
+      if ((e.key === "Enter" || e.key === " ") && auswahl) {
+        e.preventDefault();
+        zuordnen(auswahl, zone);
+      }
+    });
+  });
+
+  pool.addEventListener("click", function () {
+    if (nachZiehen) return;
+    if (auswahl && auswahl.dataset.zuweisung) zurueck(auswahl);
+  });
+  pool.addEventListener("keydown", function (e) {
+    if ((e.key === "Enter" || e.key === " ") && auswahl && auswahl.dataset.zuweisung) {
+      e.preventDefault();
+      zurueck(auswahl);
+    }
+  });
+
+  document.getElementById("z-pruefen").addEventListener("click", function () {
+    var richtige = 0;
+    var fehlend = 0;
+    lagen.forEach(function (lage) {
+      var karte = document.getElementById(lage.id);
+      loescheRueckmeldung(karte);
+      if (!karte.dataset.zuweisung) { fehlend++; return; }
+      var passt = karte.dataset.zuweisung === lage.loesung;
+      if (passt) richtige++;
+      karte.classList.add(passt ? "ok" : "nok");
+      var hinweis = document.createElement("span");
+      hinweis.className = "rueckmeldung";
+      hinweis.textContent = passt ? lage.richtig : lage.falsch;
+      karte.appendChild(hinweis);
+    });
+    var ergebnis = document.getElementById("z-ergebnis");
+    if (fehlend > 0) {
+      ergebnis.textContent = "Bitte ordnen Sie zuerst alle Haushaltslagen zu. Noch offen: " + fehlend + ".";
+    } else {
+      ergebnis.textContent = richtige + " von " + lagen.length + " Zuordnungen sind richtig.";
+    }
+  });
+
+  document.getElementById("z-zuruecksetzen").addEventListener("click", function () {
+    lagen.forEach(function (lage) {
+      var karte = document.getElementById(lage.id);
+      delete karte.dataset.zuweisung;
+      loescheRueckmeldung(karte);
+      pool.appendChild(karte);
+    });
+    auswahl = null;
+    document.getElementById("z-ergebnis").textContent = "";
+  });
+
+  kartenErzeugen();
+
+  /* ---------- Aufgabe 4.1: Selbstprüfer ---------- */
+
+  var fragen = [
+    {
+      frage: "Ein Staat hat einen sehr hohen Schuldenstand, und Anleger zweifeln an der Rückzahlung. Was passiert mit dem Zins für neue Kredite?",
+      optionen: [
+        { text: "Der Zins sinkt, weil der Staat mehr Kredite anbietet.", richtig: false,
+          erklaerung: "Falsch. Ein größeres Angebot an Staatsanleihen senkt den Zins nicht automatisch. Anleger verlangen für das Ausfallrisiko einen Aufschlag, und dieser steigt, wenn die Zweifel wachsen." },
+        { text: "Der Zins steigt, weil Anleger einen Risikoaufschlag verlangen.", richtig: true,
+          erklaerung: "Richtig. Wer dem Staat Geld leiht, möchte für das gestiegene Risiko eines Zahlungsausfalls entschädigt werden. Dieser Aufschlag erhöht den Zins für neue Kredite." },
+        { text: "Der Zins bleibt gleich, weil ein Staat immer zahlungsfähig ist.", richtig: false,
+          erklaerung: "Falsch. Auch ein Staat kann in Zahlungsschwierigkeiten geraten. Deshalb achten Anleger auf Bonitätsnoten und auf die Tragfähigkeit der Schulden." }
+      ]
+    },
+    {
+      frage: "Welche Folge hat ein höherer Zinsaufwand für den Staatshaushalt?",
+      optionen: [
+        { text: "Der Staat hat mehr Spielraum für Bildung und Investitionen.", richtig: false,
+          erklaerung: "Falsch. Zinszahlungen binden Mittel, die sonst für andere Aufgaben zur Verfügung stünden. Der Spielraum wird also kleiner." },
+        { text: "Ein größerer Teil der Ausgaben ist für Zinsen gebunden, für andere Aufgaben bleibt weniger.", richtig: true,
+          erklaerung: "Richtig. Zinsen sind Staatsausgaben ohne unmittelbare Gegenleistung für die Bürgerinnen und Bürger. Je höher sie ausfallen, desto weniger Geld bleibt für politische Gestaltung." },
+        { text: "Die Staatsquote sinkt automatisch.", richtig: false,
+          erklaerung: "Falsch. Zinsen erhöhen die Staatsausgaben. Ohne höhere Einnahmen steigt damit eher die Staatsquote." }
+      ]
+    },
+    {
+      frage: "Wer trägt die Last hoher Staatsschulden langfristig?",
+      optionen: [
+        { text: "Nur die heutigen Gläubiger.", richtig: false,
+          erklaerung: "Falsch. Gläubiger erhalten ihr Geld zurück. Die Belastung entsteht, weil der Staat Zinsen und Tilgung aus Steuern zahlen muss." },
+        { text: "Künftige Generationen, weil sie Zinsen und Tilgung aus künftigen Steuern bezahlen.", richtig: true,
+          erklaerung: "Richtig. Wer heute Schulden macht, verschiebt die Zahlungen in die Zukunft. Die Steuerzahlenden von morgen tragen dann Zinsen und Tilgung." },
+        { text: "Niemand, weil sich Schulden von selbst tilgen.", richtig: false,
+          erklaerung: "Falsch. Schulden tilgen sich nicht von selbst. Sie müssen durch Haushaltsüberschüsse oder neue Einnahmen zurückgezahlt werden." }
+      ]
+    }
+  ];
+
+  var box = document.getElementById("s-box");
+  var index = 0;
+  var punkte = 0;
+
+  function zeigeFrage() {
+    box.innerHTML = "";
+    var frage = fragen[index];
+
+    var fortschritt = document.createElement("p");
+    fortschritt.className = "fortschritt";
+    fortschritt.textContent = "Frage " + (index + 1) + " von " + fragen.length;
+    box.appendChild(fortschritt);
+
+    var text = document.createElement("p");
+    text.className = "frage";
+    text.textContent = frage.frage;
+    box.appendChild(text);
+
+    var liste = document.createElement("div");
+    liste.className = "antwort-liste";
+    box.appendChild(liste);
+
+    var erklaerungBox = document.createElement("div");
+    box.appendChild(erklaerungBox);
+
+    frage.optionen.forEach(function (option) {
+      var knopf = document.createElement("button");
+      knopf.type = "button";
+      knopf.textContent = option.text;
+      knopf.addEventListener("click", function () {
+        Array.prototype.forEach.call(liste.querySelectorAll("button"), function (b) {
+          b.disabled = true;
+        });
+        if (option.richtig) {
+          knopf.classList.add("richtig");
+          punkte++;
+        } else {
+          knopf.classList.add("falsch");
+          frage.optionen.forEach(function (o, i) {
+            if (o.richtig) liste.querySelectorAll("button")[i].classList.add("richtig");
+          });
+        }
+        var erklaerung = document.createElement("div");
+        erklaerung.className = "erklaerung " + (option.richtig ? "richtig" : "falsch");
+        erklaerung.textContent = option.erklaerung;
+        erklaerungBox.appendChild(erklaerung);
+
+        var weiter = document.createElement("button");
+        weiter.type = "button";
+        weiter.className = "primaer";
+        weiter.textContent = index < fragen.length - 1 ? "Weiter" : "Ergebnis anzeigen";
+        weiter.addEventListener("click", function () {
+          index++;
+          if (index < fragen.length) {
+            zeigeFrage();
+          } else {
+            zeigeErgebnis();
+          }
+        });
+        erklaerungBox.appendChild(weiter);
+        weiter.focus();
+      });
+      liste.appendChild(knopf);
+    });
+  }
+
+  function zeigeErgebnis() {
+    box.innerHTML = "";
+    var schluss = document.createElement("p");
+    schluss.className = "schluss";
+    schluss.textContent = "Sie haben " + punkte + " von " + fragen.length + " Fragen richtig beantwortet.";
+    box.appendChild(schluss);
+
+    var text = document.createElement("p");
+    text.textContent = punkte === fragen.length
+      ? "Ihre Begründung trifft den Kern: Hohe Schulden erhöhen das Risiko für Anleger, und der Zins steigt."
+      : "Lesen Sie die Erklärungen zu den falschen Antworten noch einmal durch und prüfen Sie Ihre schriftliche Begründung erneut.";
+    box.appendChild(text);
+
+    var neustart = document.createElement("button");
+    neustart.type = "button";
+    neustart.className = "primaer";
+    neustart.textContent = "Vollständig neu starten";
+    neustart.addEventListener("click", function () {
+      index = 0;
+      punkte = 0;
+      zeigeFrage();
+    });
+    box.appendChild(neustart);
+  }
+
+  zeigeFrage();
+})();
+</script>
+</body>
+</html>
