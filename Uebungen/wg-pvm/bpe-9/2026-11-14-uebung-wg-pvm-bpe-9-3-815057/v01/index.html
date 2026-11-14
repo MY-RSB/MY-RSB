@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WG PVM | BPE 9 | 3</title>
+<style>
+  :root {
+    --text: #1d2330;
+    --muted: #55606e;
+    --akzent: #1f5fa8;
+    --richtig: #1d7a3a;
+    --falsch: #b02a2a;
+    --flaeche: #f4f7fb;
+    --rand: #c9d3e0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--text);
+    background: #ffffff;
+  }
+  header, main { max-width: 760px; margin: 0 auto; padding: 16px 18px; }
+  header { border-bottom: 3px solid var(--akzent); }
+  h1 { font-size: 1.6rem; margin: 8px 0 4px; }
+  h2 { font-size: 1.25rem; margin: 0 0 8px; color: var(--akzent); }
+  h3 { font-size: 1.05rem; margin: 0 0 8px; }
+  .meta { color: var(--muted); margin: 0 0 8px; }
+  section { margin: 24px 0; padding: 18px; border: 1px solid var(--rand); border-radius: 10px; background: #ffffff; }
+  .aufgabentext { white-space: pre-line; }
+  .optionen-liste { list-style: none; padding-left: 0; margin: 8px 0; white-space: normal; }
+  .optionen-liste li { margin: 4px 0; }
+  details { margin-top: 12px; }
+  summary { cursor: pointer; color: var(--akzent); font-weight: bold; min-height: 44px; display: flex; align-items: center; }
+  .hinweis-box { background: var(--flaeche); border-radius: 8px; padding: 12px; margin-top: 10px; }
+
+  button {
+    font: inherit;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 8px 14px;
+    border: 2px solid var(--akzent);
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--akzent);
+    cursor: pointer;
+  }
+  button:hover { background: var(--flaeche); }
+  button.primaer { background: var(--akzent); color: #ffffff; }
+  button.primaer:hover { background: #174b86; }
+  button:focus-visible, .zone:focus-visible, summary:focus-visible { outline: 3px solid #f0a500; outline-offset: 2px; }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .knopfreihe { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+
+  .schritt { color: var(--muted); margin: 0 0 4px; font-size: 0.95rem; }
+  .frage { font-weight: bold; margin: 0 0 10px; }
+  .antwort-knopf { display: block; width: 100%; text-align: left; margin: 6px 0; color: var(--text); border-color: var(--rand); }
+  .antwort-knopf.gewaehlt-richtig { border-color: var(--richtig); background: #e8f5ec; }
+  .antwort-knopf.gewaehlt-falsch { border-color: var(--falsch); background: #fbeaea; }
+  .rueckmeldung { margin-top: 12px; padding: 10px 12px; border-radius: 8px; }
+  .rueckmeldung.richtig { background: #e8f5ec; border-left: 6px solid var(--richtig); }
+  .rueckmeldung.falsch { background: #fbeaea; border-left: 6px solid var(--falsch); }
+  .ergebnis { font-size: 1.1rem; font-weight: bold; }
+
+  .zuordnung-raster { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 12px; }
+  @media (min-width: 620px) { .zuordnung-raster { grid-template-columns: 1fr 1fr; } .zuordnung-pool { grid-column: 1 / -1; } }
+  .pool, .zone { border: 2px dashed var(--rand); border-radius: 10px; padding: 10px; min-height: 90px; background: #ffffff; }
+  .zone.ziel-aktiv { border-color: var(--akzent); background: var(--flaeche); }
+  .zone-inhalt, .pool-inhalt { display: flex; flex-direction: column; gap: 8px; }
+  .chip {
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: 2px solid var(--akzent);
+    background: #ffffff;
+    color: var(--text);
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: grab;
+    user-select: none;
+  }
+  .chip.gewaehlt { background: #ffe9a8; border-color: #8a6100; }
+  .chip.richtig { border-color: var(--richtig); background: #e8f5ec; }
+  .chip.falsch { border-color: var(--falsch); background: #fbeaea; }
+  .leer { color: var(--muted); font-style: italic; margin: 0; }
+  .zuordnung-hinweise li { margin: 6px 0; }
+  .zuordnung-hinweise .ok { color: var(--richtig); font-weight: bold; }
+  .zuordnung-hinweise .nein { color: var(--falsch); font-weight: bold; }
+
+  @media (max-width: 480px) {
+    body { font-size: 16px; }
+    section { padding: 14px; }
+    .knopfreihe button { flex: 1 1 100%; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>WG PVM | BPE 9 | 3</h1>
+  <p class="meta">Miete und Vermietung von Wohnimmobilien. Thema: 3. Rechte und Pflichten des Mieters.</p>
+  <p class="meta">Einzelarbeit am eigenen Gerät. Diese Seite speichert keine Daten und braucht keine Anmeldung.</p>
+</header>
+
+<main>
+  <section id="ausgangssituation" aria-labelledby="ausgangssituation-titel">
+    <h2 id="ausgangssituation-titel">Ausgangssituation: Wohnung von Lena Brandt</h2>
+    <p>Lena Brandt (fiktiv) mietet seit dem 1. Februar 2026 eine Zweizimmerwohnung im dritten Stock von Gabriele Roth (fiktiv). Die Kaltmiete beträgt 650 € im Monat. Betriebskosten sind im Mietvertrag nicht vereinbart. Der schriftliche Vertrag enthält außerdem die Klausel: „Der Mieter führt die Schönheitsreparaturen alle drei Jahre aus, unabhängig vom Zustand der Wohnung.“</p>
+    <p>Im Laufe der Mietzeit treten mehrere Probleme auf. Alle Zahlen und Zeitangaben in dieser Ausgangssituation sind angenommen.</p>
+  </section>
+
+  <!-- Aufgabe 1.3: Selbstprüfer mit fachlichen Hinweisen -->
+  <section id="aufgabe-1-3" aria-labelledby="titel-1-3">
+    <h2 id="titel-1-3">Aufgabe 1.3</h2>
+    <p class="aufgabentext">Beschreiben Sie drei Rechte, die Frau Brandt hat, wenn die Heizung im Januar 2027 ausgefallen ist und der Vermieter zwei Wochen lang nicht reagiert. Begründen Sie jedes Recht in einem Satz. Prüfen Sie danach Ihre Antworten im interaktiven Selbstprüfer.</p>
+    <div id="selbstpruefer" aria-live="polite"></div>
+    <details>
+      <summary>Musterlösung anzeigen</summary>
+      <div class="hinweis-box">
+        <p>Erstes Recht: Mietminderung (§ 536 Abs. 1 BGB). Die Miete mindert sich kraft Gesetzes, weil der Heizungsausfall die Tauglichkeit der Wohnung erheblich einschränkt. Voraussetzung ist, dass Frau Brandt den Mangel rechtzeitig angezeigt hat (§ 536c BGB).</p>
+        <p>Zweites Recht: Mängelbeseitigung (§ 535 Abs. 1 Satz 2 BGB). Der Vermieter muss die Wohnung in einem zum vertragsgemäßen Gebrauch geeigneten Zustand erhalten und deshalb die Heizung reparieren lassen.</p>
+        <p>Drittes Recht: Selbstbeseitigung mit Kostenersatz (§ 536a Abs. 2 Nr. 1 BGB). Ist der Vermieter nach einer Mahnung mit der Reparatur in Verzug, darf Frau Brandt die Heizung selbst reparieren lassen und die erforderlichen Kosten verlangen.</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- Aufgabe 1.6: Zuordnungs- oder Ablaufaufgabe -->
+  <section id="aufgabe-1-6" aria-labelledby="titel-1-6">
+    <h2 id="titel-1-6">Aufgabe 1.6</h2>
+    <p class="aufgabentext">Ordnen Sie in der interaktiven Übung jede Handlung dem Recht oder der Pflicht des Mieters zu.</p>
+    <p>Ziehen Sie jede Handlung in das passende Feld oder tippen Sie zuerst auf die Handlung und danach auf das Feld. Tippen Sie auf eine bereits zugeordnete Handlung, um sie zurück in die Auswahl zu legen. Mit „Prüfen“ kontrollieren Sie die Zuordnung. Mit „Zurücksetzen“ stellen Sie den Ausgangszustand vollständig wieder her.</p>
+
+    <div class="zuordnung-raster">
+      <div class="pool" id="zuordnung-pool">
+        <h3>Handlungen</h3>
+        <div class="pool-inhalt" id="z-pool" role="group" aria-label="Noch nicht zugeordnete Handlungen"></div>
+      </div>
+      <div class="zone" data-zone="pflicht" tabindex="0" role="region" aria-label="Pflicht des Mieters">
+        <h3>Pflicht des Mieters</h3>
+        <div class="zone-inhalt" data-ziel="pflicht"></div>
+      </div>
+      <div class="zone" data-zone="recht" tabindex="0" role="region" aria-label="Recht des Mieters">
+        <h3>Recht des Mieters</h3>
+        <div class="zone-inhalt" data-ziel="recht"></div>
+      </div>
+    </div>
+
+    <div class="knopfreihe">
+      <button type="button" class="primaer" id="z-pruefen">Prüfen</button>
+      <button type="button" id="z-zuruecksetzen">Zurücksetzen</button>
+    </div>
+    <div id="z-meldung" class="rueckmeldung" aria-live="polite" hidden></div>
+    <ul id="z-hinweise" class="zuordnung-hinweise" aria-live="polite"></ul>
+
+    <details>
+      <summary>Musterlösung anzeigen</summary>
+      <div class="hinweis-box">
+        <p>Pflichten des Mieters: Die Miete pünktlich überweisen (§ 535 Abs. 2 BGB). Einen Mangel unverzüglich anzeigen (§ 536c Abs. 1 BGB). Eine beim Umzug beschädigte Wohnungstür melden und den Schaden ersetzen (§ 241 Abs. 2 BGB, § 280 Abs. 1 BGB).</p>
+        <p>Rechte des Mieters: Die Miete bei einem erheblichen Mangel mindern (§ 536 Abs. 1 BGB). Einsicht in die Belege der Nebenkostenabrechnung verlangen (§ 556 Abs. 4 Satz 1 BGB). Nach Verzug des Vermieters einen Mangel selbst beseitigen lassen und die Kosten verlangen (§ 536a Abs. 2 Nr. 1 BGB).</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- Aufgabe 1.8: Adaptiver Prüfungstrainer -->
+  <section id="aufgabe-1-8" aria-labelledby="titel-1-8">
+    <h2 id="titel-1-8">Aufgabe 1.8</h2>
+    <p class="aufgabentext">Wählen Sie die richtige Antwort. Im Dezember 2026 ist das Bad in der Wohnung von Frau Brandt wegen Schimmelbefalls gesperrt. Frau Roth reagiert trotz mehrfacher Aufforderung nicht. Welche Möglichkeit hat Frau Brandt, das Mietverhältnis fristlos zu beenden?</p>
+    <ul class="optionen-liste">
+      <li>a) Sie kündigt sofort, weil Schimmel stets ein Kündigungsgrund ist.</li>
+      <li>b) Sie kündigt fristlos, nachdem sie Frau Roth erfolglos eine angemessene Frist zur Abhilfe gesetzt hat.</li>
+      <li>c) Sie kündigt nur mit der gesetzlichen Kündigungsfrist von drei Monaten.</li>
+      <li>d) Sie kann nicht kündigen, weil sie den Mangel nicht selbst beseitigt hat.</li>
+    </ul>
+    <p>Im Prüfungstrainer beantworten Sie vier Fragen. Ihr Niveau passt sich an Ihre bisherigen Antworten an. Nach jeder Antwort erhalten Sie fachliches Feedback. Am Ende sehen Sie Ihr Ergebnis und können neu starten.</p>
+    <div id="pruefungstrainer" aria-live="polite"></div>
+    <details>
+      <summary>Musterlösung anzeigen</summary>
+      <div class="hinweis-box">
+        <p>Richtig ist b). Nach § 543 Abs. 3 Satz 1 BGB ist eine Kündigung wegen einer Pflichtverletzung des Vermieters erst zulässig, wenn eine angemessene Frist zur Abhilfe erfolglos abgelaufen ist oder der Vermieter erfolglos abgemahnt wurde. Die Sperrung des Bades entzieht den Gebrauch der Wohnung zumindest teilweise (§ 543 Abs. 2 Satz 1 Nr. 1 BGB).</p>
+        <p>Die Antworten a) und d) sind falsch. Ein Mangel berechtigt nicht automatisch zur sofortigen Kündigung, und der Mieter muss den Mangel nicht selbst beseitigen. Die Antwort c) betrifft die ordentliche Kündigung, die hier nicht den Ausweg bietet.</p>
+      </div>
+    </details>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- Aufgabe 1.3: Selbstprüfer, eine Frage nach der anderen ---------- */
+  var SELBSTPRUEFER = [
+    {
+      frage: "Darf Frau Brandt die Miete mindern, solange die Heizung ausfällt und sie den Mangel angezeigt hat?",
+      optionen: [
+        { text: "Ja, die Miete mindert sich kraft Gesetzes.", richtig: true },
+        { text: "Nein, Minderung ist nur mit einem Gerichtsurteil möglich.", richtig: false }
+      ],
+      ok: "Richtig. Die Miete mindert sich nach § 536 Abs. 1 BGB kraft Gesetzes, sobald die Tauglichkeit der Wohnung erheblich eingeschränkt ist. Voraussetzung ist die rechtzeitige Anzeige nach § 536c BGB.",
+      falsch: "Falsch. Die Minderung braucht kein Urteil. Sie tritt nach § 536 Abs. 1 BGB kraft Gesetzes ein. Sie entfällt nur, soweit der Mangel nicht rechtzeitig angezeigt wurde (§ 536c BGB)."
+    },
+    {
+      frage: "Kann Frau Brandt verlangen, dass die Heizung repariert wird?",
+      optionen: [
+        { text: "Nein, die Reparatur ist Sache der Mieterin.", richtig: false },
+        { text: "Ja, der Vermieter muss die Wohnung in einem geeigneten Zustand erhalten.", richtig: true }
+      ],
+      ok: "Richtig. Nach § 535 Abs. 1 Satz 2 BGB muss der Vermieter die Mietsache während der Mietzeit in einem zum vertragsgemäßen Gebrauch geeigneten Zustand erhalten.",
+      falsch: "Falsch. Die Erhaltung der Mietsache ist Sache des Vermieters (§ 535 Abs. 1 Satz 2 BGB). Frau Brandt kann die Reparatur deshalb verlangen."
+    },
+    {
+      frage: "Darf Frau Brandt nach einer Mahnung und dem Verzug des Vermieters die Heizung selbst reparieren lassen und die Kosten verlangen?",
+      optionen: [
+        { text: "Nein, eine Selbstbeseitigung ist nie erlaubt.", richtig: false },
+        { text: "Ja, das ist nach § 536a Abs. 2 Nr. 1 BGB möglich.", richtig: true }
+      ],
+      ok: "Richtig. Ist der Vermieter mit der Beseitigung in Verzug, darf der Mieter den Mangel selbst beseitigen lassen und die erforderlichen Aufwendungen ersetzt verlangen (§ 536a Abs. 2 Nr. 1 BGB).",
+      falsch: "Falsch. Eine Selbstbeseitigung ist unter den Voraussetzungen des § 536a Abs. 2 BGB erlaubt, also bei Verzug des Vermieters oder wenn die sofortige Reparatur zur Erhaltung der Wohnung nötig ist."
+    }
+  ];
+
+  function renderSelbstpruefer() {
+    var root = document.getElementById("selbstpruefer");
+    var index = 0;
+    var punkte = 0;
+
+    function zeigeFrage() {
+      root.innerHTML = "";
+      var q = SELBSTPRUEFER[index];
+
+      var schritt = document.createElement("p");
+      schritt.className = "schritt";
+      schritt.textContent = "Frage " + (index + 1) + " von " + SELBSTPRUEFER.length;
+      root.appendChild(schritt);
+
+      var frage = document.createElement("p");
+      frage.className = "frage";
+      frage.textContent = q.frage;
+      root.appendChild(frage);
+
+      var rueck = document.createElement("div");
+      rueck.className = "rueckmeldung";
+      rueck.hidden = true;
+      rueck.setAttribute("aria-live", "polite");
+
+      var weiter = document.createElement("button");
+      weiter.type = "button";
+      weiter.className = "primaer";
+      weiter.hidden = true;
+      weiter.textContent = (index < SELBSTPRUEFER.length - 1) ? "Weiter" : "Ergebnis anzeigen";
+
+      q.optionen.forEach(function (opt) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "antwort-knopf";
+        b.textContent = opt.text;
+        b.addEventListener("click", function () {
+          var alle = root.querySelectorAll(".antwort-knopf");
+          alle.forEach(function (x) { x.disabled = true; });
+          if (opt.richtig) {
+            punkte++;
+            b.classList.add("gewaehlt-richtig");
+            rueck.className = "rueckmeldung richtig";
+            rueck.textContent = q.ok;
+          } else {
+            b.classList.add("gewaehlt-falsch");
+            rueck.className = "rueckmeldung falsch";
+            rueck.textContent = q.falsch;
+          }
+          rueck.hidden = false;
+          weiter.hidden = false;
+        });
+        root.appendChild(b);
+      });
+
+      root.appendChild(rueck);
+      weiter.addEventListener("click", function () {
+        index++;
+        if (index < SELBSTPRUEFER.length) {
+          zeigeFrage();
+        } else {
+          zeigeErgebnis();
+        }
+      });
+      root.appendChild(weiter);
+    }
+
+    function zeigeErgebnis() {
+      root.innerHTML = "";
+      var e = document.createElement("p");
+      e.className = "ergebnis";
+      e.textContent = "Ihr Ergebnis: " + punkte + " von " + SELBSTPRUEFER.length + " Fragen richtig beantwortet.";
+      root.appendChild(e);
+      var hinweis = document.createElement("p");
+      hinweis.textContent = "Die Fragen zeigen die drei Rechte aus Aufgabe 1.3: Mietminderung, Mängelbeseitigung und Selbstbeseitigung mit Kostenersatz.";
+      root.appendChild(hinweis);
+      var neu = document.createElement("button");
+      neu.type = "button";
+      neu.className = "primaer";
+      neu.textContent = "Neu starten";
+      neu.addEventListener("click", function () {
+        index = 0;
+        punkte = 0;
+        zeigeFrage();
+      });
+      root.appendChild(neu);
+    }
+
+    zeigeFrage();
+  }
+
+  /* ---------- Aufgabe 1.6: Zuordnung durch Ziehen oder Antippen ---------- */
+  var ZUORDNUNG = [
+    { id: "a", text: "Die Miete pünktlich überweisen", ziel: "pflicht",
+      hinweis: "Die Zahlungspflicht folgt aus § 535 Abs. 2 BGB. Ein Streit mit dem Nachbarn ändert daran nichts." },
+    { id: "b", text: "Einen Mangel unverzüglich dem Vermieter anzeigen", ziel: "pflicht",
+      hinweis: "Die Anzeigepflicht folgt aus § 536c Abs. 1 BGB. Unterbleibt sie, gehen Rechte verloren, soweit der Vermieter deshalb nicht abhelfen konnte." },
+    { id: "c", text: "Die Miete bei einem erheblichen Mangel mindern", ziel: "recht",
+      hinweis: "Die Minderung ergibt sich aus § 536 Abs. 1 BGB und tritt kraft Gesetzes ein." },
+    { id: "d", text: "Einsicht in die Belege der Nebenkostenabrechnung verlangen", ziel: "recht",
+      hinweis: "Das Einsichtsrecht ist in § 556 Abs. 4 Satz 1 BGB geregelt." },
+    { id: "e", text: "Nach Verzug des Vermieters einen Mangel selbst beseitigen lassen und die Kosten verlangen", ziel: "recht",
+      hinweis: "Das ergibt sich aus § 536a Abs. 2 Nr. 1 BGB. Es setzt einen Verzug des Vermieters oder eine dringende Notwendigkeit voraus." },
+    { id: "f", text: "Eine beim Umzug beschädigte Wohnungstür dem Vermieter melden und den Schaden ersetzen", ziel: "pflicht",
+      hinweis: "Die Pflicht zur Rücksicht folgt aus § 241 Abs. 2 BGB, der Schadensersatz aus § 280 Abs. 1 BGB." }
+  ];
+
+  function renderZuordnung() {
+    var zustand = {};
+    var auswahl = null;
+    var poolEl = document.getElementById("z-pool");
+    var meldung = document.getElementById("z-meldung");
+    var hinweisListe = document.getElementById("z-hinweise");
+    var pruefMarken = null;
+
+    function erstelleChip(item) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "chip";
+      b.textContent = item.text;
+      b.draggable = true;
+      b.setAttribute("aria-label", item.text + (zustand[item.id] ? ", zugeordnet, zum Zurücklegen antippen" : ", noch nicht zugeordnet"));
+      if (auswahl === item.id) { b.classList.add("gewaehlt"); }
+      if (pruefMarken && pruefMarken[item.id] !== undefined) {
+        b.classList.add(pruefMarken[item.id] ? "richtig" : "falsch");
+      }
+      b.addEventListener("dragstart", function (e) {
+        e.dataTransfer.setData("text/plain", item.id);
+        e.dataTransfer.effectAllowed = "move";
+      });
+      b.addEventListener("click", function (e) {
+        e.stopPropagation();
+        zumChipKlick(item.id);
+      });
+      return b;
+    }
+
+    function aktualisiere() {
+      poolEl.innerHTML = "";
+      var offen = ZUORDNUNG.filter(function (z) { return !(z.id in zustand); });
+      if (offen.length === 0) {
+        var leer = document.createElement("p");
+        leer.className = "leer";
+        leer.textContent = "Alle Handlungen sind zugeordnet.";
+        poolEl.appendChild(leer);
+      }
+      offen.forEach(function (z) { poolEl.appendChild(erstelleChip(z)); });
+
+      document.querySelectorAll(".zone-inhalt").forEach(function (zone) {
+        var ziel = zone.getAttribute("data-ziel");
+        zone.innerHTML = "";
+        var eintraege = ZUORDNUNG.filter(function (z) { return zustand[z.id] === ziel; });
+        if (eintraege.length === 0) {
+          var p = document.createElement("p");
+          p.className = "leer";
+          p.textContent = "Hier noch nichts zugeordnet.";
+          zone.appendChild(p);
+        }
+        eintraege.forEach(function (z) { zone.appendChild(erstelleChip(z)); });
+      });
+    }
+
+    function loescheRueckmeldung() {
+      pruefMarken = null;
+      meldung.hidden = true;
+      meldung.textContent = "";
+      hinweisListe.innerHTML = "";
+    }
+
+    function zumChipKlick(id) {
+      if (zustand[id] !== undefined && auswahl === null) {
+        delete zustand[id];
+        loescheRueckmeldung();
+        aktualisiere();
+        return;
+      }
+      auswahl = (auswahl === id) ? null : id;
+      aktualisiere();
+    }
+
+    function zurZone(ziel) {
+      if (auswahl === null) { return; }
+      zustand[auswahl] = ziel;
+      auswahl = null;
+      loescheRueckmeldung();
+      aktualisiere();
+    }
+
+    document.querySelectorAll(".zone").forEach(function (zoneEl) {
+      var ziel = zoneEl.getAttribute("data-zone");
+      zoneEl.addEventListener("click", function () { zurZone(ziel); });
+      zoneEl.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); zurZone(ziel); }
+      });
+      zoneEl.addEventListener("dragover", function (e) {
+        e.preventDefault();
+        zoneEl.classList.add("ziel-aktiv");
+      });
+      zoneEl.addEventListener("dragleave", function () {
+        zoneEl.classList.remove("ziel-aktiv");
+      });
+      zoneEl.addEventListener("drop", function (e) {
+        e.preventDefault();
+        zoneEl.classList.remove("ziel-aktiv");
+        var id = e.dataTransfer.getData("text/plain");
+        if (id) {
+          zustand[id] = ziel;
+          auswahl = null;
+          loescheRueckmeldung();
+          aktualisiere();
+        }
+      });
+    });
+
+    document.getElementById("z-pruefen").addEventListener("click", function () {
+      var offen = ZUORDNUNG.filter(function (z) { return !(z.id in zustand); });
+      if (offen.length > 0) {
+        pruefMarken = null;
+        meldung.className = "rueckmeldung falsch";
+        meldung.textContent = "Bitte ordnen Sie zuerst alle Handlungen zu. Es fehlen noch " + offen.length + ".";
+        meldung.hidden = false;
+        hinweisListe.innerHTML = "";
+        aktualisiere();
+        return;
+      }
+      pruefMarken = {};
+      var richtige = 0;
+      hinweisListe.innerHTML = "";
+      ZUORDNUNG.forEach(function (z) {
+        var ok = (zustand[z.id] === z.ziel);
+        pruefMarken[z.id] = ok;
+        if (ok) { richtige++; }
+        var li = document.createElement("li");
+        var kennzeichen = document.createElement("span");
+        kennzeichen.className = ok ? "ok" : "nein";
+        kennzeichen.textContent = ok ? "Richtig: " : "Nicht ganz: ";
+        li.appendChild(kennzeichen);
+        li.appendChild(document.createTextNode(z.hinweis));
+        hinweisListe.appendChild(li);
+      });
+      meldung.className = (richtige === ZUORDNUNG.length) ? "rueckmeldung richtig" : "rueckmeldung falsch";
+      meldung.textContent = "Sie haben " + richtige + " von " + ZUORDNUNG.length + " Handlungen richtig zugeordnet.";
+      meldung.hidden = false;
+      aktualisiere();
+    });
+
+    document.getElementById("z-zuruecksetzen").addEventListener("click", function () {
+      zustand = {};
+      auswahl = null;
+      loescheRueckmeldung();
+      aktualisiere();
+    });
+
+    aktualisiere();
+  }
+
+  /* ---------- Aufgabe 1.8: Adaptiver Prüfungstrainer ---------- */
+  var PRUEFUNG = {
+    1: [
+      {
+        frage: "Muss Frau Brandt den Schimmelbefall im Bad dem Vermieter anzeigen?",
+        optionen: ["Ja, unverzüglich nach § 536c Abs. 1 BGB.", "Nein, das ist nur bei Heizungsausfällen nötig."],
+        richtig: 0,
+        ok: "Richtig. Die Anzeige ist Voraussetzung dafür, dass Frau Brandt ihre Rechte behält.",
+        falsch: "Falsch. Die Anzeigepflicht nach § 536c Abs. 1 BGB gilt für jeden Mangel, der während der Mietzeit auftritt."
+      },
+      {
+        frage: "Darf Frau Brandt die Miete wegen des Heizungsausfalls mindern?",
+        optionen: ["Nein, dafür braucht sie ein Gerichtsurteil.", "Ja, die Miete mindert sich kraft Gesetzes (§ 536 Abs. 1 BGB)."],
+        richtig: 1,
+        ok: "Richtig. Die Minderung tritt von selbst ein, wenn die Tauglichkeit der Wohnung erheblich gemindert ist.",
+        falsch: "Falsch. Die Minderung braucht kein Urteil. Sie tritt nach § 536 Abs. 1 BGB kraft Gesetzes ein."
+      }
+    ],
+    2: [
+      {
+        frage: "Reicht ein Schimmelbefall für eine fristlose Kündigung ohne Abhilfefrist aus?",
+        optionen: [
+          "Ja, Schimmel ist immer ein sofortiger Kündigungsgrund.",
+          "Nein, zuerst braucht es eine angemessene Frist zur Abhilfe oder eine erfolglose Abmahnung (§ 543 Abs. 3 Satz 1 BGB)."
+        ],
+        richtig: 1,
+        ok: "Richtig. Bei einer Pflichtverletzung des Vermieters ist die Kündigung erst nach erfolglosem Fristablauf oder nach erfolgloser Abmahnung zulässig.",
+        falsch: "Falsch. Ein Mangel allein genügt nicht. Nach § 543 Abs. 3 Satz 1 BGB braucht es zuerst eine angemessene Frist zur Abhilfe oder eine erfolglose Abmahnung."
+      },
+      {
+        frage: "Was passiert, wenn Frau Brandt den Mangel nicht anzeigt und der Vermieter deshalb nicht abhelfen kann?",
+        optionen: [
+          "Nichts, die Anzeige ist nur eine Empfehlung.",
+          "Sie kann die Rechte aus § 536 BGB und Schadensersatz wegen des Mangels nicht geltend machen, soweit der Vermieter nicht abhelfen konnte (§ 536c Abs. 2 Satz 2 BGB)."
+        ],
+        richtig: 1,
+        ok: "Richtig. Die unterlassene Anzeige schneidet die Rechte insoweit ab, wie der Vermieter deshalb nicht abhelfen konnte.",
+        falsch: "Falsch. Die Anzeige ist eine Pflicht nach § 536c Abs. 1 BGB. Unterbleibt sie, sind die Rechte nach § 536c Abs. 2 Satz 2 BGB eingeschränkt."
+      }
+    ],
+    3: [
+      {
+        frage: "Wann darf Frau Brandt einen Mangel nach § 536a Abs. 2 BGB selbst beseitigen lassen?",
+        optionen: [
+          "Sofort, sobald ihr der Mangel auffällt.",
+          "Wenn der Vermieter mit der Beseitigung in Verzug ist oder die sofortige Reparatur zur Erhaltung der Wohnung nötig ist.",
+          "Nur, wenn der Vermieter der Reparatur ausdrücklich zustimmt.",
+          "Nie, Mieter dürfen keine Reparaturen durchführen lassen."
+        ],
+        richtig: 1,
+        ok: "Richtig. Verzug des Vermieters oder dringende Notwendigkeit sind die Voraussetzungen für die Selbstbeseitigung mit Kostenersatz.",
+        falsch: "Falsch. Eine Selbstbeseitigung ist nur bei Verzug des Vermieters oder bei dringender Notwendigkeit erlaubt (§ 536a Abs. 2 BGB)."
+      },
+      {
+        frage: "Welche Pflicht hat der Vermieter nach § 535 Abs. 1 Satz 2 BGB?",
+        optionen: [
+          "Die Miete rechtzeitig zahlen.",
+          "Die Wohnung in einem zum vertragsgemäßen Gebrauch geeigneten Zustand überlassen und erhalten.",
+          "Die Hausordnung allein festlegen.",
+          "Betriebskosten jährlich abrechnen."
+        ],
+        richtig: 1,
+        ok: "Richtig. Der Vermieter muss die Wohnung in geeignetem Zustand überlassen und während der Mietzeit erhalten. Deshalb muss er den Heizungsausfall beheben.",
+        falsch: "Falsch. Nach § 535 Abs. 1 Satz 2 BGB muss der Vermieter die Wohnung in einem zum vertragsgemäßen Gebrauch geeigneten Zustand überlassen und erhalten."
+      }
+    ]
+  };
+
+  function renderPruefungstrainer() {
+    var root = document.getElementById("pruefungstrainer");
+    var gesamt = 4;
+    var niveau = 1;
+    var nummer = 0;
+    var richtige = 0;
+    var benutzt = {};
+
+    function naechsteFrage() {
+      var kandidaten = PRUEFUNG[niveau].filter(function (q) { return !benutzt[q.frage]; });
+      if (kandidaten.length === 0) {
+        [1, 2, 3].forEach(function (stufe) {
+          PRUEFUNG[stufe].forEach(function (q) {
+            if (kandidaten.length === 0 && !benutzt[q.frage]) { kandidaten.push(q); }
+          });
+        });
+      }
+      var q = kandidaten[0];
+      benutzt[q.frage] = true;
+      return q;
+    }
+
+    function zeigeFrage() {
+      root.innerHTML = "";
+      nummer++;
+      var q = naechsteFrage();
+
+      var schritt = document.createElement("p");
+      schritt.className = "schritt";
+      schritt.textContent = "Frage " + nummer + " von " + gesamt + ". Niveau: Stufe " + niveau + " von 3";
+      root.appendChild(schritt);
+
+      var frage = document.createElement("p");
+      frage.className = "frage";
+      frage.textContent = q.frage;
+      root.appendChild(frage);
+
+      var rueck = document.createElement("div");
+      rueck.className = "rueckmeldung";
+      rueck.hidden = true;
+
+      var weiter = document.createElement("button");
+      weiter.type = "button";
+      weiter.className = "primaer";
+      weiter.hidden = true;
+      weiter.textContent = (nummer < gesamt) ? "Weiter" : "Ergebnis anzeigen";
+
+      q.optionen.forEach(function (text, idx) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "antwort-knopf";
+        b.textContent = text;
+        b.addEventListener("click", function () {
+          root.querySelectorAll(".antwort-knopf").forEach(function (x) { x.disabled = true; });
+          if (idx === q.richtig) {
+            richtige++;
+            niveau = Math.min(3, niveau + 1);
+            b.classList.add("gewaehlt-richtig");
+            rueck.className = "rueckmeldung richtig";
+            rueck.textContent = q.ok;
+          } else {
+            niveau = Math.max(1, niveau - 1);
+            b.classList.add("gewaehlt-falsch");
+            rueck.className = "rueckmeldung falsch";
+            rueck.textContent = q.falsch;
+          }
+          rueck.hidden = false;
+          weiter.hidden = false;
+        });
+        root.appendChild(b);
+      });
+
+      root.appendChild(rueck);
+      weiter.addEventListener("click", function () {
+        if (nummer < gesamt) { zeigeFrage(); } else { zeigeErgebnis(); }
+      });
+      root.appendChild(weiter);
+    }
+
+    function zeigeErgebnis() {
+      root.innerHTML = "";
+      var e = document.createElement("p");
+      e.className = "ergebnis";
+      e.textContent = "Ihr Ergebnis: " + richtige + " von " + gesamt + " Fragen richtig beantwortet. Ihr Niveau am Ende: Stufe " + niveau + " von 3.";
+      root.appendChild(e);
+      var neu = document.createElement("button");
+      neu.type = "button";
+      neu.className = "primaer";
+      neu.textContent = "Neu starten";
+      neu.addEventListener("click", function () {
+        niveau = 1;
+        nummer = 0;
+        richtige = 0;
+        benutzt = {};
+        zeigeFrage();
+      });
+      root.appendChild(neu);
+    }
+
+    zeigeFrage();
+  }
+
+  renderSelbstpruefer();
+  renderZuordnung();
+  renderPruefungstrainer();
+})();
+</script>
+</body>
+</html>
