@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WG PVM | BPE 9 | 4. Mietkaution und Mietbürgschaft</title>
+<style>
+  :root {
+    --text: #1d2330;
+    --muted: #4a5366;
+    --akzent: #1f5fa8;
+    --ok-bg: #e4f4e8;
+    --ok-rand: #2e7d4a;
+    --nok-bg: #fbe7e5;
+    --nok-rand: #b03a2e;
+    --flaeche: #f5f7fa;
+    --rand: #c9d1de;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--text);
+    background: #ffffff;
+  }
+  main, header {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 16px 18px;
+  }
+  header { padding-bottom: 0; }
+  h1 {
+    font-size: 1.45rem;
+    line-height: 1.3;
+    margin: 0.4em 0 0.6em;
+  }
+  h2 {
+    font-size: 1.2rem;
+    margin: 0 0 0.4em;
+    color: var(--akzent);
+  }
+  h3 {
+    font-size: 1.05rem;
+    margin: 0.2em 0 0.3em;
+  }
+  section.aufgabe {
+    border-top: 1px solid var(--rand);
+    padding: 18px 0 26px;
+  }
+  .hinweis {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .box {
+    background: var(--flaeche);
+    border: 1px solid var(--rand);
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: 10px;
+  }
+  .fortschritt {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 0 0 4px;
+  }
+  .frage {
+    font-weight: 600;
+    margin: 0 0 12px;
+  }
+  .optionen {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  button {
+    font: inherit;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid var(--rand);
+    background: #ffffff;
+    color: var(--text);
+    padding: 10px 14px;
+    text-align: left;
+    min-height: 44px;
+  }
+  button:hover:not(:disabled) { border-color: var(--akzent); }
+  button:focus-visible {
+    outline: 3px solid var(--akzent);
+    outline-offset: 2px;
+  }
+  button:disabled { cursor: default; }
+  button.richtig {
+    background: var(--ok-bg);
+    border-color: var(--ok-rand);
+  }
+  button.falsch {
+    background: var(--nok-bg);
+    border-color: var(--nok-rand);
+  }
+  .feedback {
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    min-height: 1em;
+  }
+  .feedback.ok { background: var(--ok-bg); border-left: 4px solid var(--ok-rand); }
+  .feedback.nok { background: var(--nok-bg); border-left: 4px solid var(--nok-rand); }
+  button.weiter,
+  button.neustart {
+    margin-top: 12px;
+    background: var(--akzent);
+    border-color: var(--akzent);
+    color: #ffffff;
+    font-weight: 600;
+    text-align: center;
+  }
+  button.weiter:hover:not(:disabled),
+  button.neustart:hover:not(:disabled) {
+    background: #174b87;
+    border-color: #174b87;
+  }
+  button[hidden] { display: none; }
+  .ergebnis { font-size: 1.05rem; font-weight: 600; }
+  @media (min-width: 600px) {
+    .optionen { gap: 10px; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>WG PVM | BPE 9 | 4. Mietkaution und Mietbürgschaft</h1>
+  <p class="hinweis">Diese Seite gehört zu den Aufgaben 1.6 bis 1.8 der Übung. Sie benötigt keine Anmeldung und speichert keine Daten. Sie funktioniert mit Tastatur, Maus, Tablet und Smartphone.</p>
+</header>
+
+<main>
+
+  <section id="aufgabe-1-6" class="aufgabe" aria-labelledby="titel-1-6">
+    <h2 id="titel-1-6">Aufgabe 1.6: Selbstprüfer mit fachlichen Hinweisen</h2>
+    <p>Beantworten Sie im interaktiven Selbstprüfer die Fragen zur Anlage und Verzinsung der Mietkaution.</p>
+    <p class="hinweis">Sie sehen immer nur eine Frage. Nach jeder Antwort erklärt die Seite, warum sie richtig oder falsch ist.</p>
+    <div class="box" id="selbstpruefer-box"></div>
+  </section>
+
+  <section id="aufgabe-1-7" class="aufgabe" aria-labelledby="titel-1-7">
+    <h2 id="titel-1-7">Aufgabe 1.7: Mehrstufiges Planspiel</h2>
+    <p>Entscheiden Sie im mehrstufigen Planspiel, wie Sie als Vermieter auf die Bürgschaft eines Mieters reagieren. Das Planspiel umfasst drei Schritte.</p>
+    <p class="hinweis">Ausgangssituation: Ein Mieter hat eine Wohnung gefunden. Die Eltern des Mieters sind bereit, als Bürgen einzustehen. Der Vermieter möchte die Bürgschaft annehmen, braucht aber die richtige Unterlage und klare Informationen.</p>
+    <div class="box" id="planspiel-box"></div>
+  </section>
+
+  <section id="aufgabe-1-8" class="aufgabe" aria-labelledby="titel-1-8">
+    <h2 id="titel-1-8">Aufgabe 1.8: Adaptiver Prüfungstrainer</h2>
+    <p>Beantworten Sie im adaptiven Prüfungstrainer Fragen zur Zahlungsweise der Mietkaution und zur Bankbürgschaft.</p>
+    <p class="hinweis">Die Fragen des Grundlagenteils werden bei jedem Start neu gemischt. Haben Sie mindestens zwei Grundlagenfragen richtig beantwortet, folgt der Vertiefungsteil. Andernfalls wiederholt der Trainer die falschen Fragen.</p>
+    <div class="box" id="trainer-box"></div>
+  </section>
+
+</main>
+
+<script>
+"use strict";
+
+// Selbstprüfer (Aufgabe 1.6)
+var SELBSTPRUEFER = [
+  {
+    frage: "Muss der Vermieter die Mietkaution getrennt von seinem eigenen Vermögen anlegen?",
+    optionen: [
+      { t: "Ja", r: true, e: "Richtig. Die Trennung schützt den Mieter. Auch wenn der Vermieter in finanzielle Schwierigkeiten gerät, bleibt die Kaution erhalten." },
+      { t: "Nein", r: false, e: "Falsch. Das Gesetz verlangt die getrennte Anlage ausdrücklich. Ohne diese Trennung wäre das Geld im Insolvenzfall des Vermieters gefährdet." }
+    ]
+  },
+  {
+    frage: "Wem stehen die Zinserträge aus der Anlage der Mietkaution zu?",
+    optionen: [
+      { t: "Dem Vermieter", r: false, e: "Falsch. Die Zinserträge gehören dem Mieter. Sie erhöhen außerdem den Betrag der Sicherheit." },
+      { t: "Dem Mieter", r: true, e: "Richtig. Die Erträge aus der Anlage stehen dem Mieter zu, und sie erhöhen die Sicherheit." },
+      { t: "Dem Staat", r: false, e: "Falsch. Der Staat erhält die Zinsen der Kaution nicht. Die Erträge bleiben bei der Sicherheit des Mieters." }
+    ]
+  },
+  {
+    frage: "Zu welchen Konditionen muss der Vermieter die Mietkaution anlegen?",
+    optionen: [
+      { t: "Zum üblichen Zinssatz für Spareinlagen mit dreimonatiger Kündigungsfrist", r: true, e: "Richtig. Das Gesetz verlangt eine Anlage bei einem Kreditinstitut zum üblichen Zinssatz für Spareinlagen mit dreimonatiger Kündigungsfrist." },
+      { t: "Zu einem frei festgelegten Zinssatz, den der Vermieter bestimmt", r: false, e: "Falsch. Der Zinssatz ist nicht frei wählbar. Die Anlage orientiert sich an den üblichen Konditionen für Spareinlagen." },
+      { t: "Gar nicht, die Kaution bleibt unverzinst", r: false, e: "Falsch. Die Kaution muss verzinst angelegt werden, und die Zinsen stehen dem Mieter zu." }
+    ]
+  }
+];
+
+// Planspiel (Aufgabe 1.7)
+var PLANSPIEL = [
+  {
+    frage: "Ein Mieter legt eine Bürgschaft seiner Eltern vor. Welche Unterlage verlangen Sie als Vermieter?",
+    optionen: [
+      { t: "Eine Bürgschaftsurkunde des Bürgen", r: true, e: "Richtig. Bei einer Bürgschaft übergibt der Mieter eine Bürgschaftsurkunde. Geld wird dabei nicht hinterlegt." },
+      { t: "Ein verpfändetes Sparbuch des Mieters", r: false, e: "Falsch. Ein verpfändetes Sparbuch ist eine Form der Mietkaution. Bei der Bürgschaft wird jedoch kein Geld hinterlegt." }
+    ]
+  },
+  {
+    frage: "Der Mieter fragt, wann die Bürgschaft endet. Welche Antwort ist fachlich richtig?",
+    optionen: [
+      { t: "Mit dem Ende des Mietverhältnisses und dem Wegfall möglicher Ansprüche", r: true, e: "Richtig. Die Verpflichtung des Bürgen endet mit dem Ende des Mietverhältnisses und dem Wegfall möglicher Ansprüche." },
+      { t: "Automatisch nach einem Jahr, unabhängig vom Mietverhältnis", r: false, e: "Falsch. Die Bürgschaft hängt am Mietverhältnis und an den offenen Ansprüchen. Eine starre Einjahresfrist ist dafür nicht maßgeblich." }
+    ]
+  },
+  {
+    frage: "Nach dem Auszug bleibt eine Schadensersatzforderung offen, und der Mieter zahlt nicht. Wen können Sie in Anspruch nehmen?",
+    optionen: [
+      { t: "Nur den Mieter, weil die Bürgschaft nur Mietzinsrückstände absichert", r: false, e: "Falsch. Die Bürgschaft sichert die Verpflichtungen des Mieters ab, also auch Schadensersatzforderungen." },
+      { t: "Den Bürgen, der für die Verpflichtungen des Mieters einsteht", r: true, e: "Richtig. Der Bürge steht für die Verpflichtungen des Mieters ein, und der Vermieter kann sich an ihn wenden. Der Bürge trägt damit ein erhebliches Haftungsrisiko mit seinem Vermögen." }
+    ]
+  }
+];
+
+// Prüfungstrainer (Aufgabe 1.8): Grundlagen und Vertiefung
+var TRAINER_GRUNDLAGEN = [
+  {
+    frage: "Wie viele gleiche monatliche Teilzahlungen darf der Mieter für die Mietkaution wählen?",
+    optionen: [
+      { t: "Zwei", r: false, e: "Falsch. Das Gesetz sieht genau drei gleiche monatliche Teilzahlungen vor (§ 551 Abs. 2 BGB)." },
+      { t: "Drei", r: true, e: "Richtig. Der Mieter darf die Kaution in drei gleichen monatlichen Teilzahlungen leisten (§ 551 Abs. 2 BGB)." },
+      { t: "Vier", r: false, e: "Falsch. Mehr als drei Teilzahlungen sieht das Gesetz nicht vor (§ 551 Abs. 2 BGB)." },
+      { t: "Eine Einmalzahlung ist Pflicht", r: false, e: "Falsch. Der Mieter darf in Raten zahlen. Eine Pflicht zur Einmalzahlung besteht nicht." }
+    ]
+  },
+  {
+    frage: "Wann ist die erste Rate der Mietkaution fällig?",
+    optionen: [
+      { t: "Mit der Kündigung des Mietverhältnisses", r: false, e: "Falsch. Die Kündigung ist für die Fälligkeit der ersten Rate nicht maßgeblich. Die erste Rate ist zu Beginn des Mietverhältnisses fällig." },
+      { t: "Zu Mietbeginn", r: true, e: "Richtig. Die erste Rate ist mit Beginn des Mietverhältnisses fällig. Die weiteren Raten folgen mit den nächsten Mietzahlungen." },
+      { t: "Nach drei Monaten", r: false, e: "Falsch. Nach drei Monaten wäre die erste Rate zu spät. Sie ist bereits zu Mietbeginn fällig." },
+      { t: "Am Ende des Mietverhältnisses", r: false, e: "Falsch. Am Ende wird die Kaution abgerechnet oder zurückgezahlt. Die erste Zahlung erfolgt bereits zu Mietbeginn." }
+    ]
+  },
+  {
+    frage: "Welche Zahlungsform ist für die Mietkaution üblich?",
+    optionen: [
+      { t: "Überweisung oder verpfändetes Sparbuch", r: true, e: "Richtig. In der Praxis wird die Kaution häufig überwiesen oder als verpfändetes Sparbuch geleistet." },
+      { t: "Ausschließlich Barzahlung im Büro des Vermieters", r: false, e: "Falsch. Barzahlung ist nicht die einzige Form. Üblich sind Überweisung oder ein verpfändetes Sparbuch." },
+      { t: "Ein Scheck, den der Vermieter ausstellt", r: false, e: "Falsch. Ein Scheck des Vermieters ist für die Kautionszahlung nicht üblich. Üblich sind Überweisung oder ein verpfändetes Sparbuch." },
+      { t: "Ein Darlehen der Bank", r: false, e: "Falsch. Ein Darlehen ist keine Kautionszahlung. Der Mieter stellt die Kaution selbst bereit, etwa durch Überweisung oder ein verpfändetes Sparbuch." }
+    ]
+  }
+];
+
+var TRAINER_VERTIEFUNG = [
+  {
+    frage: "Was verlangt eine Bank in der Regel für die Stellung einer Bankbürgschaft?",
+    optionen: [
+      { t: "Eine einmalige Gebühr bei Vertragsbeginn", r: false, e: "Falsch. Üblich ist eine jährlich wiederkehrende Gebühr für die Stellung der Bürgschaft." },
+      { t: "Eine jährliche Gebühr", r: true, e: "Richtig. Die Bank verlangt in der Regel eine jährliche Gebühr für die Stellung der Bürgschaft." },
+      { t: "Eine Zinszahlung an den Mieter", r: false, e: "Falsch. Bei einer Bürgschaft wird kein Geld hinterlegt, deshalb fallen keine Zinsen an den Mieter an." },
+      { t: "Keine Gebühr", r: false, e: "Falsch. Bankbürgschaften sind in der Regel gebührenpflichtig." }
+    ]
+  },
+  {
+    frage: "Wer übernimmt bei einer Bankbürgschaft die Rolle des Bürgen?",
+    optionen: [
+      { t: "Der Mieter", r: false, e: "Falsch. Der Mieter ist derjenige, für den die Bürgschaft gestellt wird." },
+      { t: "Die Bank", r: true, e: "Richtig. Die Bank steht dem Vermieter gegenüber für die Verpflichtungen des Mieters ein." },
+      { t: "Der Vermieter", r: false, e: "Falsch. Der Vermieter ist der Gläubiger, also die Person, die durch die Bürgschaft abgesichert wird." },
+      { t: "Der Makler", r: false, e: "Falsch. Der Makler vermittelt die Wohnung, übernimmt aber keine Bürgschaft." }
+    ]
+  }
+];
+
+// Gemeinsamer Ablauf für Fragen mit Feedback
+function el(tag, attrs, text) {
+  var node = document.createElement(tag);
+  if (attrs) {
+    Object.keys(attrs).forEach(function (k) { node.setAttribute(k, attrs[k]); });
+  }
+  if (text !== undefined) { node.textContent = text; }
+  return node;
+}
+
+function shuffle(liste) {
+  var a = liste.slice();
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+  }
+  return a;
+}
+
+function runQuiz(container, items, opts) {
+  var idx = 0;
+  var richtig = 0;
+  var gefragt = 0;
+  var falsch = [];
+
+  function render() {
+    container.textContent = "";
+    if (idx >= items.length) {
+      opts.onEnd({ richtig: richtig, gefragt: gefragt, falsch: falsch });
+      return;
+    }
+    var item = items[idx];
+    var istLetzte = idx === items.length - 1;
+
+    container.appendChild(el("p", { "class": "fortschritt" }, opts.titel(idx, items.length)));
+    container.appendChild(el("p", { "class": "frage" }, item.frage));
+
+    var liste = el("div", { "class": "optionen" });
+    var buttons = [];
+    var fb = el("div", { "class": "feedback", "aria-live": "polite" });
+    var weiter = el("button", { type: "button", "class": "weiter", hidden: "hidden" },
+      istLetzte ? "Ergebnis anzeigen" : "Weiter");
+
+    item.optionen.forEach(function (o) {
+      var b = el("button", { type: "button", "class": "option" }, o.t);
+      buttons.push(b);
+      b.addEventListener("click", function () {
+        if (liste.getAttribute("data-beantwortet")) { return; }
+        liste.setAttribute("data-beantwortet", "1");
+        if (opts.zaehlen) {
+          gefragt++;
+          if (o.r) { richtig++; } else { falsch.push(item); }
+        }
+        buttons.forEach(function (x, i) {
+          x.disabled = true;
+          if (item.optionen[i].r) { x.classList.add("richtig"); }
+        });
+        if (!o.r) { b.classList.add("falsch"); }
+        fb.classList.add(o.r ? "ok" : "nok");
+        fb.textContent = o.e;
+        weiter.hidden = false;
+      });
+      liste.appendChild(b);
+    });
+
+    weiter.addEventListener("click", function () {
+      idx++;
+      render();
+    });
+
+    container.appendChild(liste);
+    container.appendChild(fb);
+    container.appendChild(weiter);
+  }
+
+  render();
+}
+
+function ergebnis(container, text, neustart) {
+  container.textContent = "";
+  container.appendChild(el("h3", {}, "Ergebnis"));
+  container.appendChild(el("p", { "class": "ergebnis" }, text));
+  var b = el("button", { type: "button", "class": "neustart" }, "Vollständig neu starten");
+  b.addEventListener("click", neustart);
+  container.appendChild(b);
+}
+
+function startSelbstpruefer() {
+  var c = document.getElementById("selbstpruefer-box");
+  runQuiz(c, SELBSTPRUEFER, {
+    titel: function (i, n) { return "Frage " + (i + 1) + " von " + n; },
+    zaehlen: true,
+    onEnd: function (s) {
+      ergebnis(c,
+        "Sie haben " + s.richtig + " von " + s.gefragt + " Fragen richtig beantwortet. Lesen Sie die Erklärungen zu falschen Antworten noch einmal durch, bevor Sie neu starten.",
+        startSelbstpruefer);
+    }
+  });
+}
+
+function startPlanspiel() {
+  var c = document.getElementById("planspiel-box");
+  runQuiz(c, PLANSPIEL, {
+    titel: function (i, n) { return "Schritt " + (i + 1) + " von " + n; },
+    zaehlen: true,
+    onEnd: function (s) {
+      ergebnis(c,
+        "Sie haben " + s.richtig + " von " + s.gefragt + " Entscheidungen fachlich richtig getroffen.",
+        startPlanspiel);
+    }
+  });
+}
+
+function startPruefungstrainer() {
+  var c = document.getElementById("trainer-box");
+  runQuiz(c, shuffle(TRAINER_GRUNDLAGEN), {
+    titel: function (i, n) { return "Grundlagen, Frage " + (i + 1) + " von " + n; },
+    zaehlen: true,
+    onEnd: function (s1) {
+      if (s1.richtig >= 2) {
+        runQuiz(c, shuffle(TRAINER_VERTIEFUNG), {
+          titel: function (i, n) { return "Vertiefung, Frage " + (i + 1) + " von " + n; },
+          zaehlen: true,
+          onEnd: function (s2) {
+            ergebnis(c,
+              "Im ersten Durchlauf haben Sie " + (s1.richtig + s2.richtig) + " von " + (s1.gefragt + s2.gefragt) + " Fragen richtig beantwortet. Der Vertiefungsteil wurde freigeschaltet, weil Sie mindestens zwei Grundlagenfragen richtig beantwortet haben.",
+              startPruefungstrainer);
+          }
+        });
+      } else {
+        runQuiz(c, shuffle(s1.falsch), {
+          titel: function (i, n) { return "Wiederholung, Frage " + (i + 1) + " von " + n; },
+          zaehlen: false,
+          onEnd: function () {
+            ergebnis(c,
+              "Sie haben " + s1.richtig + " von " + s1.gefragt + " Grundlagenfragen im ersten Durchlauf richtig beantwortet. Der Vertiefungsteil bleibt gesperrt, bis Sie zwei Grundlagenfragen richtig beantwortet haben. Die falschen Fragen haben Sie wiederholt.",
+              startPruefungstrainer);
+          }
+        });
+      }
+    }
+  });
+}
+
+startSelbstpruefer();
+startPlanspiel();
+startPruefungstrainer();
+</script>
+</body>
+</html>
