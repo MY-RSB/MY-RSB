@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bank BFK | LF 8 | 10</title>
+<style>
+  :root {
+    --ink: #1d2430;
+    --muted: #5a6472;
+    --line: #d5dbe3;
+    --ok: #1e7a46;
+    --okbg: #e6f4ec;
+    --bad: #a32d2d;
+    --badbg: #fbeaea;
+    --accent: #2556a3;
+    --accentbg: #e8eff9;
+    --gold: #f0a500;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink);
+    background: #f5f7fa;
+  }
+  header {
+    background: #fff;
+    border-bottom: 1px solid var(--line);
+    padding: 20px 16px;
+  }
+  header h1 { margin: 0 0 4px; font-size: 1.5rem; }
+  header p { margin: 0; color: var(--muted); }
+  main { max-width: 760px; margin: 0 auto; padding: 16px; }
+  section.aufgabe {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+  section.aufgabe h2 { font-size: 1.2rem; margin: 0 0 8px; }
+  .hinweis { color: var(--muted); font-size: 0.95rem; }
+  .frage { font-weight: 600; margin: 12px 0; }
+  .optionen { display: flex; flex-direction: column; gap: 8px; }
+  button {
+    font: inherit;
+    cursor: pointer;
+    min-height: 44px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--accent);
+    background: #fff;
+    color: var(--accent);
+  }
+  button:hover:not(:disabled) { background: var(--accentbg); }
+  button:disabled { opacity: 0.6; cursor: default; }
+  button.primary { background: var(--accent); color: #fff; }
+  button:focus-visible, .zone:focus-visible {
+    outline: 3px solid var(--gold);
+    outline-offset: 2px;
+  }
+  .optionen button { text-align: left; }
+  .optionen button[aria-pressed="true"] { border: 2px solid var(--accent); }
+  .feedback { margin-top: 12px; padding: 12px; border-radius: 8px; }
+  .feedback.ok { background: var(--okbg); border-left: 4px solid var(--ok); }
+  .feedback.bad { background: var(--badbg); border-left: 4px solid var(--bad); }
+  .feedback p { margin: 0 0 8px; }
+  .aktionen { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .pool {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0;
+    min-height: 56px;
+    padding: 10px;
+    border: 1px dashed var(--line);
+    border-radius: 8px;
+  }
+  .item {
+    width: 100%;
+    text-align: left;
+    background: #fff;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    padding: 10px 12px;
+    margin: 0 0 6px;
+  }
+  .pool .item { width: auto; }
+  .item[aria-pressed="true"] { border: 2px solid var(--gold); background: #fff8e6; }
+  .item.markierung-ok { border: 2px solid var(--ok); background: var(--okbg); }
+  .item.markierung-bad { border: 2px solid var(--bad); background: var(--badbg); }
+  .zonen { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 640px) {
+    .zonen { grid-template-columns: repeat(3, 1fr); }
+  }
+  .zone {
+    border: 2px solid var(--line);
+    border-radius: 8px;
+    padding: 10px;
+    min-height: 120px;
+    background: #fbfcfe;
+  }
+  .zone h3 { font-size: 1rem; margin: 0 0 8px; }
+  .zone.hover { border-color: var(--accent); background: var(--accentbg); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Bank BFK | LF 8 | 10</h1>
+  <p>Interaktive Aufgaben zu 10 Aktien: Rechte der Aktionäre und Aktienarten. Die Seite speichert keine Eingaben und benötigt keine Anmeldung.</p>
+</header>
+
+<main>
+  <section class="aufgabe" id="aufgabe-1-3" aria-labelledby="titel-1-3">
+    <h2 id="titel-1-3">Interaktive Aufgabe 1.3: Vorzugsaktien prüfen</h2>
+    <p class="hinweis">Sie beantworten die Fragen nacheinander. Nach jeder Antwort erhalten Sie eine fachliche Erklärung.</p>
+    <div id="selbst-13"></div>
+  </section>
+
+  <section class="aufgabe" id="aufgabe-1-7" aria-labelledby="titel-1-7">
+    <h2 id="titel-1-7">Interaktive Aufgabe 1.7: Aktienarten zuordnen</h2>
+    <p class="hinweis">Ziehen Sie jedes Merkmal auf die passende Aktienart. Alternativ tippen Sie zuerst auf das Merkmal und danach auf die Aktienart. Mit dem Prüfknopf kontrollieren Sie Ihre Zuordnung. Mit „Zurücksetzen“ stellen Sie den Ausgangszustand wieder her.</p>
+    <div class="pool" id="pool" role="group" aria-label="Merkmale ohne Zuordnung"></div>
+    <div class="zonen" id="zonen"></div>
+    <div class="aktionen">
+      <button type="button" class="primary" id="pruefen-17">Zuordnung prüfen</button>
+      <button type="button" id="reset-17">Zurücksetzen</button>
+    </div>
+    <div id="rueck-17" class="feedback" aria-live="polite" hidden></div>
+  </section>
+
+  <section class="aufgabe" id="aufgabe-1-8" aria-labelledby="titel-1-8">
+    <h2 id="titel-1-8">Interaktive Aufgabe 1.8: Dividende im Prüfungstrainer</h2>
+    <p class="hinweis">Der Trainer passt die Folgefragen an Ihre Antworten an. Am Ende sehen Sie Ihr Ergebnis und können neu starten.</p>
+    <div id="trainer-18"></div>
+  </section>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  function el(tag, attrs, text) {
+    var e = document.createElement(tag);
+    if (attrs) {
+      Object.keys(attrs).forEach(function (k) {
+        if (k === "class") { e.className = attrs[k]; }
+        else { e.setAttribute(k, attrs[k]); }
+      });
+    }
+    if (text !== undefined) { e.textContent = text; }
+    return e;
+  }
+
+  // Gemeinsamer Aufbau für eine Einzelfrage mit Antwortoptionen
+  function frageAufbauen(container, frage, optionen, onAntwort) {
+    container.innerHTML = "";
+    var q = el("p", { "class": "frage" }, frage);
+    var liste = el("div", { "class": "optionen" });
+    var fb = el("div", { "class": "feedback", "aria-live": "polite", hidden: "" });
+    optionen.forEach(function (o) {
+      var b = el("button", { type: "button" }, o.text);
+      b.addEventListener("click", function () {
+        Array.prototype.forEach.call(liste.children, function (x) { x.disabled = true; });
+        b.setAttribute("aria-pressed", "true");
+        onAntwort(o, fb);
+        fb.hidden = false;
+        fb.tabIndex = -1;
+        fb.focus();
+      });
+      liste.appendChild(b);
+    });
+    container.appendChild(q);
+    container.appendChild(liste);
+    container.appendChild(fb);
+    return fb;
+  }
+
+  function weiterKnopf(fb, text, onKlick) {
+    var akt = el("div", { "class": "aktionen" });
+    var b = el("button", { type: "button", "class": "primary" }, text);
+    b.addEventListener("click", onKlick);
+    akt.appendChild(b);
+    fb.appendChild(akt);
+  }
+
+  // ---------- Aufgabe 1.3: Selbstprüfer ----------
+  var schritte13 = [
+    {
+      frage: "Welche Aussage zu stimmrechtslosen Vorzugsaktien ist zutreffend?",
+      optionen: [
+        { text: "a) Sie dürfen in unbegrenzter Höhe ausgegeben werden.", ok: false,
+          erklaerung: "Falsch. Vorzugsaktien ohne Stimmrecht dürfen nur bis zur Hälfte des Grundkapitals ausgegeben werden (§ 139 Abs. 2 AktG). Die Ausgabe ist also gesetzlich begrenzt." },
+        { text: "b) Sie dürfen nur bis zur Hälfte des Grundkapitals ausgegeben werden.", ok: true,
+          erklaerung: "Richtig. Vorzugsaktien ohne Stimmrecht dürfen nur bis zur Hälfte des Grundkapitals ausgegeben werden (§ 139 Abs. 2 AktG). Im Gegenzug erhalten sie ein Dividendenvorrecht." },
+        { text: "c) Sie gewähren ein volles Stimmrecht in der Hauptversammlung.", ok: false,
+          erklaerung: "Falsch. Stimmrechtslose Vorzugsaktien haben kein Stimmrecht in der Hauptversammlung. Dafür erhalten sie ein Dividendenvorrecht." },
+        { text: "d) Sie gewähren ein Dividendenvorrecht, aber nur, wenn sie als Namensaktien ausgegeben werden.", ok: false,
+          erklaerung: "Falsch. Das Dividendenvorrecht hängt nicht von der Form der Aktie ab. Es ist mit der Vorzugsaktie als Aktienart verbunden." }
+      ]
+    },
+    {
+      frage: "Herr Berger erhält je Vorzugsaktie 1,00 EUR und je Stammaktie 0,90 EUR. Wie hoch ist die Mehrdividende je Vorzugsaktie?",
+      optionen: [
+        { text: "0,05 EUR", ok: false,
+          erklaerung: "Falsch. Die Differenz beträgt 1,00 EUR minus 0,90 EUR, also 0,10 EUR." },
+        { text: "0,10 EUR", ok: true,
+          erklaerung: "Richtig. Die Mehrdividende ist der Unterschied zwischen beiden Beträgen: 1,00 EUR minus 0,90 EUR ergibt 0,10 EUR je Vorzugsaktie." },
+        { text: "0,90 EUR", ok: false,
+          erklaerung: "Falsch. Das ist die Dividende je Stammaktie. Gesucht ist aber der Unterschied zwischen Vorzugs- und Stammaktie." },
+        { text: "1,00 EUR", ok: false,
+          erklaerung: "Falsch. Das ist die gesamte Dividende je Vorzugsaktie und nicht der Mehrbetrag gegenüber der Stammaktie." }
+      ]
+    }
+  ];
+
+  function selbstpruefer(container, schritte) {
+    var i = 0;
+    var richtig = 0;
+
+    function ergebnis() {
+      container.innerHTML = "";
+      container.appendChild(el("p", { "class": "frage" }, "Ergebnis: " + richtig + " von " + schritte.length + " Schritten richtig."));
+      container.appendChild(el("p", {}, richtig === schritte.length
+        ? "Sehr gut. Sie haben die Aussage zu den Vorzugsaktien und die Mehrdividende richtig eingeordnet."
+        : "Lesen Sie die Erklärungen noch einmal. Die Obergrenze von der Hälfte des Grundkapitals und der Wegfall des Stimmrechts sind die wichtigsten Punkte."));
+      var akt = el("div", { "class": "aktionen" });
+      var neu = el("button", { type: "button", "class": "primary" }, "Neu starten");
+      neu.addEventListener("click", function () { i = 0; richtig = 0; zeige(); });
+      akt.appendChild(neu);
+      container.appendChild(akt);
+    }
+
+    function zeige() {
+      if (i >= schritte.length) { ergebnis(); return; }
+      var s = schritte[i];
+      var fb = frageAufbauen(container, "Schritt " + (i + 1) + " von " + schritte.length + ": " + s.frage, s.optionen, function (o, f) {
+        if (o.ok) { richtig++; }
+        f.className = "feedback " + (o.ok ? "ok" : "bad");
+        f.textContent = o.erklaerung;
+        var letzter = (i === schritte.length - 1);
+        weiterKnopf(f, letzter ? "Ergebnis anzeigen" : "Weiter", function () { i++; zeige(); });
+      });
+      return fb;
+    }
+
+    zeige();
+  }
+
+  // ---------- Aufgabe 1.7: Zuordnung ----------
+  var arten17 = [
+    { id: "inhaber", titel: "Inhaberaktie" },
+    { id: "namen", titel: "Namensaktie" },
+    { id: "vinkuliert", titel: "Vinkulierte Namensaktie" }
+  ];
+
+  var merkmale17 = [
+    { id: "m1", art: "inhaber", text: "Übertragung durch dingliche Einigung und Übergabe der Aktie",
+      erklaerung: "Bei der Inhaberaktie genügen Einigung und Übergabe. Ein Eintrag im Aktienregister ist nicht nötig." },
+    { id: "m2", art: "inhaber", text: "Der Aktionär bleibt gegenüber der Gesellschaft anonym",
+      erklaerung: "Die Gesellschaft kennt den Inhaber einer Inhaberaktie nicht namentlich. Deshalb bleibt er anonym." },
+    { id: "m3", art: "namen", text: "Übertragung durch Einigung und Übergabe der indossierten Aktie",
+      erklaerung: "Bei der Namensaktie wird die Aktie indossiert übergeben. Zusätzlich muss der neue Aktionär im Aktienregister eingetragen werden." },
+    { id: "m4", art: "namen", text: "Name, Geburtsdatum und Adresse des Aktionärs stehen im Aktienregister",
+      erklaerung: "Diese Daten führt die Gesellschaft nach § 67 AktG im Aktienregister. So kennt sie ihre Aktionäre." },
+    { id: "m5", art: "vinkuliert", text: "Zur Übertragung ist zusätzlich die Zustimmung des Vorstands nötig",
+      erklaerung: "Die Zustimmung des Vorstands ist das Kennzeichen der vinkulierten Namensaktie (§ 68 Abs. 2 AktG)." },
+    { id: "m6", art: "vinkuliert", text: "Die Gesellschaft kann den Kreis ihrer Aktionäre steuern",
+      erklaerung: "Weil sie einer Übertragung zustimmen muss, kann die Gesellschaft unerwünschte Investoren fernhalten." }
+  ];
+
+  var lage = {};
+  var auswahl = null;
+  var poolEl = document.getElementById("pool");
+  var zonenEl = document.getElementById("zonen");
+  var rueck = document.getElementById("rueck-17");
+  var itemEls = {};
+
+  function markierungEntfernen() {
+    Object.keys(itemEls).forEach(function (id) {
+      itemEls[id].classList.remove("markierung-ok", "markierung-bad");
+    });
+    rueck.hidden = true;
+  }
+
+  function markieren() {
+    Object.keys(itemEls).forEach(function (id) {
+      itemEls[id].setAttribute("aria-pressed", String(auswahl === id));
+    });
+  }
+
+  function ablegen(id, zoneId) {
+    if (!id) { return; }
+    lage[id] = zoneId;
+    markierungEntfernen();
+    auswahl = null;
+    zonenEl.querySelector('[data-zone="' + zoneId + '"]').appendChild(itemEls[id]);
+    markieren();
+  }
+
+  function zurueckLegen(id) {
+    lage[id] = null;
+    markierungEntfernen();
+    poolEl.appendChild(itemEls[id]);
+  }
+
+  function itemKlick(id) {
+    if (lage[id]) {
+      zurueckLegen(id);
+      auswahl = null;
+      markieren();
+      return;
+    }
+    auswahl = (auswahl === id) ? null : id;
+    markieren();
+  }
+
+  function pruefen() {
+    markierungEntfernen();
+    var richtig = 0;
+    rueck.innerHTML = "";
+    var zeilen = [];
+    merkmale17.forEach(function (m) {
+      var b = itemEls[m.id];
+      var zone = lage[m.id];
+      if (!zone) {
+        zeilen.push(el("p", {}, "Noch nicht zugeordnet: " + m.text + "."));
+        return;
+      }
+      var ok = (zone === m.art);
+      b.classList.add(ok ? "markierung-ok" : "markierung-bad");
+      if (ok) { richtig++; }
+      zeilen.push(el("p", {}, (ok ? "Richtig: " : "Falsch: ") + m.erklaerung));
+    });
+    rueck.className = "feedback " + (richtig === merkmale17.length ? "ok" : "bad");
+    rueck.appendChild(el("p", {}, "Richtig zugeordnet: " + richtig + " von " + merkmale17.length + "."));
+    zeilen.forEach(function (z) { rueck.appendChild(z); });
+    rueck.hidden = false;
+    rueck.tabIndex = -1;
+    rueck.focus();
+  }
+
+  function zuordnungAufbauen() {
+    poolEl.innerHTML = "";
+    zonenEl.innerHTML = "";
+    arten17.forEach(function (a) {
+      var z = el("div", { "class": "zone", tabindex: "0", role: "group", "data-zone": a.id, "aria-label": "Ablage " + a.titel });
+      z.appendChild(el("h3", {}, a.titel));
+      z.addEventListener("click", function () { if (auswahl) { ablegen(auswahl, a.id); } });
+      z.addEventListener("keydown", function (e) {
+        if ((e.key === "Enter" || e.key === " ") && auswahl) {
+          e.preventDefault();
+          ablegen(auswahl, a.id);
+        }
+      });
+      z.addEventListener("dragover", function (e) { e.preventDefault(); z.classList.add("hover"); });
+      z.addEventListener("dragleave", function () { z.classList.remove("hover"); });
+      z.addEventListener("drop", function (e) {
+        e.preventDefault();
+        z.classList.remove("hover");
+        ablegen(e.dataTransfer.getData("text/plain"), a.id);
+      });
+      zonenEl.appendChild(z);
+    });
+    merkmale17.forEach(function (m) {
+      var b = el("button", { type: "button", "class": "item", draggable: "true", "data-id": m.id }, m.text);
+      b.addEventListener("click", function () { itemKlick(m.id); });
+      b.addEventListener("dragstart", function (e) {
+        e.dataTransfer.setData("text/plain", m.id);
+        auswahl = null;
+      });
+      itemEls[m.id] = b;
+      lage[m.id] = null;
+      poolEl.appendChild(b);
+    });
+    markieren();
+  }
+
+  function zuordnungZuruecksetzen() {
+    auswahl = null;
+    merkmale17.forEach(function (m) {
+      lage[m.id] = null;
+      poolEl.appendChild(itemEls[m.id]);
+    });
+    markierungEntfernen();
+    markieren();
+  }
+
+  document.getElementById("pruefen-17").addEventListener("click", pruefen);
+  document.getElementById("reset-17").addEventListener("click", zuordnungZuruecksetzen);
+  zuordnungAufbauen();
+
+  // ---------- Aufgabe 1.8: Adaptiver Prüfungstrainer ----------
+  var trainer18 = {
+    start: "q1",
+    fragen: {
+      q1: {
+        frage: "Wer entscheidet über die Zahlung der Dividende?",
+        optionen: [
+          { text: "Der Vorstand beschließt die Ausschüttung allein.", ok: false, naechst: "q2a",
+            erklaerung: "Falsch. Der Vorstand entscheidet nicht allein. Er macht lediglich einen Vorschlag." },
+          { text: "Der Aufsichtsrat legt die Dividende fest, die Hauptversammlung wird nur informiert.", ok: false, naechst: "q2a",
+            erklaerung: "Falsch. Der Aufsichtsrat legt die Dividende nicht fest. Er wirkt nur an dem Vorschlag mit." },
+          { text: "Die Hauptversammlung beschließt über die Verwendung des Bilanzgewinns und damit über die Dividende.", ok: true, naechst: "q2b",
+            erklaerung: "Richtig. Die Hauptversammlung entscheidet über die Verwendung des Bilanzgewinns. Vorstand und Aufsichtsrat legen dazu lediglich einen Vorschlag vor." },
+          { text: "Die Gesellschaft zahlt die Dividende aus, sobald der Jahresabschluss vorliegt.", ok: false, naechst: "q2a",
+            erklaerung: "Falsch. Ein vorliegender Jahresabschluss genügt nicht. Die Hauptversammlung muss die Dividende beschließen." }
+        ]
+      },
+      q2a: {
+        frage: "Zur Vertiefung: Wer macht den Vorschlag zur Dividende?",
+        optionen: [
+          { text: "Nur der Vorstand", ok: false, naechst: "q3",
+            erklaerung: "Falsch. Der Vorstand ist beteiligt, doch der Aufsichtsrat wirkt ebenfalls am Vorschlag mit." },
+          { text: "Vorstand und Aufsichtsrat", ok: true, naechst: "q3",
+            erklaerung: "Richtig. Vorstand und Aufsichtsrat legen den Vorschlag vor. Entschieden wird danach in der Hauptversammlung." },
+          { text: "Die Börse", ok: false, naechst: "q3",
+            erklaerung: "Falsch. Die Börse macht keinen Dividendenvorschlag. Sie bildet lediglich den Kurs der Aktie." },
+          { text: "Die einzelnen Aktionäre", ok: false, naechst: "q3",
+            erklaerung: "Falsch. Die Aktionäre bestimmen die Dividende nicht einzeln. Das geschieht gemeinsam in der Hauptversammlung." }
+        ]
+      },
+      q2b: {
+        frage: "Zur Vertiefung: Wann wird eine beschlossene Dividende fällig?",
+        optionen: [
+          { text: "Am Tag der Hauptversammlung", ok: false, naechst: "ende",
+            erklaerung: "Falsch. Am Tag der Hauptversammlung ist die Dividende noch nicht fällig." },
+          { text: "Am dritten Geschäftstag nach der Hauptversammlung", ok: true, naechst: "ende",
+            erklaerung: "Richtig. Der Anspruch auf die Dividende wird am dritten Geschäftstag nach der Hauptversammlung fällig (§ 58 Abs. 4 AktG)." },
+          { text: "Am Ende des Geschäftsjahres", ok: false, naechst: "ende",
+            erklaerung: "Falsch. Das Geschäftsjahr endet, bevor die Hauptversammlung über die Dividende entscheidet. Fällig wird sie danach." },
+          { text: "Sofort nach Eingang des Jahresabschlusses", ok: false, naechst: "ende",
+            erklaerung: "Falsch. Die Dividende wird erst nach dem Beschluss der Hauptversammlung fällig, nicht schon mit dem Jahresabschluss." }
+        ]
+      },
+      q3: {
+        frage: "Zum Abschluss: Wer beschließt über die Dividende?",
+        optionen: [
+          { text: "Der Vorstand", ok: false, naechst: "ende",
+            erklaerung: "Falsch. Der Vorstand schlägt die Dividende nur vor." },
+          { text: "Der Aufsichtsrat", ok: false, naechst: "ende",
+            erklaerung: "Falsch. Auch der Aufsichtsrat schlägt nur vor und beschließt nicht." },
+          { text: "Die Hauptversammlung", ok: true, naechst: "ende",
+            erklaerung: "Richtig. Die Hauptversammlung beschließt über die Verwendung des Bilanzgewinns und damit über die Dividende." },
+          { text: "Die Finanzaufsicht", ok: false, naechst: "ende",
+            erklaerung: "Falsch. Die Finanzaufsicht genehmigt keine Dividende. Die Hauptversammlung beschließt sie." }
+        ]
+      }
+    }
+  };
+
+  function trainer(container, def) {
+    var aktuell = def.start;
+    var gestellt = 0;
+    var richtig = 0;
+
+    function ergebnis() {
+      container.innerHTML = "";
+      container.appendChild(el("p", { "class": "frage" }, "Ergebnis: " + richtig + " von " + gestellt + " Fragen richtig beantwortet."));
+      container.appendChild(el("p", {}, richtig === gestellt
+        ? "Sehr gut. Sie haben alle Fragen sicher beantwortet."
+        : "Lesen Sie die Erklärungen noch einmal. Die Hauptversammlung beschließt über die Dividende, Vorstand und Aufsichtsrat schlagen sie nur vor."));
+      var akt = el("div", { "class": "aktionen" });
+      var neu = el("button", { type: "button", "class": "primary" }, "Trainer neu starten");
+      neu.addEventListener("click", function () {
+        aktuell = def.start;
+        gestellt = 0;
+        richtig = 0;
+        zeige();
+      });
+      akt.appendChild(neu);
+      container.appendChild(akt);
+    }
+
+    function zeige() {
+      if (aktuell === "ende") { ergebnis(); return; }
+      var q = def.fragen[aktuell];
+      frageAufbauen(container, q.frage, q.optionen, function (o, f) {
+        gestellt++;
+        if (o.ok) { richtig++; }
+        f.className = "feedback " + (o.ok ? "ok" : "bad");
+        f.textContent = o.erklaerung;
+        var naechstes = o.naechst;
+        weiterKnopf(f, naechstes === "ende" ? "Ergebnis anzeigen" : "Weiter", function () {
+          aktuell = naechstes;
+          zeige();
+        });
+      });
+    }
+
+    zeige();
+  }
+
+  selbstpruefer(document.getElementById("selbst-13"), schritte13);
+  trainer(document.getElementById("trainer-18"), trainer18);
+})();
+</script>
+</body>
+</html>
