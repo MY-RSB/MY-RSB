@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WG VBWL | BPE 3 | 1</title>
+<style>
+  :root { --rahmen: #9aa5b1; --text: #1f2933; --hell: #f5f7fa; --gruen: #1e7b34; --gruen-hell: #e6f4ea; --rot: #a61b1b; --rot-hell: #fbeaea; --akzent: #1f4e79; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 1rem; line-height: 1.5; color: var(--text); background: #ffffff; }
+  main { max-width: 46rem; margin: 0 auto; padding: 1rem; }
+  h1 { font-size: 1.6rem; margin: 0.5rem 0 0.5rem; color: var(--akzent); }
+  h2 { font-size: 1.25rem; margin: 0 0 0.5rem; color: var(--akzent); }
+  p { margin: 0.5rem 0; }
+  .einleitung { background: var(--hell); border-left: 4px solid var(--akzent); padding: 0.75rem 1rem; border-radius: 4px; }
+  .stufe { border: 1px solid var(--rahmen); border-radius: 8px; padding: 1rem; margin: 1.25rem 0; background: #ffffff; }
+  .stufe.gesperrt { background: #f0f2f5; }
+  .stufe.abgeschlossen { border-color: var(--gruen); }
+  .hinweis-gesperrt { color: #52606d; font-style: italic; }
+  .sachverhalt { background: var(--hell); padding: 0.75rem; border-radius: 6px; }
+  fieldset { border: none; margin: 0.75rem 0 0 0; padding: 0; }
+  legend { font-weight: 600; margin-bottom: 0.5rem; }
+  .option { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.6rem 0.75rem; margin: 0.4rem 0; border: 1px solid var(--rahmen); border-radius: 6px; cursor: pointer; min-height: 44px; }
+  .option:hover { background: var(--hell); }
+  .option input { margin-top: 0.25rem; width: 1.1rem; height: 1.1rem; flex: 0 0 auto; }
+  .option:focus-within { outline: 3px solid #8fb8de; outline-offset: 2px; }
+  button { font: inherit; min-height: 44px; padding: 0.5rem 1.1rem; margin: 0.5rem 0.5rem 0 0; border-radius: 6px; border: 1px solid var(--akzent); background: var(--akzent); color: #ffffff; cursor: pointer; }
+  button:hover { filter: brightness(1.08); }
+  button:focus-visible { outline: 3px solid #8fb8de; outline-offset: 2px; }
+  button[disabled] { background: #9aa5b1; border-color: #9aa5b1; cursor: default; }
+  button.sekundaer { background: #ffffff; color: var(--akzent); }
+  .rueckmeldung { margin-top: 0.75rem; padding: 0.75rem 1rem; border-radius: 6px; border: 1px solid var(--rahmen); background: var(--hell); }
+  .rueckmeldung.richtig { background: var(--gruen-hell); border-color: var(--gruen); }
+  .rueckmeldung.falsch { background: var(--rot-hell); border-color: var(--rot); }
+  .rueckmeldung:empty { display: none; }
+  .auswertung ol { padding-left: 1.25rem; }
+  .verborgen { display: none !important; }
+  @media (max-width: 480px) {
+    h1 { font-size: 1.3rem; }
+    main { padding: 0.75rem; }
+    button { width: 100%; margin-right: 0; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>WG VBWL | BPE 3 | 1</h1>
+
+  <div class="einleitung">
+    <p>Dieses Planspiel begleitet die Aufgaben 1.2, 1.4, 2.2 und 2.3. Sie beraten vier Fälle aus dem Haushalt Lindner und dem Alltag. Jede Stufe besteht aus einer Frage mit vier Antworten. Nach jeder Prüfung erhalten Sie eine fachliche Rückmeldung. Die Stufen laufen nacheinander. Ist eine Stufe richtig beantwortet, wird die nächste freigeschaltet.</p>
+    <p>Bearbeiten Sie das Planspiel allein an Ihrem Gerät. Es werden keine Daten gespeichert.</p>
+  </div>
+
+  <!-- Stufe 1 -->
+  <section class="stufe" id="aufgabe-1-2" data-stufe="1">
+    <h2>Stufe 1 von 4: Aufgabe 1.2</h2>
+    <p class="hinweis-gesperrt verborgen">Diese Stufe wird freigeschaltet, sobald Sie die Stufe davor abgeschlossen haben.</p>
+    <div class="inhalt">
+      <div class="sachverhalt">
+        <p>Herr Dinkel liegt nach einer Zahn-OP noch benommen im Aufwachraum. Eine Pflegekraft legt ihm einen Handyvertrag vor, und er unterschreibt ihn.</p>
+      </div>
+      <fieldset>
+        <legend>Welche Rechtsfolge hat die Unterschrift?</legend>
+        <label class="option"><input type="radio" name="stufe-1" data-ok="false" data-rueckmeldung="Falsch. Die schwebende Unwirksamkeit betrifft beschränkt Geschäftsfähige, zum Beispiel Minderjährige ab dem siebten Lebensjahr. Herr Dinkel ist volljährig. Bei ihm liegt eine vorübergehende Störung der Geistestätigkeit vor, die zur Nichtigkeit führt.">
+          <span>Die Unterschrift ist schwebend unwirksam, bis Herr Dinkel den Vertrag genehmigt.</span></label>
+        <label class="option"><input type="radio" name="stufe-1" data-ok="false" data-rueckmeldung="Falsch. Eine Anfechtung setzt eine wirksame, aber fehlerhafte Erklärung voraus. Die Störung führt schon kraft Gesetzes zur Nichtigkeit, deshalb gibt es nichts anzufechten.">
+          <span>Die Unterschrift ist anfechtbar, und Herr Dinkel muss unverzüglich anfechten.</span></label>
+        <label class="option"><input type="radio" name="stufe-1" data-ok="true" data-rueckmeldung="Richtig. Herr Dinkel war nach der Narkose vorübergehend in einem Zustand gestörter Geistestätigkeit. Seine Erklärung ist deshalb von Anfang an nichtig, und der Handyvertrag ist unwirksam. Eine Anfechtung ist nicht nötig.">
+          <span>Die Unterschrift ist nichtig nach § 105 Abs. 2 BGB, weil sie in einer vorübergehenden Störung der Geistestätigkeit abgegeben wurde.</span></label>
+        <label class="option"><input type="radio" name="stufe-1" data-ok="false" data-rueckmeldung="Falsch. Die eigenhändige Unterschrift hilft nicht, wenn die Erklärung in einem Zustand abgegeben wird, der nach § 105 Abs. 2 BGB zur Nichtigkeit führt.">
+          <span>Die Unterschrift ist voll gültig, weil Herr Dinkel selbst unterschrieben hat.</span></label>
+      </fieldset>
+      <button type="button" class="pruefen">Antwort prüfen</button>
+      <div class="rueckmeldung" aria-live="polite"></div>
+      <button type="button" class="weiter verborgen">Zur nächsten Stufe</button>
+    </div>
+  </section>
+
+  <!-- Stufe 2 -->
+  <section class="stufe" id="aufgabe-1-4" data-stufe="2">
+    <h2>Stufe 2 von 4: Aufgabe 1.4</h2>
+    <p class="hinweis-gesperrt verborgen">Diese Stufe wird freigeschaltet, sobald Sie die Stufe davor abgeschlossen haben.</p>
+    <div class="inhalt">
+      <div class="sachverhalt">
+        <p>Familie Lindner und der Nachbar Rolf Gerner einigen sich per Handschlag darauf, dass Familie Lindner ein 800 Quadratmeter großes Gartengrundstück für 60.000 EUR erwirbt. Ein Notar wird nicht eingeschaltet, und der Vertrag wird nie beurkundet.</p>
+      </div>
+      <fieldset>
+        <legend>Welche Rechtsfolge hat die mündliche Einigung?</legend>
+        <label class="option"><input type="radio" name="stufe-2" data-ok="false" data-rueckmeldung="Falsch. Bei diesem Formmangel gibt es keine schwebende Unwirksamkeit. Der Vertrag ist nichtig, weil die notarielle Beurkundung fehlt (§ 125 Satz 1 BGB).">
+          <span>Schwebend unwirksam, bis ein Notar den Vertrag beurkundet.</span></label>
+        <label class="option"><input type="radio" name="stufe-2" data-ok="true" data-rueckmeldung="Richtig. Der Vertrag verpflichtet zur Übertragung eines Grundstücks, und dafür schreibt das Gesetz die notarielle Beurkundung vor. Ohne sie ist der Vertrag nichtig. Der Mangel lässt sich nur durch Auflassung und Eintragung ins Grundbuch heilen (§ 311b Abs. 1 Satz 2 BGB).">
+          <span>Nichtig nach § 125 Satz 1 BGB in Verbindung mit § 311b Abs. 1 Satz 1 BGB, weil die notarielle Beurkundung fehlt.</span></label>
+        <label class="option"><input type="radio" name="stufe-2" data-ok="false" data-rueckmeldung="Falsch. Der Handschlag zeigt zwar die Einigung, aber bei einem Grundstücksgeschäft verlangt das Gesetz zusätzlich die notarielle Form.">
+          <span>Gültig, weil sich beide Seiten per Handschlag geeinigt haben.</span></label>
+        <label class="option"><input type="radio" name="stufe-2" data-ok="false" data-rueckmeldung="Falsch. Der Preis ist ausdrücklich vereinbart, und ein Irrtum über eine Eigenschaft liegt nicht vor. Das eigentliche Problem ist die fehlende Form, nicht ein Irrtum.">
+          <span>Anfechtbar nach § 119 Abs. 2 BGB, weil der Preis überhöht ist.</span></label>
+      </fieldset>
+      <button type="button" class="pruefen">Antwort prüfen</button>
+      <div class="rueckmeldung" aria-live="polite"></div>
+      <button type="button" class="weiter verborgen">Zur nächsten Stufe</button>
+    </div>
+  </section>
+
+  <!-- Stufe 3 -->
+  <section class="stufe" id="aufgabe-2-2" data-stufe="3">
+    <h2>Stufe 3 von 4: Aufgabe 2.2</h2>
+    <p class="hinweis-gesperrt verborgen">Diese Stufe wird freigeschaltet, sobald Sie die Stufe davor abgeschlossen haben.</p>
+    <div class="inhalt">
+      <div class="sachverhalt">
+        <p>Herr Sommer kauft bei einem Möbelhändler einen Esstisch auf Raten. Er glaubt, nur die Zinsen zahlen zu müssen. Der unterschriebene Vertrag sieht aber eine Tilgung der Kaufsumme in Raten vor.</p>
+      </div>
+      <fieldset>
+        <legend>Welche Einordnung passt zu Herrn Sommers Irrtum?</legend>
+        <label class="option"><input type="radio" name="stufe-3" data-ok="false" data-rueckmeldung="Falsch. Ein Erklärungsirrtum liegt vor, wenn jemand etwas anderes erklärt, als er erklären wollte, etwa beim Vertippen. Herr Sommer hat unterschrieben, was er unterschreiben wollte. Er hat den Inhalt nur falsch verstanden.">
+          <span>Erklärungsirrtum nach § 119 Abs. 1 Alt. 2 BGB</span></label>
+        <label class="option"><input type="radio" name="stufe-3" data-ok="true" data-rueckmeldung="Richtig. Herr Sommer verbindet mit seiner Erklärung eine andere Bedeutung, als ein objektiver Empfänger sie verstehen darf. Das ist ein Irrtum über den Inhalt der Erklärung. Er muss unverzüglich nach Entdeckung anfechten (§ 121 Abs. 1 BGB).">
+          <span>Inhaltsirrtum nach § 119 Abs. 1 Alt. 1 BGB</span></label>
+        <label class="option"><input type="radio" name="stufe-3" data-ok="false" data-rueckmeldung="Falsch. Es geht nicht um eine Eigenschaft einer Sache oder Person, sondern um den Sinn der Zahlungsbedingungen. Ein Eigenschaftsirrtum passt deshalb nicht.">
+          <span>Irrtum über eine verkehrswesentliche Eigenschaft nach § 119 Abs. 2 BGB</span></label>
+        <label class="option"><input type="radio" name="stufe-3" data-ok="false" data-rueckmeldung="Falsch. Auch fahrlässige Irrtümer berechtigen zur Anfechtung. Die Pflicht zum Lesen schließt die Anfechtung nicht aus.">
+          <span>Kein Anfechtungsgrund, weil jeder Vertragspartner den Vertrag vor der Unterschrift lesen muss.</span></label>
+      </fieldset>
+      <button type="button" class="pruefen">Antwort prüfen</button>
+      <div class="rueckmeldung" aria-live="polite"></div>
+      <button type="button" class="weiter verborgen">Zur nächsten Stufe</button>
+    </div>
+  </section>
+
+  <!-- Stufe 4 -->
+  <section class="stufe" id="aufgabe-2-3" data-stufe="4">
+    <h2>Stufe 4 von 4: Aufgabe 2.3</h2>
+    <p class="hinweis-gesperrt verborgen">Diese Stufe wird freigeschaltet, sobald Sie die Stufe davor abgeschlossen haben.</p>
+    <div class="inhalt">
+      <div class="sachverhalt">
+        <p>Frau Adler kauft bei der Schreinerei Wilde einen Esstisch für 1.800 EUR. Sie hält die Tischplatte für massive Eiche. Beim Kauf wird darüber nicht gesprochen. Bei der Lieferung zeigt sich, dass die Platte nur aus einem Eichenfurnier auf einer Spanplatte besteht.</p>
+      </div>
+      <fieldset>
+        <legend>Welche rechtliche Einordnung passt?</legend>
+        <label class="option"><input type="radio" name="stufe-4" data-ok="false" data-rueckmeldung="Falsch. Sittenwidrigkeit setzt ein grobes Missverhältnis zusammen mit der Ausnutzung einer Lage des anderen voraus. Beides ist im Sachverhalt nicht angelegt.">
+          <span>Nichtig nach § 138 Abs. 1 BGB, weil der Preis sittenwidrig ist.</span></label>
+        <label class="option"><input type="radio" name="stufe-4" data-ok="true" data-rueckmeldung="Richtig. Die Eigenschaft „massive Eiche“ bestimmt Wert und Qualität des Tisches und gilt deshalb im Verkehr als wesentlich. Frau Adler kann den Vertrag unverzüglich nach Entdeckung anfechten (§ 119 Abs. 2 BGB, § 121 Abs. 1 Satz 1 BGB). Daneben kann ein Sachmangel vorliegen, den Sie gesondert prüfen.">
+          <span>Anfechtbar nach § 119 Abs. 2 BGB wegen Irrtums über eine verkehrswesentliche Eigenschaft.</span></label>
+        <label class="option"><input type="radio" name="stufe-4" data-ok="false" data-rueckmeldung="Falsch. Frau Adler ist volljährig und voll geschäftsfähig (§ 2 BGB). Die schwebende Unwirksamkeit kommt hier deshalb nicht in Betracht.">
+          <span>Schwebend unwirksam, weil Frau Adler die Zustimmung ihrer Eltern braucht.</span></label>
+        <label class="option"><input type="radio" name="stufe-4" data-ok="false" data-rueckmeldung="Falsch. Für den Irrtum kommt es nicht darauf an, ob der Verkäufer etwas Falsches behauptet hat. Entscheidend ist, dass Frau Adler sich über eine verkehrswesentliche Eigenschaft geirrt hat.">
+          <span>Gültig, weil die Schreinerei nichts Falsches gesagt hat.</span></label>
+      </fieldset>
+      <button type="button" class="pruefen">Antwort prüfen</button>
+      <div class="rueckmeldung" aria-live="polite"></div>
+      <button type="button" class="weiter verborgen">Zur Auswertung</button>
+    </div>
+  </section>
+
+  <!-- Auswertung und Neustart -->
+  <section class="stufe auswertung verborgen" id="auswertung" aria-live="polite">
+    <h2>Auswertung</h2>
+    <p>Sie haben alle vier Stufen bearbeitet. Die Liste zeigt, wie viele Prüfungen Sie pro Stufe gebraucht haben.</p>
+    <ol id="auswertung-liste"></ol>
+    <p>Mit dem Neustart beginnen Sie wieder mit Stufe 1. Alle Antworten werden dabei zurückgesetzt.</p>
+  </section>
+
+  <button type="button" id="neustart" class="sekundaer">Planspiel neu starten</button>
+</main>
+
+<script>
+(function () {
+  var stufen = Array.prototype.slice.call(document.querySelectorAll('.stufe[data-stufe]'));
+  var zustand = stufen.map(function () { return { fertig: false, pruefungen: 0 }; });
+  var auswertung = document.getElementById('auswertung');
+  var liste = document.getElementById('auswertung-liste');
+
+  function aktualisieren() {
+    stufen.forEach(function (stufe, i) {
+      var offen = i === 0 || zustand[i - 1].fertig;
+      stufe.classList.toggle('gesperrt', !offen);
+      stufe.classList.toggle('abgeschlossen', zustand[i].fertig);
+      stufe.querySelector('.hinweis-gesperrt').classList.toggle('verborgen', offen);
+      stufe.querySelector('.inhalt').classList.toggle('verborgen', !offen);
+    });
+    var alleFertig = zustand.every(function (z) { return z.fertig; });
+    auswertung.classList.toggle('verborgen', !alleFertig);
+    if (alleFertig) {
+      liste.innerHTML = '';
+      stufen.forEach(function (stufe, i) {
+        var eintrag = document.createElement('li');
+        var n = zustand[i].pruefungen;
+        var text = n === 1 ? 'beim ersten Versuch richtig' : 'nach ' + n + ' Prüfungen richtig';
+        eintrag.textContent = stufe.querySelector('h2').textContent + ': ' + text;
+        liste.appendChild(eintrag);
+      });
+    }
+  }
+
+  stufen.forEach(function (stufe, i) {
+    var pruefen = stufe.querySelector('.pruefen');
+    var weiter = stufe.querySelector('.weiter');
+    var rueckmeldung = stufe.querySelector('.rueckmeldung');
+
+    pruefen.addEventListener('click', function () {
+      var gewaehlt = stufe.querySelector('input[type="radio"]:checked');
+      if (!gewaehlt) {
+        rueckmeldung.className = 'rueckmeldung';
+        rueckmeldung.textContent = 'Bitte wählen Sie zuerst eine Antwort.';
+        return;
+      }
+      zustand[i].pruefungen += 1;
+      var richtig = gewaehlt.getAttribute('data-ok') === 'true';
+      rueckmeldung.className = 'rueckmeldung ' + (richtig ? 'richtig' : 'falsch');
+      rueckmeldung.textContent = gewaehlt.getAttribute('data-rueckmeldung');
+      if (richtig) {
+        zustand[i].fertig = true;
+        stufe.querySelectorAll('input[type="radio"]').forEach(function (r) { r.disabled = true; });
+        pruefen.disabled = true;
+        weiter.classList.remove('verborgen');
+        aktualisieren();
+      } else {
+        var hinweis = document.createElement('p');
+        hinweis.textContent = 'Wählen Sie eine andere Antwort und prüfen Sie erneut.';
+        rueckmeldung.appendChild(hinweis);
+      }
+    });
+
+    weiter.addEventListener('click', function () {
+      if (i < stufen.length - 1) {
+        stufen[i + 1].scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        auswertung.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  document.getElementById('neustart').addEventListener('click', function () {
+    stufen.forEach(function (stufe, i) {
+      zustand[i] = { fertig: false, pruefungen: 0 };
+      stufe.querySelectorAll('input[type="radio"]').forEach(function (r) { r.checked = false; r.disabled = false; });
+      stufe.querySelector('.pruefen').disabled = false;
+      stufe.querySelector('.weiter').classList.add('verborgen');
+      var rueck = stufe.querySelector('.rueckmeldung');
+      rueck.className = 'rueckmeldung';
+      rueck.textContent = '';
+    });
+    aktualisieren();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  aktualisieren();
+})();
+</script>
+</body>
+</html>
